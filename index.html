@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Dashboard</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/datepicker3.css" rel="stylesheet">
+	<link href="css/styles.css" rel="stylesheet">
+
+	<!--Icons-->
+	<script src="js/lumino.glyphs.js"></script>
+	<style type="text/css">
+		.contenido{
+			display: hide
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<!--Barra Navegacion-->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><span>Trazabilidad</span>DACE</a>
+				<ul class="user-menu">
+					<li class="dropdown pull-right">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+							
+		</div><!-- /.container-fluid -->
+	</nav>
+
+	<!--Barra Herramientas-->
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li class="active"><a href="index.html"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Tablero de control </a></li>
+
+			<li><a href="calendar.html"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Calendario </a></li>
+			
+			<li><a href="reportes.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Reportes </a></li>
+			
+			<li><a href="panels.html"><svg class="glyph stroked app-window"><use xlink:href="#stroked-app-window"></use></svg> Alertas </a></li>
+			
+			<li class="parent ">
+				<a href="#">
+					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Proceso 
+				</a>
+				<ul class="children collapse" id="sub-item-1">
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Inscripciones
+						</a>
+					</li>
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Solicitudes
+						</a>
+					</li>
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Aprobaciones
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li role="presentation" class="divider"></li>
+			<li><a href="login.html"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>
+		</ul>
+	</div><!--/.sidebar-->
+
+	<!-- Contenido de dashboard-->
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+				<li class="active">Contingentes</li>
+			</ol>
+		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Tablero de Contingentes</h1>
+			</div>
+		</div><!--/.row-->
+
+		<!-- Formulario de filtros -->
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">Filtros del Tablero</div>
+				<div class="panel-body form-horizontal">
+					<div role="form">
+					
+						<div class="form-group">
+							<label class="control-label col-xs-2">Tratados</label>
+							<div class="col-xs-10">
+								<select id='cboTratados' name='cboTratados' class="form-control" onchange="LlenoContingentes(this.value);">
+									<option>Seleccione una Opcion...</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-xs-2">Contingentes</label>
+							<div class="col-xs-10">
+								<select id='cboContingentes' name='cboContingentes' class="form-control">
+									<option>Seleccione una Opcion...</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label col-xs-2">Periodo</label>
+							<div class="col-xs-10">
+								<select id='cboPeriodo' name='cboPeriodo' class="form-control"></select>
+
+							</div>
+						</div>
+						<button id="btnConsulta" type="submit" class="btn btn-primary">Realizar consulta</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="contenido">
+			
+			<div class="row">
+
+					<div class="col-xs-12 col-md-6 col-lg-3">
+						<div class="panel panel-blue panel-widget ">
+							<div class="row no-padding">
+								<div class="col-sm-3 col-lg-5 widget-left">
+									<svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
+								</div>
+								<div class="col-sm-9 col-lg-7 widget-right">
+									<div id="nAsignado" class="large"></div>
+									<div class="text-muted">Nuevas Asignaciones</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 col-lg-3">
+						<div class="panel panel-orange panel-widget">
+							<div class="row no-padding">
+								<div class="col-sm-3 col-lg-5 widget-left">
+									<svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg>
+								</div>
+								<div class="col-sm-9 col-lg-7 widget-right">
+									<div id="cAsignado" class="large"></div>
+									<div class="text-muted">Cuotas Asignadas</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 col-lg-3">
+						<div class="panel panel-teal panel-widget">
+							<div class="row no-padding">
+								<div class="col-sm-3 col-lg-5 widget-left">
+									<svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
+								</div>
+								<div class="col-sm-9 col-lg-7 widget-right">
+									<div id="nEmpresas" class="large"></div>
+									<div class="text-muted">Nuevas Empresas</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 col-lg-3">
+						<div class="panel panel-red panel-widget">
+							<div class="row no-padding">
+								<div class="col-sm-3 col-lg-5 widget-left">
+									<svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
+								</div>
+								<div class="col-sm-9 col-lg-7 widget-right">
+									<div id="nTotEmpresas" class="large"></div>
+									<div class="text-muted">Empresas totales</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+			</div><!--/.row-->
+
+			<div class="row">
+
+				<div class="col-xs-6 col-md-3">
+						<div class="panel panel-default">
+							<div class="panel-body easypiechart-panel">
+								<h4>Activado</h4>
+								<div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span id="pieActivado" class="percent"></span>
+								</div>
+							</div>
+						</div>
+				</div>
+
+				<div class="col-xs-6 col-md-3">
+					<div class="panel panel-default">
+						<div class="panel-body easypiechart-panel">
+							<h4>Asignado</h4>
+							<div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span id="pieAsignado" class="percent"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-6 col-md-3">
+					<div class="panel panel-default">
+						<div class="panel-body easypiechart-panel">
+							<h4>Importado</h4>
+							<div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span  id="pieImportado" class="percent"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-6 col-md-3">
+					<div class="panel panel-default">
+						<div class="panel-body easypiechart-panel">
+							<h4>Utilizado</h4>
+							<div class="easypiechart" id="easypiechart-red" data-percent="27" ><span id="pieUtilizado" class="percent"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Cantidad de volumen aprobado en el año (TM)</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
+
+		<div class="row">
+			
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Indicadores</h1>
+			</div>
+		</div><!--/.row-->
+		
+			
+			<div class="row">
+
+				<div class="col-xs-12 col-md-6 col-lg-3">
+					<div class="panel panel-default">
+						<div class="panel-heading">TLC CAFTA-DR</div>
+						<div class="panel-body">
+							<div class="canvas-wrapper">
+								<canvas class="chart" id="pie-chart" ></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div><!--/.row-->
+		</div><!--/.row-->
+
+	</div>	<!--/.main-->
+		
+		
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/chart.min.js"></script>
+	<script src="js/chart-data.js"></script>
+	<script src="js/easypiechart.js"></script>
+	<script src="js/easypiechart-data.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="js/filtros.js" ></script>
+	
+	<script type="text/javascript">
+
+		$("#btnConsulta").on("click", function(){
+			
+			$("#contenido").show();
+			//$("#contenido").load('controles.html');
+			//$('.row-charts').show();
+
+			$idTratado = $('#cboTratados').val();
+			$idContingente = $('#cboContingentes').val();
+			$idPeriodo = $('#cboPeriodo').val();
+
+			console.log($idTratado);
+			console.log($idContingente);
+			console.log($idPeriodo);
+
+			//console.log($('#pieActivado').text());
+
+
+			//$("#easypiechart-blue").attr('span');
+
+			LlenoControles($idTratado, $idContingente, $idPeriodo);
+		});
+
+		function LlenoControles(idTratado, idContingente, idPeriodo){
+			//Realizo consulta
+			$.ajax({
+				async: false,
+				url:'actions.php',
+				type:'GET',
+				dataType:'json',
+				data:"action=getDatosControles&idTratado="+idTratado+"&idContingente="+idContingente+"&idPeriodo="+idPeriodo,
+				cache:false
+			})
+			.done(function(response){
+
+				if (response.result == true) {
+					
+					//var Activado = $("#easypiechart-blue");
+					$(response.datos).each(function(i,v){
+
+						//Nuevas Asignaciones
+						$("#nAsignado").text(v.cNuevasAsigna);
+
+						//Cant cuotas asignadas
+						$("#cAsignado").text(v.cTotAsigna);
+
+						//Nuevos usuarios
+						$("#nEmpresas").text(v.nInscrip);
+
+						//Total de empresas
+						$("#nTotEmpresas").text(v.cTotIncrip);
+						
+						//--Activado
+						//$("#easypiechart-blue").attr("data-percent", "50");
+						$('#pieActivado').text(v.vActivado);
+						//$('#pieActivado').refresh();
+
+						//--Asignado
+						$('#pieAsignado').text(v.vAsignado);
+
+						//--Importado
+						$('#pieImportado').text(v.vEmitido);
+
+						//--Utilizado
+						$('#pieUtilizado').text(v.pUtilizado+" %");
+
+						//Actualizar grafica
+					})
+					
+
+
+				}else{
+					alert(response.mensaje);
+				}
+			})
+			.fail(function(jqXHR, estado){
+				//console.log(estado);
+				//console.log(jqXHR);
+				console.log('Ha ocurrido un error al consultar datos del tablero.');
+			})
+			.always(function(){
+				console.log("Lleno controles se ejecuto correctamente");
+			})
+		};
+
+		function include(archivo){
+		        var oHead = document.getElementsByTagName('head')[0];
+		        var oScript = document.createElement('script');
+		        oScript.type = 'text/javascript';
+		        oScript.charset = 'utf-8';
+		        oScript.src = archivo;
+		        oHead.appendChild(oScript);        
+		};
+
+	</script>	
+	
+</body>
+
+</html>
