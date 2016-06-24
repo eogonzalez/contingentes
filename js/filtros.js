@@ -39,7 +39,7 @@ function LlenoTratados(){
 
 			$(response.datos).each(function(i,v){
 				//options += '<option value="'+i.idTratado+'">'+v.nombreTratado+'</option>';
-				listaTratados.append('<option value="'+v.idTratado+'">'+v.nombreTratado+'</option>');
+				listaTratados.append('<option value="'+v.tratadoid+'">'+v.nombre+'</option>');
 			});
 
 			//$('#cboTratados').html(options);
@@ -86,7 +86,7 @@ function LlenoContingentes(idTratado){
 
 			$(response.datos).each(function(i,v){
 				//options += '<option value="'+i.idTratado+'">'+v.nombreTratado+'</option>';
-				listaContingentes.append('<option value="'+v.idContingente+'">'+v.nombreContingente+'</option>');
+				listaContingentes.append('<option value="'+v.productoid+'">'+v.nombre+'</option>');
 			})
 
 			
@@ -127,7 +127,7 @@ function LlenoPeriodo(){
 
 			$(response.datos).each(function(i,v){
 				//options += '<option value="'+i.idTratado+'">'+v.nombreTratado+'</option>';
-				listaPeriodo.append('<option value="'+v.idPeriodo+'">'+v.nombrePeriodo+'</option>');
+				listaPeriodo.append('<option value="'+v.idanio+'">'+v.periodo+'</option>');
 			})
 
 			listaPeriodo.prop('disabled', false);

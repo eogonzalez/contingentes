@@ -18,10 +18,16 @@ function dbConnect (){
  }
 */
 
+/*
 	define("server", 'localhost');
 	define("user", 'egonzalez');
 	define("pass", '87654321');
 	define("mainDataBase", 'ejemplo');
+*/
+	define("server", '128.5.8.49');
+	define("user", 'contingentes');
+	define("pass", 'DACEGuate2015');
+	define("mainDataBase", 'contingentes');
 
 	$errorDbConexion = true;
 

@@ -156,11 +156,12 @@
 								</div>
 								<div class="col-sm-9 col-lg-7 widget-right">
 									<div id="nAsignado" class="large"></div>
-									<div class="text-muted">Nuevas Asignaciones</div>
+									<div class="text-muted"> Asignaciones</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<!--
 					<div class="col-xs-12 col-md-6 col-lg-3">
 						<div class="panel panel-orange panel-widget">
 							<div class="row no-padding">
@@ -187,6 +188,7 @@
 							</div>
 						</div>
 					</div>
+					-->
 					<div class="col-xs-12 col-md-6 col-lg-3">
 						<div class="panel panel-red panel-widget">
 							<div class="row no-padding">
@@ -194,8 +196,8 @@
 									<svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
 								</div>
 								<div class="col-sm-9 col-lg-7 widget-right">
-									<div id="nTotEmpresas" class="large"></div>
-									<div class="text-muted">Empresas totales</div>
+									<div id="nCertiEmitidos" class="large"></div>
+									<div class="text-muted">Certificados Emitidos</div>
 								</div>
 							</div>
 						</div>
@@ -205,20 +207,19 @@
 
 			<div class="row">
 
-				<div class="col-xs-6 col-md-3">
-						<div class="panel panel-default">
-							<div class="panel-body easypiechart-panel">
-								<h4>Activado</h4>
-								<div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span id="pieActivado" class="percent"></span>
-								</div>
-							</div>
-						</div>
+				
+				<div class="col-lg-12">
+					<h3 class="page-header">Volumen Activado: <span id="pieActivado"></span>
+					</h3>
+					
 				</div>
+
+				
 
 				<div class="col-xs-6 col-md-3">
 					<div class="panel panel-default">
 						<div class="panel-body easypiechart-panel">
-							<h4>Asignado</h4>
+							<h4>Volumen Asignado</h4>
 							<div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span id="pieAsignado" class="percent"></span>
 							</div>
 						</div>
@@ -228,7 +229,7 @@
 				<div class="col-xs-6 col-md-3">
 					<div class="panel panel-default">
 						<div class="panel-body easypiechart-panel">
-							<h4>Importado</h4>
+							<h4>Volumen Emitido</h4>
 							<div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span  id="pieImportado" class="percent"></span>
 							</div>
 						</div>
@@ -238,8 +239,18 @@
 				<div class="col-xs-6 col-md-3">
 					<div class="panel panel-default">
 						<div class="panel-body easypiechart-panel">
-							<h4>Utilizado</h4>
+							<h4>Porcentaje Utilizado</h4>
 							<div class="easypiechart" id="easypiechart-red" data-percent="27" ><span id="pieUtilizado" class="percent"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-xs-6 col-md-3">
+					<div class="panel panel-default">
+						<div class="panel-body easypiechart-panel">
+							<h4>Saldo</h4>
+							<div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span id="pieSaldo" class="percent"></span>
 							</div>
 						</div>
 					</div>
@@ -252,7 +263,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Cantidad de volumen aprobado en el año (TM)</div>
+					<div class="panel-heading">Cantidad de volumen emitido en certificados (Toneladas Metricas)</div>
 					<div class="panel-body">
 						<div class="canvas-wrapper">
 							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
@@ -263,30 +274,97 @@
 		</div><!--/.row-->
 
 		<div class="row">
-			
-		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Indicadores</h1>
+				<h3 class="page-header">Indicadores</h3>
 			</div>
-		</div><!--/.row-->
-		
-			
-			<div class="row">
+			<div class="col-lg-12">
+				<h4 class="page-header">Volumen Emitido en Certificados (TM)</h4>
+			</div>
+		</div>
 
-				<div class="col-xs-12 col-md-6 col-lg-3">
-					<div class="panel panel-default">
-						<div class="panel-heading">TLC CAFTA-DR</div>
-						<div class="panel-body">
-							<div class="canvas-wrapper">
-								<canvas class="chart" id="pie-chart" ></canvas>
-							</div>
+
+		<div class="row">
+
+			<div class="col-xs-12 col-md-6 col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">TLC CAFTA-DR</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<div id="legendCAFTA"></div>
+							<canvas class="chart" id="pie-CAFTA" ></canvas>
 						</div>
 					</div>
 				</div>
+			</div>
 
 
-			</div><!--/.row-->
-		</div><!--/.row-->
+			<div class="col-xs-12 col-md-6 col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">OMC</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<div id="legendOMC"></div>
+							<canvas class="chart" id="pie-OMC" ></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-md-6 col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">AAP Belice</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<div id="legendBELICE"></div>
+							<canvas class="chart" id="pie-belice" ></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		</div>
+			
+			
+		<div class="row">
+
+			<div class="col-xs-12 col-md-6 col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">TLC MEXICO</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<div id="legendMEXICO"></div>
+							<canvas class="chart" id="pie-mexico" ></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-xs-12 col-md-6 col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">TLC CHILE</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<div id="legendCHILE"></div>
+							<canvas class="chart" id="pie-chile" ></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-md-6 col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">AA CA-UE</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<div id="legendCA"></div>
+							<canvas class="chart" id="pie-CA" ></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		</div>
 
 	</div>	<!--/.main-->
 		
@@ -312,9 +390,7 @@
 			$idContingente = $('#cboContingentes').val();
 			$idPeriodo = $('#cboPeriodo').val();
 
-			console.log($idTratado);
-			console.log($idContingente);
-			console.log($idPeriodo);
+
 
 			//console.log($('#pieActivado').text());
 
@@ -342,16 +418,17 @@
 					$(response.datos).each(function(i,v){
 
 						//Nuevas Asignaciones
-						$("#nAsignado").text(v.cNuevasAsigna);
+						$("#nAsignado").text(v.cantAsignaciones);
 
 						//Cant cuotas asignadas
-						$("#cAsignado").text(v.cTotAsigna);
+						//$("#cAsignado").text(v.cTotAsigna);
 
 						//Nuevos usuarios
-						$("#nEmpresas").text(v.nInscrip);
+						//$("#nEmpresas").text(v.nInscrip);
 
-						//Total de empresas
-						$("#nTotEmpresas").text(v.cTotIncrip);
+						//Total certificados emitidos
+						$("#nCertiEmitidos").text(v.cantNuevasAsigaciones);
+
 						
 						//--Activado
 						//$("#easypiechart-blue").attr("data-percent", "50");
@@ -366,6 +443,8 @@
 
 						//--Utilizado
 						$('#pieUtilizado').text(v.pUtilizado+" %");
+
+						$('#pieSaldo').text(v.vSaldo);
 
 						//Actualizar grafica
 					})

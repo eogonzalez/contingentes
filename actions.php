@@ -59,6 +59,16 @@ if (isset($_GET) && !empty($_GET)) {
 				}
 			}
 
+			if ($_GET['action'] == 'getEstadoContingente') {
+				if ($datosRegFuncion = getEstadoContingente($mysqli)) {
+					$response['result'] = true;
+					$response['mensaje']= 'Datos devueltos';
+					$response['datos'] = $datosRegFuncion;
+				}else{
+					$response['mensaje'] = 'No se pudo realizar consulta del estado de contingente';
+				}
+			}
+
 			if ($_GET['action'] == 'getDatosTablero') {
 
 				$idTratado = (int) $_GET['idTratado'];
@@ -110,6 +120,20 @@ if (isset($_GET) && !empty($_GET)) {
 				}
 			}
 			
+			if ($_GET['action'] == 'getDatosPieTratado') {
+				$idPeriodo = (int) $_GET['idPeriodo'];
+				$idTratado = (int) $_GET['idTratado'];
+
+				if ($datosRegFuncion = getDatosPieTratado($mysqli, $idPeriodo, $idTratado)) {
+					$response['result'] = true;
+					$response['mensaje'] = 'Datos devueltos';
+					$response['datos'] = $datosRegFuncion;
+				}else{
+					$response['mensaje'] = 'No se pudo realizar consulta de datos para el Pie del Tratado.';
+				}
+
+			}
+
 		}else{
 			$response['mensaje'] = "Variable Action no Declarada";
 		}
