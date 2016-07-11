@@ -60,10 +60,14 @@ if (isset($_GET) && !empty($_GET)) {
 			}
 
 			if ($_GET['action'] == 'getEstadoContingente') {
-				if ($datosRegFuncion = getEstadoContingente($mysqli)) {
+				$idTratado = (int) $_GET['idTratado'];
+				$idContingente = (int) $_GET['idContingente'];
+
+				if ($datosRegFuncion = getEstadoContingente($mysqli, $idTratado, $idContingente)) {
 					$response['result'] = true;
 					$response['mensaje']= 'Datos devueltos';
 					$response['datos'] = $datosRegFuncion;
+
 				}else{
 					$response['mensaje'] = 'No se pudo realizar consulta del estado de contingente';
 				}

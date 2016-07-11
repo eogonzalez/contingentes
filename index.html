@@ -54,7 +54,22 @@
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li class="active"><a href="index.html"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Tablero de control </a></li>
+
+			
+
+			<li class="parent ">
+				<a href="index.html">
+					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg></span> Tablero 
+				</a>
+				<ul class="children collapse" id="sub-item-1">
+					<li>
+						<a class="" href="indicadores.html">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Indicadores Contingentes
+						</a>
+					</li>
+				</ul>
+			</li>
+
 
 			<li><a href="calendar.html"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Calendario </a></li>
 			
@@ -89,6 +104,7 @@
 		</ul>
 	</div><!--/.sidebar-->
 
+	
 	<!-- Contenido de dashboard-->
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 
@@ -138,7 +154,6 @@
 							</div>
 						</div>
 						<button id="btnConsulta" type="submit" class="btn btn-primary">Realizar consulta</button>
-
 					</div>
 				</div>
 			</div>
@@ -148,7 +163,7 @@
 			
 			<div class="row">
 
-					<div class="col-xs-12 col-md-6 col-lg-3">
+					<div id="cAsignaciones" class="col-xs-12 col-md-6 col-lg-3">
 						<div class="panel panel-blue panel-widget ">
 							<div class="row no-padding">
 								<div class="col-sm-3 col-lg-5 widget-left">
@@ -161,34 +176,7 @@
 							</div>
 						</div>
 					</div>
-					<!--
-					<div class="col-xs-12 col-md-6 col-lg-3">
-						<div class="panel panel-orange panel-widget">
-							<div class="row no-padding">
-								<div class="col-sm-3 col-lg-5 widget-left">
-									<svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg>
-								</div>
-								<div class="col-sm-9 col-lg-7 widget-right">
-									<div id="cAsignado" class="large"></div>
-									<div class="text-muted">Cuotas Asignadas</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-xs-12 col-md-6 col-lg-3">
-						<div class="panel panel-teal panel-widget">
-							<div class="row no-padding">
-								<div class="col-sm-3 col-lg-5 widget-left">
-									<svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
-								</div>
-								<div class="col-sm-9 col-lg-7 widget-right">
-									<div id="nEmpresas" class="large"></div>
-									<div class="text-muted">Nuevas Empresas</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					-->
+					
 					<div class="col-xs-12 col-md-6 col-lg-3">
 						<div class="panel panel-red panel-widget">
 							<div class="row no-padding">
@@ -203,24 +191,37 @@
 						</div>
 					</div>
 
+					<div class="col-xs-12 col-md-6 col-lg-3">
+						<div class="panel panel-teal panel-widget">
+							<div class="row no-padding">
+								<div class="col-sm-3 col-lg-5 widget-left">
+									<svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
+								</div>
+								<div class="col-sm-9 col-lg-7 widget-right">
+									<div id="nEmpresas" class="large"></div>
+									<div class="text-muted">Empresas</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 			</div><!--/.row-->
 
 			<div class="row">
 
-				
-				<div class="col-lg-12">
+				<div class="col-lg-12">	
 					<h3 class="page-header">Volumen Activado: <span id="pieActivado"></span>
 					</h3>
 					
 				</div>
 
-				
-
-				<div class="col-xs-6 col-md-3">
+				<div id="vAsignado" class="col-xs-6 col-md-3">
 					<div class="panel panel-default">
 						<div class="panel-body easypiechart-panel">
 							<h4>Volumen Asignado</h4>
-							<div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span id="pieAsignado" class="percent"></span>
+
+
+							<div class="easypiechart" id="easypiechart-orange" data-percent="90" ><span id="pieAsignado" class="percent"></span>
 							</div>
 						</div>
 					</div>
@@ -230,7 +231,7 @@
 					<div class="panel panel-default">
 						<div class="panel-body easypiechart-panel">
 							<h4>Volumen Emitido</h4>
-							<div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span  id="pieImportado" class="percent"></span>
+							<div class="easypiechart" id="easypiechart-teal" data-percent="90" ><span  id="pieImportado" class="percent"></span>
 							</div>
 						</div>
 					</div>
@@ -240,7 +241,7 @@
 					<div class="panel panel-default">
 						<div class="panel-body easypiechart-panel">
 							<h4>Porcentaje Utilizado</h4>
-							<div class="easypiechart" id="easypiechart-red" data-percent="27" ><span id="pieUtilizado" class="percent"></span>
+							<div class="easypiechart" id="easypiechart-red" data-percent="90" ><span id="pieUtilizado" class="percent"></span>
 							</div>
 						</div>
 					</div>
@@ -250,7 +251,7 @@
 					<div class="panel panel-default">
 						<div class="panel-body easypiechart-panel">
 							<h4>Saldo</h4>
-							<div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span id="pieSaldo" class="percent"></span>
+							<div class="easypiechart" id="easypiechart-pSaldo" data-percent="90" ><span id="pieSaldo" class="percent"></span>
 							</div>
 						</div>
 					</div>
@@ -260,110 +261,40 @@
 		</div>
 
 
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">Cantidad de volumen emitido en certificados (Toneladas Metricas)</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+		<div id="grafica_total">
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">Cantidad de volumen emitido en certificados (Toneladas Metricas)</div>
+						<div class="panel-body">
+							<div class="canvas-wrapper" id="canvas-wrapper">
+								<div id="legendTotal" class="legend"></div>
+								<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div><!--/.row-->
+			</div><!--/.row-->
 
-		<div class="row">
-			<div class="col-lg-12">
-				<h3 class="page-header">Indicadores</h3>
-			</div>
-			<div class="col-lg-12">
-				<h4 class="page-header">Volumen Emitido en Certificados (TM)</h4>
-			</div>
 		</div>
 
+		<div id="graficas">
 
-		<div class="row">
-
-			<div class="col-xs-12 col-md-6 col-lg-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">TLC CAFTA-DR</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<div id="legendCAFTA"></div>
-							<canvas class="chart" id="pie-CAFTA" ></canvas>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">Cantidad de volumen emitido en certificados (Toneladas Metricas)</div>
+						<div class="panel-body">
+							<div class="canvas-wrapper" id="canvas-wrapper">
+								<div id="legendGraficas" class="legend"></div>
+								<canvas class="main-chart" id="line-chart2" height="200" width="600"></canvas>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</div><!--/.row-->
 
-
-			<div class="col-xs-12 col-md-6 col-lg-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">OMC</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<div id="legendOMC"></div>
-							<canvas class="chart" id="pie-OMC" ></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-xs-12 col-md-6 col-lg-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">AAP Belice</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<div id="legendBELICE"></div>
-							<canvas class="chart" id="pie-belice" ></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-		
-		</div>
-			
-			
-		<div class="row">
-
-			<div class="col-xs-12 col-md-6 col-lg-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">TLC MEXICO</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<div id="legendMEXICO"></div>
-							<canvas class="chart" id="pie-mexico" ></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-			<div class="col-xs-12 col-md-6 col-lg-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">TLC CHILE</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<div id="legendCHILE"></div>
-							<canvas class="chart" id="pie-chile" ></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-xs-12 col-md-6 col-lg-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">AA CA-UE</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<div id="legendCA"></div>
-							<canvas class="chart" id="pie-CA" ></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-		
 		</div>
 
 	</div>	<!--/.main-->
@@ -371,10 +302,11 @@
 		
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/chart.min.js"></script>
+	<!--<script src="js/chart.min.js"></script>-->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.js"></script>
 	<script src="js/chart-data.js"></script>
 	<script src="js/easypiechart.js"></script>
-	<script src="js/easypiechart-data.js"></script>
+	<!--<script src="js/easypiechart-data.js"></script>-->
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/filtros.js" ></script>
 	
@@ -383,21 +315,27 @@
 		$("#btnConsulta").on("click", function(){
 			
 			$("#contenido").show();
-			//$("#contenido").load('controles.html');
-			//$('.row-charts').show();
+
 
 			$idTratado = $('#cboTratados').val();
 			$idContingente = $('#cboContingentes').val();
 			$idPeriodo = $('#cboPeriodo').val();
 
 
-
-			//console.log($('#pieActivado').text());
-
-
-			//$("#easypiechart-blue").attr('span');
-
 			LlenoControles($idTratado, $idContingente, $idPeriodo);
+
+			
+		  	$("#grafica_total").hide();
+		  	$("#graficas").show();
+
+		  	var chartLineas2 = document.getElementById("line-chart2").getContext("2d");
+			myLineaGraficas = new Chart.Line(chartLineas2, 
+				{
+					data:LlenoLinea($idTratado,$idContingente),
+					options: {responsive: true}
+			});
+
+			//document.getElementById("legendGraficas").innerHTML = myLineaGraficas.generateLegend();
 		});
 
 		function LlenoControles(idTratado, idContingente, idPeriodo){
@@ -417,36 +355,149 @@
 					//var Activado = $("#easypiechart-blue");
 					$(response.datos).each(function(i,v){
 
-						//Nuevas Asignaciones
-						$("#nAsignado").text(v.cantAsignaciones);
+						if (v.vAsignado == null) {
 
-						//Cant cuotas asignadas
-						//$("#cAsignado").text(v.cTotAsigna);
+							//ocultar cantidad de asignaciones
+							$("#cAsignaciones").hide();
 
-						//Nuevos usuarios
-						//$("#nEmpresas").text(v.nInscrip);
+							//Ocultar volumen asignado
+							$("#vAsignado").hide();
 
-						//Total certificados emitidos
-						$("#nCertiEmitidos").text(v.cantNuevasAsigaciones);
+							
+							//Cantidad de empresas que utilizan el contingente
+							$("#nEmpresas").text(v.cantEmpresas);
+							
+
+							//Total certificados emitidos
+							$("#nCertiEmitidos").text(v.cantNuevasAsigaciones);
+
+							//--Volumen Activado
+							$('#pieActivado').text(v.vActivado);
+
+							//--Cantidad de volumen emitido
+							$('#pieImportado').text(v.vEmitido);
+							$pEmitido = (v.vEmitido/v.vActivado)*100;
+
+							//--Porcentaje Utilizado
+							$('#pieUtilizado').text(v.pUtilizado+" %");
+
+							//--Saldo
+							var saldo = v.vActivado-v.vEmitido;
+							$('#pieSaldo').text(saldo);
+							$pSaldo = (saldo/v.vActivado)*100;					
+
+							$('#easypiechart-teal').easyPieChart({
+								animate: 500,
+								onStart: $.noop
+							});
+
+							$('#easypiechart-red').easyPieChart({
+								animate: 500,
+								onStart: $.noop
+							});
+
+
+							$('#easypiechart-pSaldo').easyPieChart({
+								animate: 500,
+								onStart: $.noop
+							});
+
+							//update instance after 5 sec
+							setTimeout(function() {
+
+								
+								$('#easypiechart-teal').data('easyPieChart').update($pEmitido);
+								$('#easypiechart-red').data('easyPieChart').update(v.pUtilizado);
+
+								$('#easypiechart-pSaldo').data('easyPieChart').update($pSaldo);
+
+							}, 500);							
+
+						}else{
+							//ocultar cantidad de asignaciones
+							$("#cAsignaciones").show();
+
+							//Ocultar volumen asignado
+							$("#vAsignado").show();
+
+							//Cantidad de asignaciones
+							$("#nAsignado").text(v.cantAsignaciones);
+						
+							//Cantidad de empresas que utilizan el contingente
+							$("#nEmpresas").text(v.cantEmpresas);
+							
+
+							//Total certificados emitidos
+							$("#nCertiEmitidos").text(v.cantNuevasAsigaciones);
+
+							//--Volumen Activado
+							$('#pieActivado').text(v.vActivado);
+
+							//--Cantidad de Asignado
+							$('#pieAsignado').text(v.vAsignado);
+							$pAsignado = (v.vAsignado/v.vActivado)*100;
+
+							//--Cantidad de volumen emitido
+							$('#pieImportado').text(v.vEmitido);
+							$pEmitido = (v.vEmitido/v.vActivado)*100;
+
+							//--Porcentaje Utilizado
+							$('#pieUtilizado').text(v.pUtilizado+" %");
+
+							//--Saldo
+							$('#pieSaldo').text(v.vSaldo);
+							$pSaldo = (v.vSaldo/v.vActivado)*100;
+
+							$('#easypiechart-orange').easyPieChart({
+								animate: 500,
+								onStart: $.noop
+							});
+
+							$('#easypiechart-teal').easyPieChart({
+								animate: 500,
+								onStart: $.noop
+							});
+
+							$('#easypiechart-red').easyPieChart({
+								animate: 500,
+								onStart: $.noop
+							});
+
+
+							$('#easypiechart-pSaldo').easyPieChart({
+								animate: 500,
+								onStart: $.noop
+							});
+
+							//update instance after 5 sec
+							setTimeout(function() {
+
+								$('#easypiechart-orange').data('easyPieChart').update($pAsignado);
+								$('#easypiechart-teal').data('easyPieChart').update($pEmitido);
+								$('#easypiechart-red').data('easyPieChart').update(v.pUtilizado);
+
+								$('#easypiechart-pSaldo').data('easyPieChart').update($pSaldo);
+
+							}, 500);
+
+						}
 
 						
-						//--Activado
-						//$("#easypiechart-blue").attr("data-percent", "50");
-						$('#pieActivado').text(v.vActivado);
-						//$('#pieActivado').refresh();
 
-						//--Asignado
-						$('#pieAsignado').text(v.vAsignado);
-
-						//--Importado
-						$('#pieImportado').text(v.vEmitido);
-
-						//--Utilizado
-						$('#pieUtilizado').text(v.pUtilizado+" %");
-
-						$('#pieSaldo').text(v.vSaldo);
 
 						//Actualizar grafica
+    					
+    					//--Asignado
+    					/*
+
+						$('#easypiechart-orange').easyPieChart({
+						    animate: 500, 
+						    onStart: $.noop
+						});
+
+						*/
+
+
 					})
 					
 

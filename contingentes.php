@@ -72,29 +72,156 @@
 		return $response;
 	}
 
-	function getEstadoContingente($dbLink){
+	function getEstadoContingente($dbLink, $idTratado, $idContingente){
 		$response = array();
 
-		$sql = sprintf("SELECT
-							sum(emitido) AS emitido, month(se.created_at) AS mes
-						FROM
-							solicitudesemision se
-						JOIN
-							periodos p ON
-							se.periodoid = p.periodoid
-						WHERE
-							year(p.fechainicio) = '2016'
-							and se.estado = 'Aprobada'
-						group by mes");
+		if ($idTratado == 0) {
+			//Si la consulta se realiza en el load de la pagina
+			//Id tratado viene 0
 
-		$result = $dbLink->query($sql);
 
-		if ($result->num_rows != 0){
-			while ($registro = $result->fetch_array()) {
-				$response [] = $registro;
+			//Query que obtiene informacion sobre los motos totales emitidos por mes
+			$sql = sprintf("SELECT
+								sum(emitido) AS emitido, month(se.created_at) AS mes
+							FROM
+								solicitudesemision se
+							JOIN
+								periodos p ON
+								se.periodoid = p.periodoid
+							WHERE
+								year(p.fechainicio) = '2016'
+								and se.estado = 'Aprobada'
+							group by mes");	
+
+			$result = $dbLink->query($sql);
+
+			if ($result->num_rows != 0){
+				while ($registro = $result->fetch_array()) {
+
+
+					$response [] = $registro;
+				}
 			}
-		}
 
+		}else{
+			//Si la consulta se realiza mendiante el boton de consulta
+
+			//Query que obtiene informacion sobre los montos totales emitidos por mes y  contingente
+			$PrimerQuery = array();
+			$SegundoQuery = array();
+
+
+			$sql = sprintf(" SELECT * from 
+								(SELECT
+									sum(emitido) AS totalEmitido, month(se.created_at) AS mes
+								FROM
+									solicitudesemision se
+								JOIN
+									periodos p ON
+									se.periodoid = p.periodoid
+								WHERE
+									year(p.fechainicio) = '2016'
+									and se.estado = 'Aprobada'
+								group by mes) t1, 
+								(SELECT 
+									m.cantidad as vActivado
+								FROM 
+									movimientos m
+								JOIN 
+									periodos p on
+									p.periodoid = m.periodoid
+								JOIN contingentes c on
+									c.contingenteid = p.contingenteid
+								WHERE 
+									year(p.fechainicio) = 2016
+								and m.tipomovimientoid = 1
+								and c.tratadoid = %d 
+								and c.productoid = %d
+							) t2 ", $idTratado, $idContingente)	;
+
+			$result = $dbLink->query($sql);
+
+			
+
+			if ($result->num_rows != 0){
+				while ($registro = $result->fetch_array()) {
+					
+
+					$PrimerQuery [] = $registro;
+				}
+			}
+
+
+			$sql = sprintf("SELECT 
+								sum(se.emitido) as vEmitido, month(se.created_at) AS mes
+							FROM 
+								solicitudesemision se
+							JOIN 
+								periodos p on
+								se.periodoid = p.periodoid
+							JOIN 
+								contingentes c on
+								p.contingenteid = c.contingenteid
+							JOIN 
+								productos pro on
+								pro.productoid = c.productoid
+							WHERE
+								se.estado = 'Aprobada'
+								and year(se.created_at) = 2016
+								and c.tratadoid = %d
+								and c.productoid = %d
+							group by mes", $idTratado, $idContingente);
+
+			$result2 = $dbLink->query($sql);
+
+
+			if ($result2->num_rows != 0){
+				while ($registro = $result2->fetch_array()) {
+					$SegundoQuery [] = $registro;
+				}
+			}
+
+
+
+
+
+			//$response = array_merge($PrimerQuery, $SegundoQuery);
+
+			$miArreglo = array(
+				'mes' => 0 ,
+				'totalEmitido' => 0.00,
+				'vActivado' => 0.00,
+				'vEmitido' => 0.00);
+
+			foreach ($PrimerQuery as $fila => $mes) {
+				
+				
+				//$MiContingente = new cEstadoContingente();
+				$miArreglo['mes'] = $mes['mes'];
+				$miArreglo['totalEmitido'] = $mes['totalEmitido'];
+				$miArreglo['vActivado'] = $mes['vActivado'];
+
+				foreach ($SegundoQuery as $fila2 => $mes2) {
+		
+
+					if ($fila == $fila2) {
+						//Agrego valor al arreglo						
+						$miArreglo['vEmitido'] = $mes2['vEmitido'];				
+						break;
+
+					}else{
+						//Agrego valor igual a cero						
+						$miArreglo['vEmitido'] = 0.00;				
+					}
+
+				}
+
+				$response[] = $miArreglo;
+
+			}	
+
+		}
+//echo "muestro respuesta".implode(";", $response);
 		return $response;
 	}
 
@@ -143,7 +270,7 @@
 		$respuesta = array();
 
 		$sql = sprintf("SELECT *, (t2.vAsignado-t1.vEmitido) as vSaldo, round((t1.vEmitido/t3.vActivado)*100, 2) as pUtilizado from
-					(SELECT sum(se.emitido) as vEmitido, count(se.solicitudemisionid) as cantNuevasAsigaciones
+					(SELECT sum(se.emitido) as vEmitido, count(se.solicitudemisionid) as cantNuevasAsigaciones, count(distinct se.usuarioid) as cantEmpresas
 					from solicitudesemision se
 					join periodos p on
 					se.periodoid = p.periodoid
@@ -220,24 +347,42 @@
 	function getDatosPieTratado($dbLink, $idPeriodo, $idTratado){
 		$respuesta = array();
 
-		$sql = sprintf("SELECT 
-							pro.productoid, pro.nombre, sum(se.emitido) as vEmitido
+		$sql = sprintf("SELECT t1.productoid, t1.nombre,  sum(case when t2.emitido is null then 0.00 else t2.emitido end) as vEmitido
+						FROM
+						(SELECT
+							c.contingenteid, c.tratadoid, c.productoid, p.nombre, pe.fechainicio
 						FROM
 							contingentes c
-						JOIN
-							productos pro on
-							c.productoid = pro.productoid
-						JOIN
-							periodos p on
-							p.contingenteid = c.contingenteid
-						JOIN
+						join
+							productos p on
+							c.productoid = p.productoid
+						right join 
+							periodos pe on
+							pe.contingenteid = c.contingenteid
+						where
+							year(pe.fechainicio) = %d
+						and c.tratadoid = %d) t1
+						left join 
+						(select
+							c.contingenteid, c.tratadoid, c.productoid, p.nombre, pe.fechainicio, sum(case when se.emitido is NULL then 0.00 else se.emitido end) as emitido
+						from
+							contingentes c
+						join
+							productos p on
+							c.productoid = p.productoid
+						right join 
+							periodos pe on
+							pe.contingenteid = c.contingenteid
+						right join
 							solicitudesemision se on
-							p.periodoid = se.periodoid
-						WHERE
-							year(se.created_at) = %d
+							se.periodoid = pe.periodoid
+						where
+							year(pe.fechainicio) = %d
 							and c.tratadoid = %d
-						group by pro.productoid, pro.nombre
-						ORDER BY  c.productoid", $idPeriodo, $idTratado);
+						group by c.productoid) t2 on
+							t1.productoid = t2.productoid
+						group by t1.productoid
+						order by t1.productoid", $idPeriodo, $idTratado, $idPeriodo, $idTratado);
 
 		$resultado = $dbLink->query($sql);
 
