@@ -14,6 +14,14 @@
 		.contenido{
 			display: hide
 		}
+
+		.rowTablaEmpresas{
+			display: hide
+		}
+
+		.rowTablaCertificados{
+			display: hide
+		}
 	</style>
 
 </head>
@@ -70,7 +78,6 @@
 				</ul>
 			</li>
 
-
 			<li><a href="calendar.html"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Calendario </a></li>
 			
 			<li><a href="reportes.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Reportes </a></li>
@@ -122,90 +129,143 @@
 		</div><!--/.row-->
 
 		<!-- Formulario de filtros -->
-		<div class="row">
-			<div class="panel panel-default">
-				<div class="panel-heading">Filtros del Tablero</div>
-				<div class="panel-body form-horizontal">
-					<div role="form">
-					
-						<div class="form-group">
-							<label class="control-label col-xs-2">Tratados</label>
-							<div class="col-xs-10">
-								<select id='cboTratados' name='cboTratados' class="form-control" onchange="LlenoContingentes(this.value);">
-									<option>Seleccione una Opcion...</option>
-								</select>
+		<div id="rowFiltros">
+			<div class="row col-md-6 col-lg-12 " >
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Filtros del Tablero
+						<a href="#" id="trigger">[X]</a>
+					</div>
+					<div class="panel-body form-horizontal">
+						<div role="form" id="filtros">
+						
+							<div class="form-group">
+								<label class="control-label col-xs-2">Tratados</label>
+								<div class="col-xs-10">
+									<select id='cboTratados' name='cboTratados' class="form-control" onchange="LlenoContingentes(this.value);">
+										<option>Seleccione una Opcion...</option>
+									</select>
+								</div>
 							</div>
-						</div>
 
-						<div class="form-group">
-							<label class="control-label col-xs-2">Contingentes</label>
-							<div class="col-xs-10">
-								<select id='cboContingentes' name='cboContingentes' class="form-control">
-									<option>Seleccione una Opcion...</option>
-								</select>
+							<div class="form-group">
+								<label class="control-label col-xs-2">Contingentes</label>
+								<div class="col-xs-10">
+									<select id='cboContingentes' name='cboContingentes' class="form-control">
+										<option>Seleccione una Opcion...</option>
+									</select>
+								</div>
 							</div>
-						</div>
 
-						<div class="form-group">
-							<label class="control-label col-xs-2">Periodo</label>
-							<div class="col-xs-10">
-								<select id='cboPeriodo' name='cboPeriodo' class="form-control"></select>
+							<div class="form-group">
+								<label class="control-label col-xs-2">Periodo</label>
+								<div class="col-xs-10">
+									<select id='cboPeriodo' name='cboPeriodo' class="form-control"></select>
 
+								</div>
 							</div>
+							<button id="btnConsulta" type="submit" class="btn btn-primary">Realizar consulta</button>
 						</div>
-						<button id="btnConsulta" type="submit" class="btn btn-primary">Realizar consulta</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<!-- Ficha de resumen-->
 		<div id="contenido">
 			
-			<div class="row">
-
-					<div id="cAsignaciones" class="col-xs-12 col-md-6 col-lg-3">
-						<div class="panel panel-blue panel-widget ">
-							<div class="row no-padding">
-								<div class="col-sm-3 col-lg-5 widget-left">
-									<svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
-								</div>
-								<div class="col-sm-9 col-lg-7 widget-right">
-									<div id="nAsignado" class="large"></div>
-									<div class="text-muted"> Asignaciones</div>
-								</div>
-							</div>
+			<!-- Caja de asignaciones-->
+			<div id="cAsignaciones" class="row col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-blue panel-widget ">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg id="nAsignaciones" class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div id="nAsignado" class="large"></div>
+							<div class="text-muted"> Asignaciones</div>
 						</div>
 					</div>
-					
-					<div class="col-xs-12 col-md-6 col-lg-3">
-						<div class="panel panel-red panel-widget">
-							<div class="row no-padding">
-								<div class="col-sm-3 col-lg-5 widget-left">
-									<svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
-								</div>
-								<div class="col-sm-9 col-lg-7 widget-right">
-									<div id="nCertiEmitidos" class="large"></div>
-									<div class="text-muted">Certificados Emitidos</div>
-								</div>
-							</div>
+				</div>
+			</div>
+			
+			<!-- Caja de certificados-->
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-red panel-widget">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg id="cEmitidos" class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div id="nCertiEmitidos" class="large"></div>
+							<div class="text-muted">Certificados Emitidos</div>
 						</div>
 					</div>
+				</div>
+			</div>
 
-					<div class="col-xs-12 col-md-6 col-lg-3">
-						<div class="panel panel-teal panel-widget">
-							<div class="row no-padding">
-								<div class="col-sm-3 col-lg-5 widget-left">
-									<svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
-								</div>
-								<div class="col-sm-9 col-lg-7 widget-right">
-									<div id="nEmpresas" class="large"></div>
-									<div class="text-muted">Empresas</div>
-								</div>
-							</div>
+			<!-- Caja de empresas-->
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-teal panel-widget">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg id="cEmpresas" class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div id="nEmpresas" class="large"></div>
+							<div class="text-muted">Empresas</div>
 						</div>
 					</div>
-
+				</div>
 			</div><!--/.row-->
+			
+			<!-- Area de tablas-->
+			<!-- Tabla de empresas-->
+			<div  id="rowTablaEmpresas" class="row col-md-6 col-lg-12">
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Empresas
+						<a href="#" id="triggerEmpresas">[X]</a>
+					</div>
+					<div id="contieneEmpresas" class="panel-body">
+						<table id="tableEmpresas" data-toggle="table" class="table table-hover" data-pagination="true">
+							<thead>
+								<tr>
+									<th data-field="nombreEmpresa">Nombre</th>
+									<th data-field="volumenEmpresa" >Volumen Emitido</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>		
+			</div>
+
+			<!-- Tabla de certificados-->
+			<div  id="rowTablaCertificados" class="row col-md-6 col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Certificados
+						<a href="#" id="triggerCertificados">[X]</a>
+					</div>
+					<div id="contieneCertificados" class="panel-body">
+						<table id="tableCertificados" data-toggle="table" class="table table-hover" data-pagination="true">
+							<thead>
+								<tr>
+									<th data-field="solicitudid">No. de Solicitud</th>
+									<th data-field="volumenEmpresa" >Volumen Emitido</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 
 			<div class="row">
 
@@ -260,18 +320,16 @@
 			</div>
 		</div>
 
-
+		<!-- Area de graficas-->
 		<div id="grafica_total">
 			
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">Cantidad de volumen emitido en certificados (Toneladas Metricas)</div>
-						<div class="panel-body">
-							<div class="canvas-wrapper" id="canvas-wrapper">
-								<div id="legendTotal" class="legend"></div>
-								<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
-							</div>
+			<div class="row col-md-6 col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Cantidad de volumen emitido en certificados (Toneladas Metricas)</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper" id="canvas-wrapper">
+							<div id="legendTotal" class="legend"></div>
+							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
 						</div>
 					</div>
 				</div>
@@ -312,10 +370,78 @@
 	
 	<script type="text/javascript">
 
+		/* Eventos para contraer div de filtros*/
+		$("#trigger").click(function(event){
+			event.preventDefault();
+			$("#filtros").slideToggle();
+		});
+
+		$("filtros").click(function(event){
+			event.preventDefault();
+			$("#filtros").slideUp();
+		});
+
+		/* Eventos para contraer tablas de Empresas, Certificados y Asignaciones */
+		/*Tabla de empresas*/
+		$("#triggerEmpresas").click(function(event){
+			event.preventDefault();
+			$("#contieneEmpresas").slideToggle();
+		});
+
+		$("#contieneEmpresas").click(function(event){
+			event.preventDefault();
+			$("#contieneEmpresas").slideUp();
+		});
+
+		/*Tabla de certificados*/
+		$("#triggerCertificados").click(function(event){
+			event.preventDefault();
+			$("#contieneCertificados").slideToggle();
+		});
+
+		$("#contieneCertificados").click(function(event){
+			event.preventDefault();
+			$("#contieneCertificados").slideUp();
+		});
+
+		/*Eventos de la cajas de resumen*/
+
+
+
+		$("#nAsignaciones").on("click", function(){
+alert("hizo clic en asignaciones");
+		});
+
+		$("#cEmitidos").on("click", function(){
+			$idTratado = $('#cboTratados').val();
+			$idContingente = $('#cboContingentes').val();
+			$idPeriodo = $('#cboPeriodo').val();
+
+			$("#rowTablaEmpresas").hide();
+
+			TableCertificados($idPeriodo, $idTratado, $idContingente);
+
+			$("#rowTablaCertificados").show();
+		});
+
+
+		$("#cEmpresas").on("click", function(){
+			$idTratado = $('#cboTratados').val();
+			$idContingente = $('#cboContingentes').val();
+			$idPeriodo = $('#cboPeriodo').val();
+
+			$("#rowTablaCertificados").hide();
+			TableEmpresas($idPeriodo, $idTratado, $idContingente);
+			$("#rowTablaEmpresas").show();
+		});
+
+
+		/* Eventos para consulta */
 		$("#btnConsulta").on("click", function(){
 			
 			$("#contenido").show();
-
+			$("#rowTablaEmpresas").hide();
+			$("#rowTablaCertificados").hide();
 
 			$idTratado = $('#cboTratados').val();
 			$idContingente = $('#cboContingentes').val();
@@ -497,11 +623,8 @@
 
 						*/
 
-
 					})
 					
-
-
 				}else{
 					alert(response.mensaje);
 				}
@@ -515,6 +638,78 @@
 				console.log("Lleno controles se ejecuto correctamente");
 			})
 		};
+
+		function TableEmpresas(idPeriodo, idTratado, idContingente){
+			$.ajax({
+				async: false,
+				url:'actions.php',
+				type: 'GET',
+				dataType: 'json',
+				data: "action=getEmpresas&idPeriodo="+idPeriodo+"&idTratado="+idTratado+"&idContingente="+idContingente,
+				cache:false
+			})
+			.done(function(response){
+
+				var html = '';
+
+				if (response.result == true) {
+
+					$(response.datos).each(function(i,v){
+						html += '<tr>'
+						html += '<td>'+v.nombre+'</td>'
+						html += '<td>'+v.vEmitido+'</td>'
+						html += '</tr>';
+					})
+
+				}else{
+
+					//alert(response.mensaje);
+					html = '<tr><td colspan="6">No se encontraron registros..</td></tr>';
+				}
+
+				$("#tableEmpresas tbody").html(html);
+			})
+			.fail(function(jqXHR, estado){
+				console.log("Ha ocurrido un error al consultar las empresas.");
+			})
+			.always(function(){
+				console.log("Lleno tabla de empresas segun filtro.");
+			})
+		};
+
+		function TableCertificados(idPeriodo, idTratado, idContingente){
+			$.ajax({
+				async: false,
+				url:'actions.php',
+				type:'GET',
+				dataType: 'json',
+				data: "action=getCertificados&idPeriodo="+idPeriodo+"&idTratado="+idTratado+"&idContingente="+idContingente,
+				cache: false
+			})
+			.done(function(response){
+				var html = '';
+
+				if (response.result == true) {
+					$(response.datos).each(function(i, v){
+						html += '<tr>'
+						html += '<td>'+v.solicitudemisionid+'</td>'
+						html += '<td>'+v.vEmitido+'</td>'
+						html += '</tr>';
+					})
+				}else{
+					html = '<tr><td colspan="6">No se encontraron registros..</td></tr>';
+				}
+
+				$("#tableCertificados tbody").html(html);
+
+			})
+			.fail(function(jqXHR, estado){
+				console.log("Ha ocurrido un error al consultar los certificados.");
+			})
+			.always(function(){
+				console.log("Lleno tabla de certificados segun filtro.");
+			})
+		}
 
 		function include(archivo){
 		        var oHead = document.getElementsByTagName('head')[0];

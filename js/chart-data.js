@@ -3,7 +3,14 @@ var randomScalingFactor = function(){ return Math.round(Math.random()*1000)};
 
 
 window.onload = function(){
-$("#graficas").hide();
+
+	$("#graficas").hide();
+
+	$("#menuTablero").click(function(){
+		$("#principal").load('tablero.html');
+	});
+		
+	
 
 	var chartLineas = document.getElementById("line-chart").getContext("2d");
 	myLineaTotal = new Chart.Line(chartLineas, 

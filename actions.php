@@ -20,7 +20,6 @@ if (isset($_GET) && !empty($_GET)) {
 		// verificamos la accion que vamos a ejecutar
 		if (isset($_GET['action'])) {
 
-
 			if ($_GET['action'] == 'getListaTratados') {
 				//Mandamos a llamar a la funcion que selecciona los datos de la DB
 				if ($datosRegFuncion = getListaTratados($mysqli)) {
@@ -73,27 +72,6 @@ if (isset($_GET) && !empty($_GET)) {
 				}
 			}
 
-			if ($_GET['action'] == 'getDatosTablero') {
-
-				$idTratado = (int) $_GET['idTratado'];
-
-				if ($idTratado != 0) {
-					$idPeriodo = (int) $_GET['idPeriodo'];
-					$idContingente = (int) $_GET['idContingente'];	
-				}else{
-					$idPeriodo = 0;
-					$idContingente = 0;
-				}
-
-				if ($datosRegFuncion = getDatosTablero($mysqli, $idTratado, $idPeriodo, $idContingente)) {
-					$response['result'] = true;
-					$response['mensaje'] = 'Datos devueltos';
-					$response['datos'] = $datosRegFuncion;
-				}else{
-					$response['mensaje'] = 'No se pudo realizar consulta de datos para el tablero';
-				}
-			}
-
 			if ($_GET['action'] == 'getDatosControles') {
 				
 				$idTratado = (int) $_GET['idTratado'];
@@ -108,21 +86,6 @@ if (isset($_GET) && !empty($_GET)) {
 					$response['mensaje'] = 'No se pudo realizar consulta de datos para los controles del tablero';
 				}
 			}
-
-			if ($_GET['action'] == 'getDatosReporte') {
-				
-				$idTratado = (int) $_GET['idTratado'];
-				$idContingente = (int) $_GET['idContingente'];
-				$idPeriodo = (int) $_GET['idPeriodo'];
-
-				if ($datosRegFuncion = getDatosReporte($mysqli, $idTratado, $idContingente, $idPeriodo)) {
-					$response['result'] = true;
-					$response['mensaje'] = 'Datos devueltos';
-					$response['datos'] = $datosRegFuncion;
-				}else{
-					$response['mensaje'] = 'No se pudo realizar consulta de datos para el reporte';
-				}
-			}
 			
 			if ($_GET['action'] == 'getDatosPieTratado') {
 				$idPeriodo = (int) $_GET['idPeriodo'];
@@ -135,7 +98,61 @@ if (isset($_GET) && !empty($_GET)) {
 				}else{
 					$response['mensaje'] = 'No se pudo realizar consulta de datos para el Pie del Tratado.';
 				}
+			}
 
+			if ($_GET['action'] == 'getTopContingentes') {
+				$idPeriodo = (int) $_GET['idPeriodo'];
+				$tipoTLC = (int) $_GET['tipoTLC'];
+
+
+				if ($datosRegFuncion = getTopContingentes($mysqli, $idPeriodo, $tipoTLC)) {
+					$response['result'] = true;
+					$response['mensaje'] = 'Datos devueltos';
+					$response['datos'] = $datosRegFuncion;
+				}else{
+					$response['mensaje'] = 'No se pudo realizar consulta de datos para el Pie del Top de contingentes.';
+				}
+			}
+
+			if ($_GET['action'] == 'getTopEmpresas') {
+				$idPeriodo = (int) $_GET['idPeriodo'];
+				$tipoTLC = $_GET['tipoTLC'];
+
+				if ($datosRegFuncion = getTopEmpresas($mysqli, $idPeriodo, $tipoTLC)) {
+					$response['result'] = true;
+					$response['mensaje'] = 'Datos devueltos';
+					$response['datos'] = $datosRegFuncion;
+				}else{
+					$response['mensaje'] = 'No se pudo realizar consulta de datos para el Pie de Top de Empresas.';
+				}
+			}
+
+			if ($_GET['action'] == 'getEmpresas') {
+				$idPeriodo = (int) $_GET['idPeriodo'];
+				$idTratado = (int) $_GET['idTratado'];
+				$idContingente = (int) $_GET['idContingente'];
+
+				if ($datosRegFuncion = getEmpresas($mysqli, $idPeriodo, $idTratado, $idContingente)) {
+					$response['result'] = true;
+					$response['mensaje'] = 'Datos devueltos';
+					$response['datos'] = $datosRegFuncion;
+				}else{
+					$response['mensaje'] = 'No se pudo realizar consulta de datos para el listado de Empresas.';
+				}
+			}
+
+			if ($_GET['action'] == 'getCertificados') {
+				$idPeriodo = (int) $_GET['idPeriodo'];
+				$idTratado = (int) $_GET['idTratado'];
+				$idContingente = (int) $_GET['idContingente'];
+
+				if ($datosRegFuncion = getCertificados($mysqli, $idPeriodo, $idTratado, $idContingente)) {
+					$response['result'] = true;
+					$response['mensaje'] = 'Datos devueltos';
+					$response['datos'] = $datosRegFuncion;
+				}else{
+					$response['mensaje'] = 'No se pudo realizar consulta de datos para el listado de Certificados.';
+				}
 			}
 
 		}else{

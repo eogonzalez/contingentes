@@ -1,5 +1,8 @@
 <?php
 	
+	/*
+		Funcion para obtener el listado de tratados
+	*/
 	function getListaTratados($dbLink){
 		
 		$response = array();
@@ -22,6 +25,9 @@
 		return $response;
 	}
 
+	/*
+		Funcion para obtener los contingentes segun el tratado seleccionado
+	*/
 	function getListaContingentes($dbLink,$idTratado){
 		$response = array();
 
@@ -52,6 +58,9 @@
 		return $response;
 	}
 
+	/*
+		Funcion que obtiene los periodos existentes 
+	*/
 	function getListaPeriodo($dbLink){
 		$response = array();
 
@@ -72,6 +81,9 @@
 		return $response;
 	}
 
+	/*
+		Funcion que obtiene informacion de resumen del contingente
+	*/
 	function getEstadoContingente($dbLink, $idTratado, $idContingente){
 		$response = array();
 
@@ -221,93 +233,63 @@
 			}	
 
 		}
-//echo "muestro respuesta".implode(";", $response);
+
 		return $response;
 	}
 
-	/*function getDatosTablero($dbLink, $idTratado, $idPeriodo, $idContingente){
-		$response = array();
 
-
-
-		//Valido si se reciben parametros para ejecutar querys
-		if ($idTratado != 0 ) {
-
-			$sql = sprintf("SELECT 
-								mes, sum(vActivado) as vActivado, sum(vAsignado) as vAsignado,
-								sum(vEmetido) as vEmitido, sum(pUtilizado)/6 as pUtilizado
-							FROM
-								tablerocontingentes
-							WHERE
-								idPeriodo = %d and
-								idTratado = %d and
-								idContingente = %d
-							group by idMes ", $idPeriodo, $idTratado, $idContingente);
-
-
-		}else{
-			$sql = 'SELECT
-						mes, sum(vActivado) as vActivado, sum(vAsignado) as vAsignado,
-						sum(vEmetido) as vEmitido, sum(pUtilizado)/6 as pUtilizado
-					FROM
-						tablerocontingentes
-					group by idMes';
-		}
-
-		$result = $dbLink->query($sql);
-
-		if ($result->num_rows != 0) {
-			while ($registro = $result->fetch_array()) {
-				$response [] = $registro;
-			}
-		}
-
-		return $response;
-	}*/
-
-
+	/*
+		Funcion que obtiene datos para la ficha del contingente
+	*/
 	function getDatosControles($dbLink, $idTratado, $idContingente, $idPeriodo){
 		$respuesta = array();
 
-		$sql = sprintf("SELECT *, (t2.vAsignado-t1.vEmitido) as vSaldo, round((t1.vEmitido/t3.vActivado)*100, 2) as pUtilizado from
-					(SELECT sum(se.emitido) as vEmitido, count(se.solicitudemisionid) as cantNuevasAsigaciones, count(distinct se.usuarioid) as cantEmpresas
-					from solicitudesemision se
-					join periodos p on
-					se.periodoid = p.periodoid
-					join contingentes c on
-					p.contingenteid = c.contingenteid
-					join productos pro on
-					pro.productoid = c.productoid
-					where
-					se.estado = 'Aprobada'
-					and year(se.created_at) = %d
-					and c.tratadoid = %d
-					and c.productoid = %d) t1,
-					-- Total asignado x tratado y contingente en el periodo
-					(SELECT sum(sa.asignado) as vAsignado, count(sa.solicitudasignacionid) as cantAsignaciones
-					from solicitudasignacion sa
-					join periodos p on
-					sa.periodoid = p.periodoid
-					join contingentes c on
-					p.contingenteid = c.contingenteid
-					join productos pro on
-					pro.productoid = c.productoid
-					where
-					sa.estado = 'Aprobada'
-					and year(sa.created_at) = %d
-					and c.tratadoid = %d
-					and c.productoid = %d) t2,
-					-- Activado x trata y contingente en el periodo
-					(SELECT m.cantidad as vActivado
-					from movimientos m
-					join periodos p on
-					p.periodoid = m.periodoid
-					join contingentes c on
-					c.contingenteid = p.contingenteid
-					where year(p.fechainicio) = %d
-					and m.tipomovimientoid = 1
-					and c.tratadoid = %d
-					and c.productoid = %d) t3;", $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente);
+		$sql = sprintf("SELECT 
+							* , (t2.vAsignado-t1.vEmitido) as vSaldo, round((t1.vEmitido/t3.vActivado)*100, 2) as pUtilizado from
+						(SELECT 
+							sum(se.emitido) as vEmitido, count(se.solicitudemisionid) as cantNuevasAsigaciones, count(distinct se.usuarioid) as cantEmpresas
+						from 
+							solicitudesemision se
+						join periodos p on
+							se.periodoid = p.periodoid
+						join contingentes c on
+							p.contingenteid = c.contingenteid
+						join productos pro on
+							pro.productoid = c.productoid
+						where
+							se.estado = 'Aprobada'
+							and year(se.created_at) = %d
+							and c.tratadoid = %d
+							and c.productoid = %d) t1,
+						-- Total asignado x tratado y contingente en el periodo
+						(SELECT 
+							sum(sa.asignado) as vAsignado, count(sa.solicitudasignacionid) as cantAsignaciones
+						from 
+							solicitudasignacion sa
+						join periodos p on
+							sa.periodoid = p.periodoid
+						join contingentes c on
+							p.contingenteid = c.contingenteid
+						join productos pro on
+							pro.productoid = c.productoid
+						where
+							sa.estado = 'Aprobada'
+							and year(sa.created_at) = %d
+							and c.tratadoid = %d
+							and c.productoid = %d) t2,
+						-- Activado x trata y contingente en el periodo
+						(SELECT 
+							m.cantidad as vActivado
+						from 
+							movimientos m
+						join periodos p on
+							p.periodoid = m.periodoid
+						join contingentes c on
+							c.contingenteid = p.contingenteid
+						where year(p.fechainicio) = %d
+							and m.tipomovimientoid = 1
+							and c.tratadoid = %d
+							and c.productoid = %d) t3;", $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente);
 
 		$result = $dbLink->query($sql);
 
@@ -320,30 +302,9 @@
 		return $respuesta;
 	}
 
-	/*function getDatosReporte($dbLink, $idTratado, $idContingente, $idPeriodo){
-		$respuesta = array();
-
-		$sql = sprintf("SELECT 
-							mes, vActivado, vAsignado, vEmetido, pUtilizado
-						FROM 
-							tablerocontingentes
-						WHERE
-							idPeriodo = %d and
-							idTratado = %d and
-							idContingente = %d ", $idPeriodo, $idTratado, $idContingente);
-
-		$resultado = $dbLink->query($sql);
-
-		if ($resultado->num_rows != 0) {
-			while ($registro = $resultado->fetch_array()) {
-				$respuesta [] = $registro;
-			}
-		}
-
-		return $respuesta;
-	}*/
-
-
+	/*
+		Funcion que obtiene datos para llenar grafica de pie x tratado
+	*/
 	function getDatosPieTratado($dbLink, $idPeriodo, $idTratado){
 		$respuesta = array();
 
@@ -377,7 +338,8 @@
 							solicitudesemision se on
 							se.periodoid = pe.periodoid
 						where
-							year(pe.fechainicio) = %d
+							se.estado = 'Aprobada'
+							and year(pe.fechainicio) = %d
 							and c.tratadoid = %d
 						group by c.productoid) t2 on
 							t1.productoid = t2.productoid
@@ -394,5 +356,190 @@
 
 		return $respuesta;
 	}
+
+	/*
+		Funcion que obtiene el top 5 de los contingentes
+
+		**Mostrar los 5 contingentes mas utilizados (Volumen emitido)
+		**Mostrar a que tratado pertenece cada contingente
+		**Filtrar por periodo y tipo
+	*/
+	function getTopContingentes($dbLink, $idPeriodo, $tipoTLC){
+		$respuesta = array();
+
+		$tipo = '';
+
+		if ($tipoTLC == 1) {
+			$tipo = 'Importación';
+		}elseif ($tipoTLC == 2) {
+			$tipo = 'Exportación';
+		}
+
+
+		$sql = sprintf("SELECT
+						c.tratadoid,t.nombre as tlcNombre, t.nombrecorto as tlcNombreCorto, c.productoid, p.nombre as pNombre, 
+						sum(case when se.emitido is NULL then 0.00 else se.emitido end) as vemitido
+						from
+							contingentes c
+						join
+							productos p on
+							c.productoid = p.productoid
+						join
+							tratados t on
+							t.tratadoid = c.tratadoid
+						right join 
+							periodos pe on
+							pe.contingenteid = c.contingenteid
+						right join
+							solicitudesemision se on
+							se.periodoid = pe.periodoid
+						where
+							se.estado = 'Aprobada'
+							and t.tipo = '%s'
+							and year(pe.fechainicio) = %d
+						group by c.productoid
+						order by vemitido desc
+						limit 5",  $tipo, $idPeriodo);
+
+		$resultado = $dbLink->query($sql);
+
+
+		if ($resultado->num_rows != 0) {
+			while ($registro = $resultado->fetch_array()) {
+				$respuesta [] = $registro;
+			}
+		}
+
+		return $respuesta;
+	}
+
+
+	/*
+		Funcion que obtiene el top 5 de empresas que mas contingentes utilizan
+
+		**Mostrar las 5 empresas que mas volumen emitido utilizan
+		**filtrar por periodo y tipo de tratado
+	*/
+	function getTopEmpresas($dbLink, $idPeriodo, $tipoTLC){
+
+		$respuesta = array();
+
+		$tipo = '';
+
+		if ($tipoTLC == 1) {
+			$tipo = 'Importación';
+		}elseif ($tipoTLC == 2) {
+			$tipo = 'Exportación';
+		}
+
+		$sql = sprintf("SELECT
+							c.tratadoid, t.nombrecorto as tlcNombreCorto, se.usuarioid, a.nombre,
+							sum(case when se.emitido is NULL then 0.00 else se.emitido end) as vemitido
+						FROM
+							contingentes c
+						join
+							productos p on
+							c.productoid = p.productoid
+						join
+							tratados t on
+							t.tratadoid = c.tratadoid
+						right join 
+							periodos pe on
+							pe.contingenteid = c.contingenteid
+						right join
+							solicitudesemision se on
+							se.periodoid = pe.periodoid
+						join
+							authusuarios a on
+							a.usuarioid = se.usuarioid
+						where
+							se.estado = 'Aprobada'
+							and t.tipo = '%s'
+							and year(pe.fechainicio) = %d
+						group by se.usuarioid
+						order by vemitido desc
+						limit 5", $tipo, $idPeriodo);
+
+
+		$resultado = $dbLink->query($sql);
+
+
+		if ($resultado->num_rows != 0) {
+			while ($registro = $resultado->fetch_array()) {
+				$respuesta [] = $registro;
+			}
+		}
+
+		return $respuesta;
+	}
+
+
+	function getEmpresas($dbLink, $idPeriodo, $idTratado, $idContingente){
+		$respuesta = array();
+
+		$sql = sprintf(" SELECT 
+					sum(se.emitido) as vEmitido, a.nombre
+				FROM 
+					solicitudesemision se
+				LEFT JOIN authusuarios a on
+					se.usuarioid = a.usuarioid
+				JOIN periodos p on
+					se.periodoid = p.periodoid
+				JOIN contingentes c on
+					p.contingenteid = c.contingenteid
+				JOIN productos pro on
+					pro.productoid = c.productoid
+				WHERE
+					se.estado = 'Aprobada'
+					and year(se.created_at) = %d
+					and c.tratadoid = %d
+					and c.productoid = %d
+				group by se.usuarioid 
+				order by vEmitido desc ", $idPeriodo, $idTratado, $idContingente);
+
+		$resultado = $dbLink->query($sql);
+
+		if ($resultado->num_rows != 0) {
+			while ($registro = $resultado->fetch_array()) {
+				$respuesta [] = $registro;
+			}
+		}
+
+		return $respuesta;
+	}
+
+	function getCertificados($dbLink, $idPeriodo, $idTratado, $idContingente){
+		$respuesta = array();
+
+		$sql = sprintf("SELECT 
+							sum(se.emitido) as vEmitido, se.solicitudemisionid, se.usuarioid, se.created_at
+						from 
+							solicitudesemision se
+						join periodos p on
+							se.periodoid = p.periodoid
+						join contingentes c on
+							p.contingenteid = c.contingenteid
+						join productos pro on
+							pro.productoid = c.productoid
+						where
+							se.estado = 'Aprobada'
+							and year(se.created_at) = %d
+							and c.tratadoid = %d
+							and c.productoid = %d
+						group by se.solicitudemisionid
+						order by se.created_at desc", $idPeriodo, $idTratado, $idContingente);
+
+		$resultado = $dbLink->query($sql);
+
+		if ($resultado->num_rows != 0) {
+			while ($registro = $resultado->fetch_array()) {
+				$respuesta [] = $registro; 
+			}
+		}
+
+		return $respuesta;
+	}
+
+
 
 ?>

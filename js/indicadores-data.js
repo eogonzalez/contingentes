@@ -25,7 +25,39 @@ window.onload = function(){
 /*Contingentes de Importacion*/
 
 	//Lleno grafica de pie de cafta con datos de la base de datos
+	var arregloTopImpoContingentes = [];
+	arregloTopImpoContingentes = LlenoTopContingentes(2016, 1);
 
+	if (arregloTopImpoContingentes['labels'].length > 0) {
+		var chartTopConti = document.getElementById("pieTopImpoContingentes").getContext("2d");
+
+		var myPieTopConti = new Chart(chartTopConti, {
+			type: 'doughnut',
+			data: arregloTopImpoContingentes
+		});
+
+	}else{
+		$("#legendTopContingentesImpo").attr('class', 'alert alert-warning');
+		$("#legendTopContingentesImpo").attr("role", 'alert');
+		$("#legendTopContingentesImpo").text("No se encontraron datos para esta grafica.");
+	}
+
+	var arregloTopEmpresasImpo = [];
+	arregloTopEmpresasImpo = LlenoTopEmpresas(2016, 1);
+
+	if (arregloTopEmpresasImpo['labels'].length > 0) {
+		var chartTopEmpresas = document.getElementById("pieTopImpoEmpresas").getContext("2d");
+
+		var myPieTopEmpresas = new Chart(chartTopEmpresas, {
+			type: 'doughnut',
+			data: arregloTopEmpresasImpo
+		});
+
+	}else{
+		$("#legendTopEmpresasImpo").attr('class', 'alert alert-warning');
+		$("#legendTopEmpresasImpo").attr("role", 'alert');
+		$("#legendTopEmpresasImpo").text("No se encontraron datos para esta grafica.");
+	}
 
 	var arregloCAFTA = [];
 	arregloCAFTA = LLenoPie(2016,1);
@@ -35,7 +67,7 @@ window.onload = function(){
 
 		var myPieCafta = new Chart(chart_cafta, {
 			type: "pie",
-			data: arregloCAFTA,
+			data: arregloCAFTA
 		});
 
 		//document.getElementById("legendCAFTA").innerHTML = myPieCafta.generateLegend();
@@ -67,8 +99,19 @@ window.onload = function(){
 
 
 	var arregloColombia = [];
-	arregloColombia = LLenoPie(2016,3);
+	//arregloColombia = LLenoPie(2016,3);
+	var colorEtiqueta = getRandomColor();
 
+	arregloColombia = {
+		labels: ['Alimentos para perros y gatos : 0 TM'],
+		datasets: [{
+	           label: '# of Votes',
+	           data: [0],
+	           backgroundColor: colorEtiqueta,
+	           borderColor: colorEtiqueta,
+	           borderWidth: 1
+	       }]
+    };
 
 	if (arregloColombia['labels'].length > 0) {
 		var chart_colombia = document.getElementById("pie-Colombia").getContext("2d");
@@ -171,6 +214,39 @@ window.onload = function(){
 
 /*Contingentes de Exportacion*/
 
+	var arregloTopContingentesExpo = [];
+	arregloTopContingentesExpo = LlenoTopContingentes(2016, 2);
+
+	if (arregloTopContingentesExpo['labels'].length > 0) {
+		var chartTopContiExpo = document.getElementById("pieTopContingentesExpo").getContext("2d");
+		var myPieTopContiExpo = new Chart(chartTopContiExpo, {
+			type: 'doughnut',
+			data: arregloTopContingentesExpo
+		});
+
+	}else{
+		$("#legendTopContingentesExpo").attr('class', 'alert alert-warning');
+		$("#legendTopContingentesExpo").attr('role', 'alert');
+		$("#legendTopContingentesExpo").text("No se encontraron datos para esta grafica.");
+	}
+
+
+	var arregloTopEmpresasExpo = [];
+	arregloTopEmpresasExpo = LlenoTopEmpresas(2016, 2);
+
+	if (arregloTopEmpresasExpo['labels'].length > 0) {
+		var chartTopEmpresasExpo = document.getElementById("pieTopEmpresasExpo").getContext("2d");
+
+		var myPieTopEmpresasExpo = new Chart(chartTopEmpresasExpo, {
+			type: 'doughnut',
+			data: arregloTopEmpresasExpo
+		});
+
+	}else{
+		$("#legendTopEmpresasExpo").attr('class', 'alert alert-warning');
+		$("#legendTopEmpresasExpo").attr("role", 'alert');
+		$("#legendTopEmpresasExpo").text("No se encontraron datos para esta grafica.");
+	}
 
 	var arregloADA = [];
 	arregloADA = LLenoPie(2016,8);
@@ -210,8 +286,6 @@ window.onload = function(){
 };
 
 
-
-
 function LLenoPie($idPeriodo, $idTratado){
 
 	var respuesta;
@@ -243,11 +317,6 @@ function LLenoPie($idPeriodo, $idTratado){
 			data.push(parseInt(v.vEmitido));
 			colores.push(colorlabel);
 		});
-
-		
-
-		
-
 		
 		contenido = {
 	        labels: etiquetas,
@@ -271,7 +340,105 @@ function LLenoPie($idPeriodo, $idTratado){
 	})
 
 	return respuesta;
-}
+};
+
+function LlenoTopContingentes($idPeriodo, $tipoTLC){
+	var respuesta;
+
+	$.ajax({
+		async: false,
+		url:'actions.php',
+		type: 'GET',
+		dataType: 'json',
+		data: "action=getTopContingentes&idPeriodo="+$idPeriodo+"&tipoTLC="+$tipoTLC,
+		cache: false
+
+	})
+	.done(function(response){
+		var data = [];
+		var etiquetas = [];
+		var colores = [];
+		var contenido = [];
+
+		$(response.datos).each(function(i, v){
+			var colorlabel = getRandomColor();
+
+			etiquetas.push(v.pNombre+" - "+v.tlcNombreCorto+":"+v.vemitido);
+			data.push(parseInt(v.vemitido));
+			colores.push(colorlabel);
+		});
+
+		contenido = {
+			labels: etiquetas,
+			datasets: [{
+				label: 'Top Contingentes',
+				data: data,
+				backgroundColor: colores,
+				borderColor: colores,
+				borderWidth: 1
+			}]
+		};
+
+		respuesta = contenido;
+	})
+	.fail(function(jqXHR, estado){
+		console.log("Ha ocurrido un error al consultar datos para el Top.");
+	})
+	.always(function(){
+		console.log("Datos del Top se ejecuto.");
+	})
+
+	return respuesta;
+};
+
+function LlenoTopEmpresas($idPeriodo, $tipoTLC){
+	var respuesta;
+
+	$.ajax({
+		async: false,
+		url:'actions.php',
+		type: 'GET',
+		dataType: 'json',
+		data: "action=getTopEmpresas&idPeriodo="+$idPeriodo+"&tipoTLC="+$tipoTLC,
+		cache: false
+
+	})
+	.done(function(response){
+		var data = [];
+		var etiquetas = [];
+		var colores = [];
+		var contenido = [];
+
+		$(response.datos).each(function(i, v){
+			var colorlabel = getRandomColor();
+
+			etiquetas.push(v.nombre+" - "+v.tlcNombreCorto+":"+v.vemitido);
+			data.push(parseInt(v.vemitido));
+			colores.push(colorlabel);
+		});
+
+		contenido = {
+			labels: etiquetas,
+			datasets: [{
+				label: 'Top Empresas',
+				data: data,
+				backgroundColor: colores,
+				borderColor: colores,
+				borderWidth: 1
+			}]
+		};
+
+		respuesta = contenido;
+	})
+	.fail(function(jqXHR, estado){
+		console.log("Ha ocurrido un error al consultar datos para el Top de Empresas.");
+	})
+	.always(function(){
+		console.log("Datos del Top de empresas se ejecuto.");
+	})
+
+	return respuesta;
+};
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
