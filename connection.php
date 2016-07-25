@@ -29,7 +29,13 @@ function dbConnect (){
 	define("pass", 'DACEGuate2015');
 	define("mainDataBase", 'contingentes');
 
+	define("server2", "localhost");
+	define("user2", 'egonzalez');
+	define("pass2", '87654321');
+	define("mainDataBase2", 'trazabilidad');
+
 	$errorDbConexion = true;
+	$errorDbConexion2 = true;
 
 	// Verificar constantes para conexión al servidor
 	if(defined('server') && defined('user') && defined('pass') && defined('mainDataBase'))
@@ -47,6 +53,22 @@ function dbConnect (){
 			$mysqli -> query('SET NAMES "utf8"');
 		}
 		
+	}
+
+	// Verificar constantes para conexión al servidor
+	if (defined("server2") && defined("user2") && defined("pass2") && defined("mainDataBase2")) {
+
+		// Conexión con la base de datos
+		$mysqli2 = new mysqli(server2, user2, pass2, mainDataBase2);
+
+		// Verificamos si hay error al conectar
+		if (mysqli_connect_error()) {
+			$errorDbConexion2 = false;
+		}
+		else{
+			// Evitando problemas con acentos
+			$mysqli2 -> query('SET NAMES "utf8"');
+		}
 	}
 
  ?>
