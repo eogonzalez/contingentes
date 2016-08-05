@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Evento</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+	<link href="css/datepicker3.css" rel="stylesheet">
+	<link href="css/styles.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- fullCalendar 2.2.5-->
+	<link rel="stylesheet" href="css/fullcalendar/fullcalendar.min.css">
+	<link rel="stylesheet" href="css/fullcalendar/fullcalendar.print.css" media="print">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="css/AdminLTE.min.css">
+	<!-- AdminLTE Skins. Choose a skin from the css/skins
+	   folder instead of downloading all of them to reduce the load. -->
+
+	
+
+	<!--Icons-->
+  	<script src="js/lumino.glyphs.js"></script>
+
+</head>
+<body>
+
+	  <!--Barra Navegacion-->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+		  <div class="navbar-header">
+		    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+		      <span class="sr-only">Toggle navigation</span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		    </button>
+		    <a class="navbar-brand" href="#"><span>Trazabilidad</span>DACE</a>
+		    <ul class="user-menu">
+		      <li class="dropdown pull-right">
+		        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
+		        <ul class="dropdown-menu" role="menu">
+		          <li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+		          <li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+		          <li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+		        </ul>
+		      </li>
+		    </ul>
+		  </div>
+		          
+		</div><!-- /.container-fluid -->
+	</nav>
+
+  <!--Barra Herramientas-->
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+		  <div class="form-group">
+		    <input type="text" class="form-control" placeholder="Search">
+		  </div>
+		</form>
+		<ul class="nav menu">
+
+		  
+
+		  <li class="parent ">
+		    <a href="index.html">
+		      <span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg></span> Tablero 
+		    </a>
+		    <ul class="children collapse" id="sub-item-1">
+		      <li>
+		        <a class="" href="indicadores.html">
+		          <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Indicadores Contingentes
+		        </a>
+		      </li>
+		    </ul>
+		  </li>
+
+		<li class="parent">
+			<a href="calendar.html">
+				<span data-toggle="collapse" href="#subItemGrupo"><svg class='glyph stroked calendar'><use xlink:href="#stroked-calendar"></use></svg></span> Alertas
+			</a>
+
+			<ul class="children collapse" id="subItemGrupo">
+				<li>
+					<a href="grupos.html" >
+						<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+						Grupos
+					</a>
+				</li>
+				<li>
+					<a href="contactos.html">
+						<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+						Contactos
+					</a>
+				</li>
+			</ul>
+		</li>
+		  
+		  <li><a href="reportes.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Reportes </a></li>
+		  
+		  <li><a href="panels.html"><svg class="glyph stroked app-window"><use xlink:href="#stroked-app-window"></use></svg> Alertas </a></li>
+		  
+		  <li class="parent ">
+		    <a href="#">
+		      <span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Proceso 
+		    </a>
+		    <ul class="children collapse" id="sub-item-1">
+		      <li>
+		        <a class="" href="#">
+		          <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Inscripciones
+		        </a>
+		      </li>
+		      <li>
+		        <a class="" href="#">
+		          <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Solicitudes
+		        </a>
+		      </li>
+		      <li>
+		        <a class="" href="#">
+		          <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Aprobaciones
+		        </a>
+		      </li>
+		    </ul>
+		  </li>
+		  <li role="presentation" class="divider"></li>
+		  <li><a href="login.html"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>
+		</ul>
+	</div><!--/.sidebar-->
+
+	<!-- Formulario de edicion de evento -->
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+				<li class="active">Evento</li>
+			</ol>
+		</div><!--/.row-->
+
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Editar Evento</h1>
+			</div>
+		</div><!--/.row-->
+
+		<form id="formEvento" class="form-horizontal" role="form">
+
+			<!-- Id del Evento -->
+			<div class="form-group">
+				<label for="idEvento" class="col-lg-2 control-label">ID</label>
+				<div class="col-lg-10">
+					<input id="idEvento" type="text" class="form-control" name="idEvento" disabled="true">
+				</div>
+			</div>
+
+			<!-- Nombre del evento -->
+			<div class="form-group">
+				<label class="col-lg-2 control-label"> Nombre Evento </label>
+				<div class="col-lg-10">
+					<input id="nombreEvento" type="text" class="form-control" placeholder="Nombre del Evento" name="nombreEvento">	
+				</div>
+			</div>
+
+			<!-- Fechas del evento -->
+			<div class="form-group">
+					<!-- Fecha de inicio -->
+					<label class="col-lg-2 control-label" > Fecha de Inicio </label>
+					<div class="col-lg-4">
+						<div class='input-group date' id='datetimepicker1'>
+		                    <input id="fechaInicio" type='text' class="form-control" />
+		                    <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+	                	</div>	
+					</div>
+
+					<label class="col-lg-2 control-label" > Fecha de Finalizacion </label>
+					<div class='col-lg-4'>
+	                	<div class='input-group date' id='datetimepicker2'>
+		                    <input id="fechaFinal" type='text' class="form-control" />
+		                    <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+	                	</div>	
+	                </div>
+			</div>
+
+			<!-- Caja de colores -->
+			<div class="form-group">
+				<label class="col-xs-2 control-label"> Color del Evento </label>
+            	<div class="col-xs-6 btn-group" >
+	                <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+	                <ul class="fc-color-picker" id="color-chooser">
+	                  <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-muted" href="#"><i class="fa fa-square"></i></a></li>
+	                  <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
+	                </ul>
+              	</div>
+              	
+              	<div class="col-xs-4">
+                	<input id="color" type="text" class="form-control" placeholder="Color">
+              	</div>
+			</div>
+
+			<!-- Evento todo el dia -->
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<div class="checkbox">
+						<label>
+						  <input id="checkboxTodoeldia" type="checkbox"> Todo el dia
+						</label>
+					</div>	
+				</div>
+			</div>			
+
+			<!-- Lugar -->
+			<div class="form-group">
+				<label class="col-lg-2 control-label">Lugar </label>
+				<div class="col-lg-10">
+					<input id="lugar" type="text" class="form-control" placeholder="Lugar" name="lugar	">	
+				</div>
+			</div>
+
+			<!-- Descripcion -->
+			<div class="form-group">
+				<label class="col-lg-2 control-label"> Descripcion </label>
+				<div class="col-lg-10">
+					<textarea id="descripcion" type="text" class="form-control" placeholder="Descripcion" name="descripcion"></textarea>	
+				</div>
+			</div>
+
+			<!-- Grupo -->
+			<div class="form-group">
+				<label class="col-lg-2 control-label"> Grupo de contactos </label>
+				<div class="col-lg-10">
+					<select id="grupocontactos" class="form-control" name="grupocontactos">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>	
+				</div>
+			</div>
+
+			<!-- Otros Correos -->
+			<div class="form-group">
+				<label class="col-lg-2 control-label" for="ejemplo_email_1">Otros Correos</label>
+				<div class="col-lg-10">
+					<input type="email" class="form-control" id="otrosCorreos" placeholder="Introduce los correos">	
+				</div>
+			</div>
+
+			<!-- Adjuntar Archivos -->
+			<div class="form-group">
+				<label class="col-lg-2 control-label" for="ejemplo_archivo_1">Adjuntar un archivo</label>
+				<div class="col-lg-10">
+					<input type="file" id="adjuntarArchivo">
+					<p class="help-block">Ejemplo de texto de ayuda.</p>	
+				</div>
+			</div>
+
+			<!--  Enviar alerta de creacion de evento -->
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<div class="checkbox">
+						<label>
+						  <input  id="checkboxAlerta" type="checkbox"> Enviar alerta de creacion de evento
+						</label>
+					</div>		
+				</div>
+			</div>
+			
+			<!-- Boton de Guardar -->
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<button id="Guardar" type="submit" class="btn btn-primary">Guardar</button>		
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/moment.min.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<script src="js/bootstrap-datepicker.js"></script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+
+    <script type="text/javascript">
+
+	    $(function () {
+	        $('#datetimepicker1').datetimepicker();
+	        $('#datetimepicker2').datetimepicker();
+
+	        $('#color').prop('disabled', true);
+
+	        var idevento = $_GET("idevento");
+
+	        $('#idEvento').val(idevento);
+
+	        CargaEvento(idevento);
+
+	        //Funcion para cambiar de color
+	        $("#color-chooser > li > a").click(function (e) {
+	          e.preventDefault();
+	          //Save color
+	          var currColor = $(this).css("color");
+
+	          //Add color effect to button
+	          $('#color').val(currColor);
+	        });
+
+
+			$('#formEvento').submit( function (event){
+				event.preventDefault();
+
+				$idEvento = $('#idEvento').val();
+				$nombre = $('#nombreEvento').val();
+
+				if ($('#checkboxTodoeldia').is(':checked')) {
+					$todoeldia = 'S';
+				}else{
+					$todoeldia = 'N';
+				}
+
+				$fecha_inicia = moment($('#fechaInicio').val()).format('YYYY-MM-DD HH:mm:ss');				
+				$fecha_finaliza = moment($('#fechaFinal').val()).format('YYYY-MM-DD HH:mm:ss');
+
+
+				$color = $('#color').val();
+				$lugar = $('#lugar').val();
+				$descripcion = $('#descripcion').val();
+
+
+				$adjunto = document.getElementById('#adjuntarArchivo');
+				
+
+				$idgrupo = $('#grupocontactos').val();
+				$otroscorreos = $('#otrosCorreos').val();
+				$estado = 'E';
+
+				//Si el envio de alerta de creacion de evento esta activo
+				if ($('#checkboxAlerta').is(':checked')) {
+					var contenido = '<strong>Lugar:</strong> '+$lugar+'<br>';
+					contenido = contenido+'<strong> Inicia: </strong> '+$fecha_inicia+' <strong> Termina: </strong> '+$fecha_finaliza+'<br>';
+					contenido = contenido+'<strong> Descripcion </strong><br><p> '+$descripcion+'<p>';
+
+					/*
+					Realizo envio por cada uno de los correos del grupo
+					*/
+
+					/*
+					Realizo envio por cada uno de los correos de otros correos
+					*/
+
+					EnvioNotificacionEvento($otroscorreos, $otroscorreos, $nombre, contenido);
+				}
+
+
+				$.ajax({
+					type: "POST",
+					url: 'actionsCalendar.php',
+					data: "action=UpdateEventoFormulario&idevento="+$idEvento+"&nombre="+$nombre+"&todoeldia="+$todoeldia+"&fecha_inicia="+$fecha_inicia+"&fecha_finaliza="+$fecha_finaliza+"&color="+$color+"&lugar="+$lugar+"&descripcion="+$descripcion+"&adjunto="+$adjunto+"&idgrupo="+$idgrupo+"&otroscorreos="+$otroscorreos+"&estado="+$estado
+				})
+				.done(function(response){
+					window.location.href = "http://localhost:8080/contingentes/Calendar.html";
+
+				})
+				.fail(function(jqXHR, estado){
+					console.log('Ha ocurrido un error al consultar datos del evento.');
+				})
+
+			});
+
+	    });
+
+	    function CargaEvento(idevento){
+
+	    	$.ajax({
+				
+				url:'actionsCalendar.php',
+				type:'GET',
+				dataType: 'json',
+				data: "action=SelectEvento&idevento="+idevento,
+				cache: false
+			})
+			.done(function(response){
+
+				if (response.result == true) {
+					$(response.datos).each(function(i, v){
+
+						
+
+						$('#nombreEvento').val(v.nombre);
+
+						var fechainicia = moment(v.fecha_inicia).format('MM/DD/YYYY HH:mm:ss');
+						$('#fechaInicio').val(fechainicia);
+
+						var fechaFinal = moment(v.fecha_finaliza).format('MM/DD/YYYY HH:mm:ss');
+						$('#fechaFinal').val(fechaFinal);
+
+						if (v.todoeldia == 'S') {
+
+							$('#checkboxTodoeldia').prop('checked',true);
+						}else{
+							$('#checkboxTodoeldia').prop('checked',false);
+						}
+						
+						
+						$('#color').val	(v.color);
+
+						$('#lugar').val(v.lugar);
+
+						$('#descripcion').val(v.descripcion);
+
+						//$('#adjunto').val(v.adjunto);
+
+						if (!v.idgrupo) {
+							$('#grupocontactos').val(v.idgrupo);
+						}
+
+						
+						$('#otrosCorreos').val(v.otroscorreos);
+
+
+						//Estado
+					})
+				}else{
+					
+				}
+
+			})
+			.fail(function(jqXHR, estado){
+				console.log("Ha ocurrido un error al consultar datos del evento.");
+			})
+			.always(function(){
+				console.log("Lleno formulario con datos del evento.");
+			})
+	    }
+	    
+	   	function $_GET(param){
+
+			/* Obtener la url completa */
+			url = document.URL;
+
+			/* Buscar a partir del signo de interrogación ? */
+			url = String(url.match(/\?+.+/));
+
+			/* limpiar la cadena quitándole el signo ? */
+			url = url.replace("?", "");
+
+			/* Crear un array con parametro=valor */
+			url = url.split("&");
+
+
+			/*
+			Recorrer el array url
+			obtener el valor y dividirlo en dos partes a través del signo =
+			0 = parametro
+			1 = valor
+			Si el parámetro existe devolver su valor
+			*/
+
+			x = 0;
+
+			while (x < url.length){
+
+				p = url[x].split("=");
+
+				if (p[0] == param){
+					return decodeURIComponent(p[1]);
+				}
+				x++;
+			}
+		}
+
+		function EnvioNotificacionEvento($para, $nombre, $asunto, $descripcion){
+			$.ajax({
+				type: "POST",
+				url: 'actionsCalendar.php',
+				data: 'action=SendEmail&para='+$para+'&nombre='+$nombre+'&asunto='+$asunto+'&descripcion='+$descripcion
+			})
+			.done(function(response){
+
+			})
+			.fail(function(jqXHR, estado){
+				console.log('Ha ocurrido un error al enviar correo.')
+			})
+		}
+ 
+	</script>
+
+</body>
+</html>

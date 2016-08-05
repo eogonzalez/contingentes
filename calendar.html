@@ -4,7 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard</title>
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!--<link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap.css" rel="stylesheet">-->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
   <link href="css/datepicker3.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
   <!-- Font Awesome -->
@@ -82,7 +86,26 @@
         </ul>
       </li>
 
-      <li><a href="calendar.html"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Calendario </a></li>
+      <li class="parent">
+        <a href="calendar.html">
+          <span data-toggle="collapse" href="#subItemGrupo"><svg class='glyph stroked calendar'><use xlink:href="#stroked-calendar"></use></svg></span> Alertas
+        </a>
+
+        <ul class="children collapse" id="subItemGrupo">
+          <li>
+            <a href="grupos.html" >
+              <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+              Grupos
+            </a>
+          </li>
+          <li>
+            <a href="contactos.html">
+              <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+              Contactos
+            </a>
+          </li>
+        </ul>
+      </li>
       
       <li><a href="reportes.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Reportes </a></li>
       
@@ -197,6 +220,7 @@
                 </div>
               </div>
             </div>
+
             <!-- /.col -->
             <div class="col-md-9">
               <div class="box box-primary">
@@ -209,8 +233,9 @@
               <!-- /. box -->
             </div>
             <!-- /.col -->
+
           </div>
-          <!-- /.row -->
+          
         </section>
         <!-- /.content -->
     
@@ -222,7 +247,8 @@
   <!-- /.content-wrapper -->
     
   <script src="js/jquery-1.11.1.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+
+  
   <!--<script src="js/chart.min.js"></script>--
   
   <script src="js/easypiechart.js"></script>
@@ -231,6 +257,10 @@
 
   <!-- jQuery UI 1.11.4 -->
   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+  <script src="js/bootstrap.js"></script>
+  <script src="js/bootstrap-modal.js"></script>
+
   <!-- Slimscroll -->
   <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
   <!-- FastClick -->
@@ -246,13 +276,18 @@
 
 
   <script type="text/javascript">
+    var eventos = new Array();
 
     $(function () {
+
 
         ini_events($('#external-events div.external-event'));
 
         //Funcion que carga los tipos de eventos almacenados en la DB
         CargaTipoEvento();
+        CargaEventosCalendario();
+
+
 
         /* initialize the calendar
          -----------------------------------------------------------------*/
@@ -274,52 +309,7 @@
             day: 'day'
           },
           //Random default events
-          events: [
-            {
-              title: 'All Day Event',
-              start: new Date(y, m, 1),
-              backgroundColor: "#f56954", //red
-              borderColor: "#f56954" //red
-            },
-            {
-              title: 'Long Event',
-              start: new Date(y, m, d - 5),
-              end: new Date(y, m, d - 2),
-              backgroundColor: "#f39c12", //yellow
-              borderColor: "#f39c12" //yellow
-            },
-            {
-              title: 'Meeting',
-              start: new Date(y, m, d, 10, 30),
-              allDay: false,
-              backgroundColor: "#0073b7", //Blue
-              borderColor: "#0073b7" //Blue
-            },
-            {
-              title: 'Lunch',
-              start: new Date(y, m, d, 12, 0),
-              end: new Date(y, m, d, 14, 0),
-              allDay: false,
-              backgroundColor: "#00c0ef", //Info (aqua)
-              borderColor: "#00c0ef" //Info (aqua)
-            },
-            {
-              title: 'Birthday Party',
-              start: new Date(y, m, d + 1, 19, 0),
-              end: new Date(y, m, d + 1, 22, 30),
-              allDay: false,
-              backgroundColor: "#00a65a", //Success (green)
-              borderColor: "#00a65a" //Success (green)
-            },
-            {
-              title: 'Click for Google',
-              start: new Date(y, m, 28),
-              end: new Date(y, m, 29),
-              url: 'http://google.com/',
-              backgroundColor: "#3c8dbc", //Primary (light-blue)
-              borderColor: "#3c8dbc" //Primary (light-blue)
-            }
-          ],
+          events: eventos,
           editable: true,
           droppable: true, // this allows things to be dropped onto the calendar !!!
           drop: function (date, allDay) { // this function is called when something is dropped
@@ -343,12 +333,12 @@
             //var d = new Date;
 
 
-            //var fechainicio = moment(copiedEventObject.start).format('l');
-            var fechainicio = moment(copiedEventObject.start).format('YYYY-MM-DD HH:mm:ss');
+            //var fechainicia = moment(copiedEventObject.start).format('l');
+            var fechainicia = moment(copiedEventObject.start).format('YYYY-MM-DD HH:mm:ss');
 
-            //d = fechainicio.split("/").reverse().join("-")+' '+[d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
+            //d = fechainicia.split("/").reverse().join("-")+' '+[d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
 
-            AgregaEvento(copiedEventObject.title,fechainicio);
+            AgregaEvento(copiedEventObject.title,fechainicia, copiedEventObject.backgroundColor);
 
             $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
@@ -364,14 +354,76 @@
 
           },
           eventClick: function(calEvent, jsEvent, view){
-            alert('Id: '+calEvent.id);
-            alert('Event: ' + calEvent.title);
-            alert('Start: '+calEvent.start);
-            alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-            alert('View: ' + view.name);
 
-            // change the border color just for fun
-            $(this).css('border-color', 'red');
+            ModificaEvento(calEvent.id);
+
+          },
+          eventDrop: function(event, delta, revertFunc, jsEvent, ui, view){
+
+            
+            //Verifica si el evento cabio o sigue siendo de todo el dia
+            var todoeldia = '';
+            var fechafinaliza = '';
+            var fechainicia = event.start.format('YYYY-MM-DD HH:mm:ss');
+
+            //Verifica si es un evento de todo el dia
+            if (event.allDay == true) {
+              todoeldia = 'S';
+              //Si es un evento de todo el dia la hora inicial y final son la misma
+              fechafinaliza = fechainicia;
+            }else{
+              todoeldia = 'N';
+
+              //Verificamos si tiene fecha final
+              if (!event.end) {
+                //Si aun no tiene se coloca la misma fecha inicial
+                fechafinaliza = fechainicia;
+              }else{
+                //Si tiene fecha final se obtiene y actualiza
+                fechafinaliza = event.end.format('YYYY-MM-DD HH:mm:ss');
+              }
+             
+            }
+
+              /*
+                view.name = 'month', 'agendaWeek', 'agendaDay'
+              */
+            
+              ActualizaEventoCalendarioDrop(event.id, todoeldia, fechainicia, fechafinaliza);
+
+          },
+          eventResize: function( event, delta, revertFunc, jsEvent, ui, view){
+
+            //Verifica si el evento cabio o sigue siendo de todo el dia
+            var todoeldia = '';
+            var fechafinaliza = '';
+            var fechainicia = event.start.format('YYYY-MM-DD HH:mm:ss');
+
+            //Verifica si es un evento de todo el dia
+            if (event.allDay == true) {
+              todoeldia = 'S';
+              //Si es un evento de todo el dia la hora inicial y final son la misma
+              fechafinaliza = fechainicia;
+            }else{
+              todoeldia = 'N';
+
+              //Verificamos si tiene fecha final
+              if (!event.end) {
+                //Si aun no tiene se coloca la misma fecha inicial
+                fechafinaliza = fechainicia;
+              }else{
+                //Si tiene fecha final se obtiene y actualiza
+                fechafinaliza = event.end.format('YYYY-MM-DD HH:mm:ss');
+              }
+             
+            }
+
+            /*
+              view.name = 'month', 'agendaWeek', 'agendaDay'
+            */
+            
+            ActualizaEventoCalendarioDrop(event.id, todoeldia, fechainicia, fechafinaliza);
+
           }
         });
 
@@ -478,14 +530,16 @@
 
       })
       .fail(function(jqXHR, estado){
-        console.log("Ha ocurrido un error al agregar tipos de eventos.")
+        console.log("Ha ocurrido un error al agregar tipos de eventos.");
       })
       .always(function(){
-        console.log("Se ejecuta Select tipo de eventos.")
+        console.log("Se ejecuta Select tipo de eventos.");
       })
-
     }
 
+    /*
+      Funcion que almacena el tipo de evento en la db
+    */
     function InsertaTipoEvento(nombreEvento, color){
     
 
@@ -508,9 +562,11 @@
       .always(function(){
         console.log("Se ejecuta insertar tipo de evento.");
       })
-    
     }
 
+    /*
+      Funcion que es llamada si el tipo de evento tiene eliminar al soltar en el calendario
+    */
     function DeleteTipoEvento(idtipo_evento){
 
       $.ajax({
@@ -532,13 +588,16 @@
       })
     }
 
-    function AgregaEvento(nombre, fechainicio){
+    /*
+      Funcion que es llamada cada vez que se agrega un evento al calendario
+    */
+    function AgregaEvento(nombre, fechainicia, color){
 
       $.ajax({
         url: 'actionsCalendar.php',
         type: 'GET',
         dataType: 'json',
-        data: "action=InsertEventoCalendario&nombre="+nombre+"&fechainicio="+fechainicio,
+        data: "action=InsertEventoCalendario&nombre="+nombre+"&fechainicia="+fechainicia+"&color="+color,
         cache: false
       })
       .done(function(response){
@@ -553,10 +612,104 @@
       })
     }
 
+    /*
+    Funcion que obtiene eventos y los carga en el calendario
+    */
     function CargaEventosCalendario(){
+      $.ajax({
+        async: false,
+        url:'actionsCalendar.php',
+        type: 'GET',
+        dataType: 'json',
+        data:"action=SelectEventosCalendario",
+        cache: false
+      })
+      .done(function(response){
+
+        if (response.result == true) {  
+          
+
+          $(response.datos).each(function(i,v){
+
+            var arreglo = new Array();
+            if (v.todoeldia == 'S') {
+              arreglo['allDay'] = true;
+            }
+            else{
+              arreglo['allDay'] = false;
+            }
+
+            var inicia = moment();
+            var finaliza = moment();
+
+            arreglo['id'] = v.idevento;
+            arreglo['title'] = v.nombre;
+            arreglo['start'] = inicia.format(v.fecha_inicia);
+            arreglo['end'] = finaliza.format(v.fecha_finaliza);
+            arreglo['backgroundColor'] = v.color;
+            arreglo['borderColor'] = v.color;
+
+            eventos.push(arreglo);
+          })
+          
+
+          return eventos;
+
+
+        }else{
+          alert(response.mensaje);
+        }
+
+      })
+      .fail(function(jqXHR, estado){
+        console.log("Ha ocurrido un error al consultar eventos para el calendario.");
+      })
 
     }
 
+    /*
+      Funcion que actualiza datos del evento segun se arrastra en el calendario
+    */
+    function ActualizaEventoCalendarioDrop(idevento, todoeldia, fechainicia, fechafinaliza){
+
+      $.ajax({
+        url: 'actionsCalendar.php',
+        type: 'GET',
+        dataType: 'json',
+        data: "action=UpdateEventoCalendario&idevento="+idevento+"&todoeldia="+todoeldia+"&fechainicia="+fechainicia+"&fechafinaliza="+fechafinaliza,
+        cache:false
+      })
+      .done(function(response){
+        return true;
+      })
+      .fail(function(jqXHR, estado){
+        console.log("Ha ocurrido un error al actualizar evento.");
+      })
+
+    }
+
+    /*
+      Funcion que llama a la ventana de editar evento
+    */
+    function ModificaEvento(idevento){
+
+      window.location.href = "http://128.5.104.90:8080/contingentes/Evento.html?idevento="+idevento;
+
+      /*$.ajax({
+        url: 'Evento.html',
+        type: 'GET',
+        dataType: 'json',
+        data: "idevento="+idevento,
+        cache:false
+      })
+      .done(function(response){
+          
+      })
+      .fail(function(jqXHR, estado){
+        console.log("Ha ocurrido un error al actualizar evento.");
+      })*/
+
+    }
   </script> 
   
 </body>
