@@ -322,7 +322,7 @@
 
             // assign it the date that was reported
 
-            copiedEventObject.id = $(this).attr('id');
+            //copiedEventObject.id = $(this).attr('id');
             copiedEventObject.start = date;
             copiedEventObject.allDay = allDay;
             copiedEventObject.backgroundColor = $(this).css("background-color");
@@ -338,9 +338,15 @@
 
             //d = fechainicia.split("/").reverse().join("-")+' '+[d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
 
-            AgregaEvento(copiedEventObject.title,fechainicia, copiedEventObject.backgroundColor);
+            //Llamo almacena evento
+            AgregaEvento(copiedEventObject.title,fechainicia, copiedEventObject.backgroundColor, reciboid);
 
-            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+            
+            //Funcion que obtiene la variable con los datos que devuelve la funcion
+            function reciboid(idevento){
+              copiedEventObject.id = idevento.datos;
+              $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+            }
 
             // is the "remove after drop" checkbox checked?
             if ($('#drop-remove').is(':checked')) {
@@ -354,7 +360,7 @@
 
           },
           eventClick: function(calEvent, jsEvent, view){
-
+            
             ModificaEvento(calEvent.id);
 
           },
@@ -591,14 +597,15 @@
     /*
       Funcion que es llamada cada vez que se agrega un evento al calendario
     */
-    function AgregaEvento(nombre, fechainicia, color){
+    function AgregaEvento(nombre, fechainicia, color, callback){
 
       $.ajax({
         url: 'actionsCalendar.php',
         type: 'GET',
         dataType: 'json',
         data: "action=InsertEventoCalendario&nombre="+nombre+"&fechainicia="+fechainicia+"&color="+color,
-        cache: false
+        cache: false,
+        success: callback
       })
       .done(function(response){
         return true;
@@ -611,6 +618,8 @@
         console.log("Se ejecuta insertar evento en calendario.");
       })
     }
+
+    
 
     /*
     Funcion que obtiene eventos y los carga en el calendario
@@ -693,21 +702,15 @@
     */
     function ModificaEvento(idevento){
 
-      window.location.href = "http://128.5.104.90:8080/contingentes/Evento.html?idevento="+idevento;
+      if (idevento > 0) {
 
-      /*$.ajax({
-        url: 'Evento.html',
-        type: 'GET',
-        dataType: 'json',
-        data: "idevento="+idevento,
-        cache:false
-      })
-      .done(function(response){
-          
-      })
-      .fail(function(jqXHR, estado){
-        console.log("Ha ocurrido un error al actualizar evento.");
-      })*/
+        window.location.href = "http://128.5.104.90:8080/contingentes/Evento.html?idevento="+idevento;  
+
+      }else{
+
+        Alert("No es posible modificar evento.");
+        
+      }
 
     }
   </script> 

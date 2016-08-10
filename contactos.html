@@ -130,36 +130,37 @@
 		</ul>
 	</div><!--/.sidebar-->
 
-	<!-- Contenido de la pagina -->
+	<!-- Formulario de edicion de evento -->
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Grupos</li>
+				<li class="active">Contactos</li>
 			</ol>
 		</div><!--/.row-->
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Grupos</h1>
+				<h1 class="page-header">Contactos</h1>
 			</div>
 		</div><!--/.row-->
 
 	 	<div id="contenido" >
 	            
 	            <!--<input id="btn_usuarios" type="button" class="btn btn-primary" value="Nuevo Grupo"/><br/><br/>-->
-	            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Nuevo Grupo</button><br/><br/>
+	            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Nuevo Contacto</button><br/><br/>
 	            
 	            <div class="panel panel-primary">
 	                <div class="panel-heading">
-	                    <h3 class="panel-title">Listado de  Grupos</h3>
+	                    <h3 class="panel-title">Listado de  Contactos</h3>
 	                </div>
 	                <div class="panel-body">
-	                    <table id="tablaGrupos" class="table table-striped">
+	                    <table id="tablaContactos" class="table table-striped">
 	                        <thead>
 	                        <th>#</th>
-	                        <th>Nombre Grupo </th>
+	                        <th>Nombre </th>
+	                        <th>Correo</th>
 	                        <th>Editar</th>
 	                        </thead>
 	                        <tbody>
@@ -168,48 +169,63 @@
 	                    </table>
 	                </div>
 	            </div>
-
 	    </div>
 
-	    <!-- Modal -->
+	   	<!-- Modal -->
 		<div id="myModal" class="modal fade" role="dialog">
 		  <div class="modal-dialog">
 
 		    <!-- Modal content-->
 		    <div class="modal-content">
-		    	<form id="formGrupo" class="form-horizontal" role="form">
-			    	<div class="modal-header">
+		    	<form id="formContacto" class="form-horizontal" role="form">
+			      	<div class="modal-header">
 			        	<button type="button" class="close" data-dismiss="modal">&times;</button>
 			        	<h4 id="modo" class="modal-title">Nuevo</h4>
-			        	<h4 class="modal-title">Grupo</h4>
+			        	<h4 class="modal-title">Contacto</h4>
 			      	</div>
 
 			      	<div class="modal-body">
+			        	<div class="form-group">
+			        		<label class="col-lg-2 control-label">Id:</label>
+			        		<div class="col-lg-10">
+			        			<input id="idContacto" type="text" name="idContacto" class="form-control" disabled="true">
+			        		</div>
+			        	</div>
 
-			      			<div class="form-group">
-			      				<label class="col-lg-2 control-label">Id:</label>
-			      				<div class="col-lg-10">
-			      					<input id="idGrupo" name="idGrupo" type="text" class="form-control" disabled="true">
-			      				</div>
-			      			</div>
-			      		
-					      	<div class="form-group">
-					        	<label class="col-lg-2 control-label">Nombre:</label>
-					        	<div class="col-lg-10">
-					        		<input id="nombreGrupo" type="text" name="nombreGrupo" class="form-control">
-					        	</div>
-					        </div>
-			    		
-			        
+						<div class="form-group">
+			        		<label class="col-lg-2 control-label">Nombre:</label>
+			        		<div class="col-lg-10">
+			        			<input id="nombreContacto" type="text" name="nombreContacto" class="form-control">
+			        		</div>
+			        	</div>
+
+						<div class="form-group">
+			        		<label class="col-lg-2 control-label">Correo:</label>
+			        		<div class="col-lg-10">
+			        			<input id="correo" type="text" name="correo" class="form-control">
+			        		</div>
+			        	</div>			        	
+
+						<div class="form-group">
+			        		<label class="col-lg-2 control-label">Telefono:</label>
+			        		<div class="col-lg-10">
+			        			<input id="telefono" type="text" name="telefono" class="form-control">
+			        		</div>
+			        	</div>
+
+						<div class="form-group">
+			        		<label class="col-lg-2 control-label">Organizacion:</label>
+			        		<div class="col-lg-10">
+			        			<input id="organizacion" type="text" name="organizacion" class="form-control">
+			        		</div>
+			        	</div>
+
 			      	</div>
-
 			      	<div class="modal-footer">
-			      		
 			        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-			        	<button id="guardar" type="submit" class="btn btn-primary">Guardar</button>
-			      	</div>
-
-		      	</form>
+			        	<button id="guardar" type="submit" class="btn btn-primary" >Guardar</button>
+			      </div>
+			    </form>
 		    </div>
 
 		  </div>
@@ -233,38 +249,44 @@
     <script type="text/javascript">
 
 	    $(function () {
-	        
-	        TableGrupos();
-	        
+	    	TableContactos();
 
-	        $("#formGrupo").submit(function (event){
+
+	        $("#formContacto").submit(function (event){
 
 	        	$modo = $('#modo').text();
 
 	        	if ($modo == 'Nuevo') {
        		
-		        	$nombreGrupo = $('#nombreGrupo').val();
+		        	$nombreContacto = $('#nombreContacto').val();
+		        	$correoContacto = $('#correo').val();
+		        	$telefonoContacto = $('#telefono').val();
+		        	$organizacionContacto = $('#organizacion').val();
 
 		        	$.ajax({
 		        		type: "POST",
 		        		url: 'actionsCalendar.php',
-		        		data: "action=InsertGrupo&nombreGrupo="+$nombreGrupo
+		        		data: "action=InsertContacto&nombreContacto="+$nombreContacto+"&correo="+$correoContacto+"&telefono="+$telefonoContacto+"&organizacion="+$organizacionContacto
 		        	})
 		        	.done(function(response){
 		        		return true;
 		        	})
 		        	.fail(function(jqXHR, estado){
-		        		console.log("Ha ocurrido un error al insertar nuevo grupo.");
+		        		console.log("Ha ocurrido un error al insertar nuevo contacto.");
 		        	})	
 	        	} else {
 
-	        		$idGrupo = $('#idGrupo').val();
-	        		$nombreGrupo = $('#nombreGrupo').val();
+
+	        		$idContacto = $('#idContacto').val();
+	        		$nombreContacto = $('#nombreContacto').val();
+	        		$correoContacto = $('#correo').val();
+	        		$telefonoContacto = $('#telefono').val();
+	        		$organizacionContacto = $('#organizacion').val();
 
 	        		$.ajax({
 	        			type: "POST",
 	        			url: 'actionsCalendar.php',
-	        			data: "action=UpdateGrupo&idGrupo="+$idGrupo+"&nombreGrupo="+$nombreGrupo
+	        			data: "action=UpdateContacto&idContacto="+$idContacto+"&nombreContacto="+$nombreContacto+"&correo="+$correoContacto+"&telefono="+$telefonoContacto+"&organizacion="+$organizacionContacto
 	        		})
 	        		.done(function(response){
 	        			$("#modo").text('Nuevo');
@@ -282,12 +304,12 @@
 	    });
 
 
-	    function TableGrupos() {
+ 	    function TableContactos() {
 	    	$.ajax({
 	    		url:'actionsCalendar.php',
 	    		type: 'GET',
 	    		dataType: 'json',
-	    		data: 'action=SelectGrupos'
+	    		data: 'action=SelectContactos'
 	    	})
 	    	.done(function(response) {
 	    		var html = '';
@@ -295,9 +317,10 @@
 	    		if (response.result == true) {
 	    			$(response.datos).each(function(i,v) {
 	    				html += '<tr>'
-	    				html += '<td>'+v.idGrupo+'</td>'
+	    				html += '<td>'+v.idContacto+'</td>'
 	    				html += '<td>'+v.nombre+'</td>'
-	    				html += '<td><button class="btn btn-primary" onclick="editar('+ v.idGrupo+')">Editar</button></td>';
+	    				html += '<td>'+v.correo+'</td>'
+	    				html += '<td><button class="btn btn-primary" onclick="editar('+ v.idContacto+')">Editar</button></td>';
 	    				html += '</tr>';
 	    			})
 	    		}else{
@@ -305,28 +328,31 @@
 
 	    		}
 
-	    		$("#tablaGrupos tbody").html(html);
+	    		$("#tablaContactos tbody").html(html);
 	    	})
 	    	.fail(function(jqXHR, estado) {
-	    		console.log("Ha ocurrido un error al consultar grupos.")
+	    		console.log("Ha ocurrido un error al consultar contactos.")
 	    	})
 	    }
 
-	    function editar(idGrupo) {
+	    function editar(idContacto) {
 	    	$("#modo").text('Editar');
 
 	    	$.ajax({
 	    		url: 'actionsCalendar.php',
 	    		type: 'GET',
 	    		dataType: 'json',
-	    		data: 'action=SelectGrupo&idgrupo='+idGrupo
+	    		data: 'action=SelectContacto&idContacto='+idContacto
 	    	})
 	    	.done(function(response){
 
 	    		if (response.result == true) {
 	    			$(response.datos).each(function(i, v) {
-	    				$('#idGrupo').val(idGrupo);
-	    				$('#nombreGrupo').val(v.nombre);
+	    				$('#idContacto').val(idContacto);
+	    				$('#nombreContacto').val(v.nombre);
+	    				$('#correo').val(v.correo);
+	    				$('#telefono').val(v.cel);
+	    				$('#organizacion').val(v.organizacion);
 	    			})
 	    		}
 
@@ -338,9 +364,8 @@
 
 	    	
 
-
 	    }
- 
+
 	</script>
 
 </body>

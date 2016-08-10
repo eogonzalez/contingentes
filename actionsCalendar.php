@@ -113,6 +113,50 @@
 					}
 				}
 
+				if ($_GET['action'] == 'SelectGrupos') {
+					if ($datosRegFuncion = SelectGrupos($mysqli2)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible realizar consulta de los grupos.';
+					}
+				}
+
+				if ($_GET['action'] == 'SelectGrupo') {
+					$idGrupo = (int) $_GET['idgrupo'];
+
+					if ($datosRegFuncion = SelectGrupo($mysqli2, $idGrupo)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible realizar consulta de los grupos.';
+					}
+				}
+
+				if ($_GET['action'] == 'SelectContactos') {
+					if ($datosRegFuncion = SelectContactos($mysqli2)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible realizar consulta de los contactos.';
+					}
+				}
+
+				if ($_GET['action'] == 'SelectContacto') {
+					$idContacto = (int) $_GET['idContacto'];
+
+					if ($datosRegFuncion = SelectContacto($mysqli2, $idContacto)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible realizar consulta del contacto.';
+					}
+				}				
+
 			}else{
 				$response['mensaje'] = "Variable Action no Declarada";
 			}
@@ -178,7 +222,69 @@
 						$response['mensaje'] = 'No es posible enviar correo.';
 					}
 				}
-				
+
+				if ($_POST['action'] == 'InsertGrupo') {
+					$nombreGrupo = $_POST['nombreGrupo'];
+
+					if ($datosRegFuncion = InsertGrupo($mysqli2, $nombreGrupo)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Se agregar grupo.';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['datos'] = $datosRegFuncion;
+						$response['mensaje'] = 'No se pudo agregar grupo.';
+					}
+				}
+
+				if ($_POST['action'] == 'UpdateGrupo') {
+					$idGrupo = (int) $_POST['idGrupo'];
+					$nombreGrupo = $_POST['nombreGrupo'];
+					
+					
+
+					if ($datosRegFuncion = UpdateGrupo($mysqli2, $idGrupo, $nombreGrupo)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Datos Devueltos';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible realizar actualizacion del evento.';
+					}
+				}
+
+				if ($_POST['action'] == 'InsertContacto') {
+					$nombreContacto = $_POST['nombreContacto'];
+		        	$correoContacto = $_POST['correo'];
+		        	$telefonoContacto = $_POST['telefono'];
+		        	$organizacionContacto = $_POST['organizacion'];
+
+					if ($datosRegFuncion = InsertContacto($mysqli2, $nombreContacto, $correoContacto, $telefonoContacto, $organizacionContacto)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Se agregar grupo.';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['datos'] = $datosRegFuncion;
+						$response['mensaje'] = 'No se pudo agregar grupo.';
+					}
+				}
+
+				if ($_POST['action'] == 'UpdateContacto') {
+	        		$idContacto = $_POST['idContacto'];
+	        		$nombreContacto = $_POST['nombreContacto'];
+	        		$correoContacto = $_POST['correo'];
+	        		$telefonoContacto = $_POST['telefono'];
+	        		$organizacion = $_POST['organizacion'];
+					
+					
+
+					if ($datosRegFuncion = UpdateContacto($mysqli2, $idContacto, $nombreContacto, $correoContacto, $telefonoContacto, $organizacion)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Datos Devueltos';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible realizar actualizacion del evento.';
+					}
+				}
+
 			}else{
 				$response['mensaje'] = "Variable Action no Declarada";
 			}

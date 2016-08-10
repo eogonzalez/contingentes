@@ -118,8 +118,10 @@ function InsertEventoCalendario($dbLink, $nombre, $fecha_inicia, $color){
 
 	$result = $dbLink->query($sql);
 
+
 	if ($result == true) {
-		$response[] = true;
+		
+		$response =$dbLink->insert_id;
 	}else{
 		$response[] = $sql;
 		$response[] = $dbLink->error;
@@ -320,6 +322,225 @@ function SendEmail($para, $nombre, $asunto, $descripcion){
 	}
 }
 
+function InsertGrupo($dbLink, $nombreGrupo){
+
+	$response = array();
+
+	$dia = (string) date("d");
+	$mes = (string) date("m");
+	$anio = (string) date("Y");
+
+	$fecha_actual = $anio."-".$mes."-".$dia;
+
+	//Query que consulta tratados
+	$sql = sprintf("INSERT INTO grupos
+					(nombre, estado, fecha_creacion, fecha_actualizacion)
+					VALUES
+					('%s','%s','%s','%s')", $nombreGrupo, 'A', $fecha_actual, $fecha_actual);
+
+
+	// Ejecutamos la consulta
+	$result = $dbLink->query($sql);
+
+	if ($result == true) {
+		
+		$response [] = true;
+		
+	}
+	else{
+		$response [] = $dbLink->error;
+	}
+
+	$dbLink->close();
+
+	return $response;
+
+}
+
+function SelectGrupos($dbLink){
+
+	$response = array();
+
+	$sql = 'SELECT idGrupo, nombre, estado
+			FROM grupos' ;
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0) {
+
+		while ($registro = $result->fetch_array()) {
+			$response [] = $registro;
+		}
+	}
+
+	return $response;
+}
+
+function SelectGrupo($dbLink, $idGrupo){
+
+	$response = array();
+
+	$sql = sprintf('SELECT nombre, estado
+			FROM grupos
+			WHERE idGrupo = %d', $idGrupo);
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0) {
+
+		while ($registro = $result->fetch_array()) {
+			$response [] = $registro;
+		}
+	}
+
+	return $response;
+}
+
+function UpdateGrupo($dbLink, $idGrupo, $nombreGrupo){
+	$response = array();
+
+	$dia = (string) date("d");
+	$mes = (string) date("m");
+	$anio = (string) date("Y");
+
+	$fecha_actual = $anio."-".$mes."-".$dia;
+
+
+
+	$sql = sprintf("UPDATE 
+						grupos
+					SET
+						nombre = '%s',
+						fecha_actualizacion = '%s'
+					WHERE
+						idGrupo = %d", $nombreGrupo, $fecha_actual, $idGrupo)	;
+
+
+	$result = $dbLink->query($sql);
+
+	if ($result == true) {
+		$response[] = true;
+	}else{
+		$response[] = $sql;
+		$response[] = $dbLink->error;
+	}
+
+	$dbLink->close();
+
+	return $response;
+}
+
+function SelectContactos($dbLink){
+
+	$response = array();
+
+	$sql = 'SELECT idContacto, nombre, correo, estado
+			FROM contactos' ;
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0) {
+
+		while ($registro = $result->fetch_array()) {
+			$response [] = $registro;
+		}
+	}
+
+	return $response;
+}
+
+function InsertContacto($dbLink, $nombreContacto, $correoContacto, $telefonoContacto, $organizacionContacto){
+
+	$response = array();
+
+	$dia = (string) date("d");
+	$mes = (string) date("m");
+	$anio = (string) date("Y");
+
+	$fecha_actual = $anio."-".$mes."-".$dia;
+
+	//Query que consulta tratados
+	$sql = sprintf("INSERT INTO contactos
+					(nombre, correo, cel, organizacion, estado, fecha_creacion, fecha_actualizacion)
+					VALUES
+					('%s','%s','%s','%s','%s','%s','%s')", $nombreContacto, $correoContacto, $telefonoContacto, $organizacionContacto, 'A', $fecha_actual, $fecha_actual);
+
+
+	// Ejecutamos la consulta
+	$result = $dbLink->query($sql);
+
+	if ($result == true) {
+		
+		$response [] = true;
+		
+	}
+	else{
+		$response [] = $dbLink->error;
+	}
+
+	$dbLink->close();
+
+	return $response;
+
+}
+
+function SelectContacto($dbLink, $idContacto){
+
+	$response = array();
+
+	$sql = sprintf('SELECT nombre, correo, cel, organizacion, estado
+			FROM contactos
+			WHERE idContacto = %d', $idContacto);
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0) {
+
+		while ($registro = $result->fetch_array()) {
+			$response [] = $registro;
+		}
+	}
+
+	return $response;
+}
+
+
+function UpdateContacto($dbLink, $idContacto, $nombreContacto, $correoContacto, $telefonoContacto, $organizacion){
+	$response = array();
+
+	$dia = (string) date("d");
+	$mes = (string) date("m");
+	$anio = (string) date("Y");
+
+	$fecha_actual = $anio."-".$mes."-".$dia;
+
+
+
+	$sql = sprintf("UPDATE 
+						contactos
+					SET
+						nombre = '%s',
+						correo = '%s',
+						cel = '%s',
+						organizacion = '%s',
+						fecha_actualizacion = '%s'
+					WHERE
+						idContacto = %d", $nombreContacto, $correoContacto, $telefonoContacto, $organizacion, $fecha_actual, $idContacto)	;
+
+
+	$result = $dbLink->query($sql);
+
+	if ($result == true) {
+		$response[] = true;
+	}else{
+		$response[] = $sql;
+		$response[] = $dbLink->error;
+	}
+
+	$dbLink->close();
+
+	return $response;
+}
 
 
 /*
