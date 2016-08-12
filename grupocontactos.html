@@ -136,37 +136,38 @@
 		</ul>
 	</div><!--/.sidebar-->
 
-	<!-- Contenido de la pagina -->
+	<!-- Formulario de edicion de evento -->
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Grupos</li>
+				<li class="active">Grupo - Contactos</li>
 			</ol>
 		</div><!--/.row-->
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Grupos</h1>
+				<h1 class="page-header">Grupo - Contactos</h1>
 			</div>
 		</div><!--/.row-->
 
 	 	<div id="contenido" >
 	            
 	            <!--<input id="btn_usuarios" type="button" class="btn btn-primary" value="Nuevo Grupo"/><br/><br/>-->
-	            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Nuevo Grupo</button><br/><br/>
+	            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Relacionar</button><br/><br/>
 	            
 	            <div class="panel panel-primary">
 	                <div class="panel-heading">
-	                    <h3 class="panel-title">Listado de  Grupos</h3>
+	                    <h3 class="panel-title">Listado Grupo - Contactos </h3>
 	                </div>
 	                <div class="panel-body">
-	                    <table id="tablaGrupos" class="table table-striped">
-	                        <thead>
-	                        <th>#</th>
-	                        <th>Nombre Grupo </th>
+	                    <table id="tablaContactos" class="table table-striped">
+	                        <thead>                        
+	                        <th>Contacto</th>
+	                        <th>Grupo</th>
 	                        <th>Editar</th>
+	                        <th>Eliminar</th>
 	                        </thead>
 	                        <tbody>
 	                           
@@ -174,48 +175,54 @@
 	                    </table>
 	                </div>
 	            </div>
-
 	    </div>
 
-	    <!-- Modal -->
+	   	<!-- Modal -->
 		<div id="myModal" class="modal fade" role="dialog">
 		  <div class="modal-dialog">
 
 		    <!-- Modal content-->
 		    <div class="modal-content">
-		    	<form id="formGrupo" class="form-horizontal" role="form">
-			    	<div class="modal-header">
+		    	<form id="formContacto" class="form-horizontal" role="form">
+			      	<div class="modal-header">
 			        	<button type="button" class="close" data-dismiss="modal">&times;</button>
 			        	<h4 id="modo" class="modal-title">Nuevo</h4>
-			        	<h4 class="modal-title">Grupo</h4>
+			        	<h4 class="modal-title">Relacion Grupo - Contacto</h4>
 			      	</div>
 
 			      	<div class="modal-body">
+			        	<div class="form-group">
+			        		<label class="col-lg-2 control-label">Id:</label>
+			        		<div class="col-lg-10">
+			        			<input id="idGrupoContacto" type="text" name="idGrupoContacto" class="form-control" disabled="true">
+			        		</div>
+			        	</div>
 
-			      			<div class="form-group">
-			      				<label class="col-lg-2 control-label">Id:</label>
-			      				<div class="col-lg-10">
-			      					<input id="idGrupo" name="idGrupo" type="text" class="form-control" disabled="true">
-			      				</div>
-			      			</div>
-			      		
-					      	<div class="form-group">
-					        	<label class="col-lg-2 control-label">Nombre:</label>
-					        	<div class="col-lg-10">
-					        		<input id="nombreGrupo" type="text" name="nombreGrupo" class="form-control">
-					        	</div>
-					        </div>
-			    		
-			        
+						<div class="form-group">
+			        		<label class="col-lg-2 control-label">Contacto:</label>
+			        		<div class="col-lg-10">
+			        			<select id='cbocontacto' name='cbocontacto' class="form-control">
+										<option>Seleccione una Opcion...</option>
+								</select>
+			        		</div>
+			        	</div>
+
+						<div class="form-group">
+			        		<label class="col-lg-2 control-label">Grupo:</label>
+			        		<div class="col-lg-10">		        			
+			        			<select id='cbogrupo' name='cbogrupo' class="form-control">
+										<option>Seleccione una Opcion...</option>
+								</select>			        			
+			        		</div>
+			        	</div>			        	
+
+
 			      	</div>
-
 			      	<div class="modal-footer">
-			      		
 			        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-			        	<button id="guardar" type="submit" class="btn btn-primary">Guardar</button>
-			      	</div>
-
-		      	</form>
+			        	<button id="guardar" type="submit" class="btn btn-primary" >Guardar</button>
+			      </div>
+			    </form>
 		    </div>
 
 		  </div>
@@ -239,46 +246,53 @@
     <script type="text/javascript">
 
 	    $(function () {
-	        
-	        TableGrupos();
-	        
 
-	        $("#formGrupo").submit(function (event){
+			TableContactos();
+
+	    	LlenoGrupos();
+	    	LlenoContactos();
+
+	        $("#formContacto").submit(function (event){
 
 	        	$modo = $('#modo').text();
 
 	        	if ($modo == 'Nuevo') {
        		
-		        	$nombreGrupo = $('#nombreGrupo').val();
+		        	$idGrupo = $('#cbogrupo').val();
+		        	$idContacto = $('#cbocontacto').val();
+		        	
 
 		        	$.ajax({
-		        		type: "POST",
+		        		type: "GET",
 		        		url: 'actionsCalendar.php',
-		        		data: "action=InsertGrupo&nombreGrupo="+$nombreGrupo
+		        		data: "action=InsertContactoGrupo&idGrupo="+$idGrupo+"&idContacto="+$idContacto
 		        	})
 		        	.done(function(response){
 		        		return true;
 		        	})
 		        	.fail(function(jqXHR, estado){
-		        		console.log("Ha ocurrido un error al insertar nuevo grupo.");
+		        		console.log("Ha ocurrido un error al insertar nueva relacion grupo contacto.");
 		        	})	
+		        	
 	        	} else {
 
-	        		$idGrupo = $('#idGrupo').val();
-	        		$nombreGrupo = $('#nombreGrupo').val();
+
+	        		$idGrupoContacto = $('#idGrupoContacto').val();
+	        		$idGrupo = $('#cbogrupo').val();
+	        		$idContacto = $('#cbocontacto').val();
+	        		
 
 	        		$.ajax({
-	        			type: "POST",
+	        			type: "GET",
 	        			url: 'actionsCalendar.php',
-	        			data: "action=UpdateGrupo&idGrupo="+$idGrupo+"&nombreGrupo="+$nombreGrupo
+	        			data: "action=UpdateContactoGrupo&idGrupoContacto="+$idGrupoContacto+"&idGrupo="+$idGrupo+"&idContacto="+$idContacto
 	        		})
 	        		.done(function(response){
 	        			$("#modo").text('Nuevo');
-
 	        			return true;
 	        		})
 	        		.fail(function(jqXHR, estado){
-	        			console.log("Ha ocurrido un error al actualizar grupo.")
+	        			console.log("Ha ocurrido un error al actualizar relacion grupo contacto.")
 	        		})
 
 	        	}
@@ -288,12 +302,12 @@
 	    });
 
 
-	    function TableGrupos() {
+ 	    function TableContactos() {
 	    	$.ajax({
 	    		url:'actionsCalendar.php',
 	    		type: 'GET',
 	    		dataType: 'json',
-	    		data: 'action=SelectGrupos'
+	    		data: 'action=SelectContactosGrupos'
 	    	})
 	    	.done(function(response) {
 	    		var html = '';
@@ -301,9 +315,10 @@
 	    		if (response.result == true) {
 	    			$(response.datos).each(function(i,v) {
 	    				html += '<tr>'
-	    				html += '<td>'+v.idGrupo+'</td>'
-	    				html += '<td>'+v.nombre+'</td>'
-	    				html += '<td><button class="btn btn-primary" onclick="editar('+ v.idGrupo+')">Editar</button></td>';
+	    				html += '<td>'+v.nombreContacto+'</td>'
+	    				html += '<td>'+v.nombreGrupo+'</td>'
+	    				html += '<td><button class="btn btn-primary" onclick="editar('+ v.idcontacto_grupo+')">Editar</button></td>';
+	    				html += '<td><button class="btn btn-primary" onclick="eliminar('+ v.idcontacto_grupo+')">Eliminar</button></td>';
 	    				html += '</tr>';
 	    			})
 	    		}else{
@@ -311,42 +326,103 @@
 
 	    		}
 
-	    		$("#tablaGrupos tbody").html(html);
+	    		$("#tablaContactos tbody").html(html);
 	    	})
 	    	.fail(function(jqXHR, estado) {
-	    		console.log("Ha ocurrido un error al consultar grupos.")
+	    		console.log("Ha ocurrido un error al consultar contactos.")
 	    	})
 	    }
 
-	    function editar(idGrupo) {
+	    function editar(idContactoGrupo) {
 	    	$("#modo").text('Editar');
 
 	    	$.ajax({
 	    		url: 'actionsCalendar.php',
 	    		type: 'GET',
 	    		dataType: 'json',
-	    		data: 'action=SelectGrupo&idgrupo='+idGrupo
+	    		data: 'action=SelectContactoGrupo&idContactoGrupo='+idContactoGrupo
 	    	})
 	    	.done(function(response){
 
 	    		if (response.result == true) {
 	    			$(response.datos).each(function(i, v) {
-	    				$('#idGrupo').val(idGrupo);
-	    				$('#nombreGrupo').val(v.nombre);
+	    				$('#idGrupoContacto').val(idContactoGrupo);
+	    				$('#cbogrupo').val(v.idgrupo);
+	    				$('#cbocontacto').val(v.idcontacto);
+	    				
 	    			})
 	    		}
 
 	    		$("#myModal").modal('show');
 	    	})
 	    	.fail(function(jqXHR, estado) {
-	    		console.log("Ha ocurrido un error al consultar grupo.")
+	    		console.log("Ha ocurrido un error al consultar relacion contacto grupo.")
 	    	})
-
-	    	
-
-
 	    }
- 
+
+
+		function LlenoGrupos(){
+			$.ajax({
+				url: 'actionsCalendar.php',
+				type: 'GET',
+				dataType: 'json',
+				data: "action=getListaGrupos",
+				cache:false
+			})
+			.done(function(response){
+				if (response.result == true) {	
+					//Recorro los datos y lleno el combo
+					
+					var options = "";
+					var listaGrupos = $("#cbogrupo");
+
+					listaGrupos.find('option').remove();
+					
+
+					$(response.datos).each(function(i,v){				
+						listaGrupos.append('<option value="'+v.idGrupo+'">'+v.nombre+'</option>');
+					});
+
+				}else{
+					alert(response.mensaje);
+				}
+			})
+			.fail(function(jqXHR, estado){
+				console.log('Ha ocurrido un error al consultar grupos.')
+			})
+		}
+
+		function LlenoContactos(){
+			$.ajax({
+				url: 'actionsCalendar.php',
+				type: 'GET',
+				dataType: 'json',
+				data: "action=getListaContactos",
+				cache:false
+			})
+			.done(function(response){
+				if (response.result == true) {	
+					//Recorro los datos y lleno el combo
+					
+					var options = "";
+					var listaContactos = $("#cbocontacto");
+
+					listaContactos.find('option').remove();
+					
+
+					$(response.datos).each(function(i,v){				
+						listaContactos.append('<option value="'+v.idContacto+'">'+v.nombre+'</option>');
+					});
+
+				}else{
+					alert(response.mensaje);
+				}
+			})
+			.fail(function(jqXHR, estado){
+				console.log('Ha ocurrido un error al consultar contactos.')
+			})
+		}
+
 	</script>
 
 </body>

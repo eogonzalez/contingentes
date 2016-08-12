@@ -155,7 +155,93 @@
 					}else{
 						$response['mensaje'] = 'No es posible realizar consulta del contacto.';
 					}
-				}				
+				}		
+						
+				if ($_GET['action'] == 'SelectContactosGrupos') {
+					
+
+					if ($datosRegFuncion = SelectContactosGrupos($mysqli2)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible realizar consulta del listado de relaciones.';
+					}
+				}		
+
+				if ($_GET['action'] == 'getListaGrupos') {
+					//Mandamos a llamar a la funcion que selecciona los datos de la DB
+					if ($datosRegFuncion = getListaGrupos($mysqli2)) {
+					
+						$response['result'] = true;
+						$response['mensaje'] = 'Datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+
+					}else{
+						$response['mensaje'] = 'No se pudo realizar consulta';
+					}
+				} 
+
+				if ($_GET['action'] == 'getListaContactos') {
+					//Mandamos a llamar a la funcion que selecciona los datos de la DB
+					if ($datosRegFuncion = getListaContactos($mysqli2)) {
+					
+						$response['result'] = true;
+						$response['mensaje'] = 'Datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+
+					}else{
+						$response['mensaje'] = 'No se pudo realizar consulta';
+					}
+				} 
+
+
+				if ($_GET['action'] == 'InsertContactoGrupo') {
+					$idGrupo = (int) $_GET['idGrupo'];
+					$idContacto = (int) $_GET['idContacto'];
+
+					//Mandamos a llamar a la funcion que selecciona los datos de la DB
+					if ($datosRegFuncion = InsertContactoGrupo($mysqli2, $idGrupo, $idContacto)) {
+					
+						$response['result'] = true;
+						$response['mensaje'] = 'Datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+
+					}else{
+						$response['mensaje'] = 'No se pudo insertar relacion Contacto Grupo';
+					}
+				} 
+
+
+				if ($_GET['action'] == 'UpdateContactoGrupo') {
+					$idGrupoContacto = (int) $_GET['idGrupoContacto'];
+					$idGrupo = (int) $_GET['idGrupo'];
+					$idContacto = (int) $_GET['idContacto'];
+
+					//Mandamos a llamar a la funcion que selecciona los datos de la DB
+					if ($datosRegFuncion = UpdateContactoGrupo($mysqli2, $idGrupoContacto, $idGrupo, $idContacto)) {
+					
+						$response['result'] = true;
+						$response['mensaje'] = 'Datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+
+					}else{
+						$response['mensaje'] = 'No se pudo actualizar relacion Contacto Grupo';
+					}
+				} 
+
+				if ($_GET['action'] == 'SelectContactoGrupo') {
+					$idContactoGrupo = (int) $_GET['idContactoGrupo'];
+					
+
+					if ($datosRegFuncion = SelectContactoGrupo($mysqli2, $idContactoGrupo)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible realizar consulta del listado de relaciones.';
+					}
+				}	
 
 			}else{
 				$response['mensaje'] = "Variable Action no Declarada";

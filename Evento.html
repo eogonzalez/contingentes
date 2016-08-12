@@ -96,6 +96,12 @@
 						Contactos
 					</a>
 				</li>
+				<li>
+					<a href="grupocontactos.html">
+						<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+						Relacion Contacto - Grupo
+					</a>
+				</li>				
 			</ul>
 		</li>
 		  
@@ -247,11 +253,7 @@
 				<label class="col-lg-2 control-label"> Grupo de contactos </label>
 				<div class="col-lg-10">
 					<select id="grupocontactos" class="form-control" name="grupocontactos">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
+						<option>Seleccione una opcion...</option>						
 					</select>	
 				</div>
 			</div>
@@ -319,7 +321,11 @@
 
 	        $('#idEvento').val(idevento);
 
+			LlenoGrupos();
+
 	        CargaEvento(idevento);
+
+	        
 
 	        //Funcion para cambiar de color
 	        $("#color-chooser > li > a").click(function (e) {
@@ -395,6 +401,37 @@
 
 	    });
 
+		function LlenoGrupos(){
+			$.ajax({
+				url: 'actionsCalendar.php',
+				type: 'GET',
+				dataType: 'json',
+				data: "action=getListaGrupos",
+				cache:false
+			})
+			.done(function(response){
+				if (response.result == true) {	
+					//Recorro los datos y lleno el combo
+					
+					var options = "";
+					var listaGrupos = $("#grupocontactos");
+
+					listaGrupos.find('option').remove();
+					
+
+					$(response.datos).each(function(i,v){				
+						listaGrupos.append('<option value="'+v.idGrupo+'">'+v.nombre+'</option>');
+					});
+
+				}else{
+					alert(response.mensaje);
+				}
+			})
+			.fail(function(jqXHR, estado){
+				console.log('Ha ocurrido un error al consultar grupos.')
+			})
+		}
+
 	    function CargaEvento(idevento){
 
 	    	$.ajax({
@@ -436,7 +473,8 @@
 
 						//$('#adjunto').val(v.adjunto);
 
-						if (!v.idgrupo) {
+						if (v.idgrupo > 0) {
+
 							$('#grupocontactos').val(v.idgrupo);
 						}
 
