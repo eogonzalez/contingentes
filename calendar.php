@@ -261,6 +261,10 @@ function UpdateEventoFormulario($dbLink, $idevento, $nombre, $todoeldia, $fecha_
 
 }
 
+/*
+	Funcion que realiza el envio de correo
+*/
+
 function SendEmail($para, $nombre, $asunto, $descripcion){
 
 	//Creacion de instancia de PHPMailer
@@ -322,6 +326,10 @@ function SendEmail($para, $nombre, $asunto, $descripcion){
 	}
 }
 
+/*
+	Funcion que inserta nuevo grupo
+*/
+
 function InsertGrupo($dbLink, $nombreGrupo){
 
 	$response = array();
@@ -344,10 +352,11 @@ function InsertGrupo($dbLink, $nombreGrupo){
 
 	if ($result == true) {
 		
-		$response [] = true;
+		$response =$dbLink->insert_id;
 		
 	}
 	else{
+		$response[] = $sql;
 		$response [] = $dbLink->error;
 	}
 
@@ -356,6 +365,10 @@ function InsertGrupo($dbLink, $nombreGrupo){
 	return $response;
 
 }
+
+/*
+	Funcion que obtiene listado de grupos
+*/
 
 function SelectGrupos($dbLink){
 
@@ -376,6 +389,10 @@ function SelectGrupos($dbLink){
 	return $response;
 }
 
+/*
+	Funcion que obtiene datos de grupo seleccionado
+*/
+
 function SelectGrupo($dbLink, $idGrupo){
 
 	$response = array();
@@ -395,6 +412,10 @@ function SelectGrupo($dbLink, $idGrupo){
 
 	return $response;
 }
+
+/*
+	Funcion que actuliza cambios en grupo
+*/
 
 function UpdateGrupo($dbLink, $idGrupo, $nombreGrupo){
 	$response = array();
@@ -430,6 +451,10 @@ function UpdateGrupo($dbLink, $idGrupo, $nombreGrupo){
 	return $response;
 }
 
+/*
+	Funcion que obtiene listado de Contactos
+*/
+
 function SelectContactos($dbLink){
 
 	$response = array();
@@ -448,6 +473,10 @@ function SelectContactos($dbLink){
 
 	return $response;
 }
+
+/*
+	Funcion que inserta nuevo contacto
+*/
 
 function InsertContacto($dbLink, $nombreContacto, $correoContacto, $telefonoContacto, $organizacionContacto){
 
@@ -471,18 +500,22 @@ function InsertContacto($dbLink, $nombreContacto, $correoContacto, $telefonoCont
 
 	if ($result == true) {
 		
-		$response [] = true;
+		$response = $dbLink->insert_id;
 		
 	}
 	else{
+		$response [] = $sql;
 		$response [] = $dbLink->error;
 	}
 
 	$dbLink->close();
 
 	return $response;
-
 }
+
+/*
+	Funcion que obtiene datos del contacto 
+*/
 
 function SelectContacto($dbLink, $idContacto){
 
@@ -504,6 +537,9 @@ function SelectContacto($dbLink, $idContacto){
 	return $response;
 }
 
+/*
+	Funcion que actualiza datos del contacto
+*/
 
 function UpdateContacto($dbLink, $idContacto, $nombreContacto, $correoContacto, $telefonoContacto, $organizacion){
 	$response = array();
@@ -542,6 +578,9 @@ function UpdateContacto($dbLink, $idContacto, $nombreContacto, $correoContacto, 
 	return $response;
 }
 
+/*
+	Funcion que selecciona los contactos con grupos relacionados
+*/
 
 function SelectContactosGrupos($dbLink){
 
@@ -570,6 +609,10 @@ function SelectContactosGrupos($dbLink){
 	return $response;
 }
 
+/*
+	Funcion que obtiene listado de grupos para combo de relacion contacto grupo
+*/
+
 function getListaGrupos($dbLink){
 	
 	$response = array();
@@ -592,6 +635,10 @@ function getListaGrupos($dbLink){
 	return $response;
 }
 
+/*
+	Funcion que obtiene listado de contactos para combo de realacion contacto grupo
+*/
+
 function getListaContactos($dbLink){
 	
 	$response = array();
@@ -613,6 +660,10 @@ function getListaContactos($dbLink){
 
 	return $response;
 }
+
+/*
+	Funcion que inserta relacion contacto grupo
+*/
 
 function InsertContactoGrupo($dbLink, $idGrupo, $idContacto){
 	$response = array();
@@ -646,6 +697,10 @@ function InsertContactoGrupo($dbLink, $idGrupo, $idContacto){
 
 	return $response;
 }
+
+/*
+	Funcion que actualiza realacion contacto grupo
+*/
 
 function UpdateContactoGrupo($dbLink, $idGrupoContacto, $idGrupo, $idContacto){
 	$response = array();
@@ -682,6 +737,10 @@ function UpdateContactoGrupo($dbLink, $idGrupoContacto, $idGrupo, $idContacto){
 	return $response;
 }
 
+/*
+	Funcion que obtiene datos de la reacion segun el id de la relacion
+*/
+
 function SelectContactoGrupo($dbLink, $idContactoGrupo){
 
 	$response = array();
@@ -705,28 +764,192 @@ function SelectContactoGrupo($dbLink, $idContactoGrupo){
 	return $response;
 }
 
+/*
+	Funcion que obtiene los datos de los contactos a enviar notificacion segun el grupo
+*/
+
+function SelectContactosNotificacion($dbLink, $idGrupo){
+	$response = array();
+
+	$sql = sprintf("SELECT
+						c.nombre, c.correo, c.organizacion
+					from
+						contacto_grupo cg
+					join contactos c on
+						cg.idcontacto = c.idcontacto
+					where cg.idgrupo = %d", $idGrupo);
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0) {
+
+		while ($registro = $result->fetch_array()) {
+			$response [] = $registro;
+		}
+	}
+
+	return $response;
+}
+
 
 /*
-select
-a.*, b.nombre, b.email
-from
-(
-select
-e.empresaid, p.productoid
-from 
-empresacontingentes e
-join
-contingentes c on
-c.contingenteid = e.contingenteid
-join
-productos p on
-c.productoid = p.productoid
-where
-c.tratadoid = 1
-and c.productoid = 1) a
-join
-authusuarios b on
-a.empresaid = b.empresaid
+	Funcion que obtiene listado de grupos para combo de eventos
 */
+
+function getListaGruposEvento($dbLink){
+	
+	$response = array();
+
+	//Query que consulta tratados
+	$sql = 'SELECT 
+				g.idGrupo, g.nombre
+			FROM 
+				grupos g
+			join
+				contacto_grupo cg on
+				cg.idGrupo = g.idgrupo
+			group by g.idGrupo';
+
+	// Ejecutamos la consulta
+	$result = $dbLink->query($sql);
+
+	if ($result -> num_rows != 0) {
+		while ($registro = $result -> fetch_array()) {
+			$response [] = $registro;
+		}
+	}
+
+	return $response;
+}
+
+
+function getListaContactosContingentes($dbLink, $idTratado, $idContingente){
+	$response = array();
+
+	$sql = sprintf("SELECT 
+						a.*, b.nombre, b.email
+					FROM
+					(
+						SELECT
+							e.empresaid, p.productoid
+						FROM
+							empresacontingentes e
+						JOIN
+							contingentes c on
+							c.contingenteid = e.contingenteid
+						JOIN
+							productos p on
+							c.productoid = p.productoid
+						WHERE
+							c.tratadoid = %d
+							and c.productoid = %d) a
+					JOIN
+						authusuarios b on
+						a.empresaid = b.empresaid", $idTratado, $idContingente);
+
+	//Ejecutamos la consulta
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0) {
+		while ($registro = $result -> fetch_array()) {
+			$response [] = $registro;
+		}
+	}
+
+	return $response;
+}
+
+function verificaGrupo($dbLink, $nombreGrupo){
+	
+
+	$sql = sprintf("SELECT 
+				coalesce(count(1), 0) as existe
+			FROM
+				grupos
+			WHERE nombre = '%s' ", $nombreGrupo);
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0 ) {
+		while ($registro = $result->fetch_array()) {
+
+			return $registro;
+		}
+	}
+}
+
+function verificaContacto($dbLink, $correo){
+	$sql = sprintf("SELECT
+						coalesce(count(1), 0) as existe
+					FROM 
+						contactos
+					WHERE correo = '%s' ", $correo);
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0) {
+
+		while ($registro= $result->fetch_array()) {
+
+			return $registro;
+		}
+	}
+}
+
+function verificaRelacion($dbLink, $idGrupo, $idContacto){
+	$sql = sprintf("SELECT
+						coalesce(count(1), 0) as existe
+					FROM 
+						contacto_grupo
+					WHERE idgrupo = %d  and idContacto = %d ", $idGrupo, $idContacto);
+	
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0) {
+
+		while ($registro= $result->fetch_array()) {
+
+			return $registro;
+		}
+	}
+}
+
+function selectGrupoId($dbLink, $nombreGrupo){
+	
+
+	$sql = sprintf("SELECT 
+				idGrupo
+			FROM
+				grupos
+			WHERE nombre = '%s' ", $nombreGrupo);
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0 ) {
+		while ($registro = $result->fetch_array()) {
+
+			return $registro;
+		}
+	}
+}
+
+function selectContactoId($dbLink, $correo){
+	
+
+	$sql = sprintf("SELECT 
+				idContacto
+			FROM
+				contactos
+			WHERE correo = '%s' ", $correo);
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0 ) {
+		while ($registro = $result->fetch_array()) {
+
+			return $registro;
+		}
+	}
+}
 
 ?>

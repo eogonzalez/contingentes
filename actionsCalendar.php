@@ -241,7 +241,122 @@
 					}else{
 						$response['mensaje'] = 'No es posible realizar consulta del listado de relaciones.';
 					}
-				}	
+				}
+
+				if ($_GET['action'] == 'SelectContactosNotificacion') {
+					$idGrupo = (int) $_GET['idGrupo'];
+					
+
+					if ($datosRegFuncion = SelectContactosNotificacion($mysqli2, $idGrupo)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'datos devueltos';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible realizar consulta del listado de contactos.';
+					}
+				}				
+
+				if ($_GET['action'] == 'SendEmail') {
+					$para = $_GET['para'];
+					$nombre = $_GET['nombre'];
+					$asunto = $_GET['asunto'];
+					$descripcion = $_GET['descripcion'];
+
+					if ($datosRegFuncion = SendEmail($para, $nombre, $asunto, $descripcion)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Correo Enviado';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible enviar correo.';
+					}
+				}
+
+				if ($_GET['action'] == 'getListaGruposEvento') {
+
+					if ($datosRegFuncion = getListaGruposEvento($mysqli2)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Lista de Grupos';
+						$response['datos']= $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible obtener listado de grupos';
+					}
+					
+				}
+
+				if ($_GET['action'] == 'getListaContactosContingentes') {
+					$idTratado = (int) $_GET['idTratado'];
+					$idContingente = (int) $_GET['idContingente'];
+
+					if ($datosRegFuncion = getListaContactosContingentes($mysqli, $idTratado, $idContingente)) {
+						$response['result']	 = true;
+						$response['mensaje'] = 'Lista de Contactos Contingentes';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible obtener listado de contactos de Contingentes';
+					}
+				}
+
+				if ($_GET['action'] == 'verificaGrupo') {
+					$nombreGrupo = $_GET['nombreGrupo'];
+
+					if ($datosRegFuncion = verificaGrupo($mysqli2, $nombreGrupo)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Verifica si existe Grupo';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible verificar si existe grupo';
+					}
+				}
+
+				if ($_GET['action'] == 'verificaContacto') {
+					$correo = $_GET['correo'];
+
+					if ($datosRegFuncion = verificaContacto($mysqli2, $correo)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Verifica si existe contacto';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible verificar si existe contacto';
+					}
+				}
+
+				if ($_GET['action'] == 'verificaRelacion') {
+					$idGrupo = $_GET['idGrupo'];
+					$idContacto = $_GET['idContacto'];
+
+					if ($datosRegFuncion = verificaRelacion($mysqli2, $idGrupo, $idContacto)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Verifica si existe Relacion';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible verificar si existe relacion';
+					}
+					
+				}
+
+				if ($_GET['action'] == 'selectGrupoId'){
+					$nombreGrupo = $_GET['nombreGrupo'];
+
+					if ($datosRegFuncion = selectGrupoId($mysqli2, $nombreGrupo)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Verifica id de Grupo.';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible verificar id de grupo.';
+					}
+				}
+
+				if ($_GET['action'] == 'selectContactoId'){
+					$correo = $_GET['correo'];
+
+					if ($datosRegFuncion = selectContactoId($mysqli2, $correo)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Verifica id de Contacto.';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible verificar id de contacto.';
+					}
+				}
 
 			}else{
 				$response['mensaje'] = "Variable Action no Declarada";
@@ -291,21 +406,6 @@
 						$response['datos'] = $datosRegFuncion;
 					}else{
 						$response['mensaje'] = 'No es posible realizar actualizacion del evento.';
-					}
-				}
-
-				if ($_POST['action'] == 'SendEmail') {
-					$para = $_POST['para'];
-					$nombre = $_POST['nombre'];
-					$asunto = $_POST['asunto'];
-					$descripcion = $_POST['descripcion'];
-
-					if ($datosRegFuncion = SendEmail($para, $nombre, $asunto, $descripcion)) {
-						$response['result'] = true;
-						$response['mensaje'] = 'Correo Enviado';
-						$response['datos'] = $datosRegFuncion;
-					}else{
-						$response['mensaje'] = 'No es posible enviar correo.';
 					}
 				}
 

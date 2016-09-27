@@ -97,6 +97,12 @@
 					</a>
 				</li>
 				<li>
+						<a href="contactos_contingentes.html">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+							Contactos Contingentes
+						</a>
+				</li>
+				<li>
 					<a href="grupocontactos.html">
 						<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
 						Relacion Contacto - Grupo
@@ -106,8 +112,6 @@
 		</li>
 		  
 		  <li><a href="reportes.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Reportes </a></li>
-		  
-		  <li><a href="panels.html"><svg class="glyph stroked app-window"><use xlink:href="#stroked-app-window"></use></svg> Alertas </a></li>
 		  
 		  <li class="parent ">
 		    <a href="#">
@@ -262,18 +266,24 @@
 			<div class="form-group">
 				<label class="col-lg-2 control-label" for="ejemplo_email_1">Otros Correos</label>
 				<div class="col-lg-10">
-					<input type="email" class="form-control" id="otrosCorreos" placeholder="Introduce los correos">	
+					<input type="text" class="form-control" id="otrosCorreos" placeholder="Introduce los correos">	
 				</div>
 			</div>
 
 			<!-- Adjuntar Archivos -->
-			<div class="form-group">
-				<label class="col-lg-2 control-label" for="ejemplo_archivo_1">Adjuntar un archivo</label>
-				<div class="col-lg-10">
-					<input type="file" id="adjuntarArchivo">
-					<p class="help-block">Ejemplo de texto de ayuda.</p>	
+			<!--
+			<form enctype="multipart/form-data"  id="formArchivo">
+				<div class="form-group">
+					<label class="col-lg-2 control-label" for="ejemplo_archivo_1">Adjuntar un archivo</label>
+					<div class="col-lg-10">
+						<input type="file" id="adjuntarArchivo" name="adjuntarArchivo">
+						<input type="button" value="Subir" id="subirArchivo">	
+					</div>
 				</div>
-			</div>
+			</form>-->
+			<!--div para visualizar mensajes-->
+    		<div id="mensajes"></div>
+			
 
 			<!--  Enviar alerta de creacion de evento -->
 			<div class="form-group">
@@ -311,6 +321,12 @@
 
     <script type="text/javascript">
 
+    	$(document).ready(function() {
+
+    		LlenoGrupos();
+
+    	});
+
 	    $(function () {
 	        $('#datetimepicker1').datetimepicker();
 	        $('#datetimepicker2').datetimepicker();
@@ -321,11 +337,31 @@
 
 	        $('#idEvento').val(idevento);
 
-			LlenoGrupos();
+			/*LlenoGrupos();*/
 
 	        CargaEvento(idevento);
 
-	        
+	        $("#mensajes").hide();
+	        var fileExtension = "";
+
+			$(':file').change(function(){
+				//Obtenemos un array con datos del archivo
+				var file = $("#adjuntarArchivo")[0].files[0];
+				//Obtenemos el nombre del archivo
+				var filename = file.name;
+				//Obtenemos la extension del archivo
+				fileExtension = filename.substring(filename.lastIndexOf('.')+1);
+				//Obtenemos el tama;o del archivo
+				var fileSize = file.size;
+				//Obtenemos el tipo de archivo
+				var fileType = file.type;
+			});
+
+			//al enviar el formulario
+			$('#subirArchivo').click(function(event){
+					registrarDocumentacion('#formArchivo');
+			});
+			
 
 	        //Funcion para cambiar de color
 	        $("#color-chooser > li > a").click(function (e) {
@@ -339,7 +375,9 @@
 
 
 			$('#formEvento').submit( function (event){
+
 				event.preventDefault();
+
 
 				$idEvento = $('#idEvento').val();
 				$nombre = $('#nombreEvento').val();
@@ -366,8 +404,11 @@
 				$otroscorreos = $('#otrosCorreos').val();
 				$estado = 'E';
 
+
+
 				//Si el envio de alerta de creacion de evento esta activo
 				if ($('#checkboxAlerta').is(':checked')) {
+
 					var contenido = '<strong>Lugar:</strong> '+$lugar+'<br>';
 					contenido = contenido+'<strong> Inicia: </strong> '+$fecha_inicia+' <strong> Termina: </strong> '+$fecha_finaliza+'<br>';
 					contenido = contenido+'<strong> Descripcion </strong><br><p> '+$descripcion+'<p>';
@@ -376,13 +417,52 @@
 					Realizo envio por cada uno de los correos del grupo
 					*/
 
+					//Verifico si existe grupo seleccionado
+					if ($idgrupo > 0) {
+
+						var arregloGrupo = new Array();
+
+						ObtengoDatosGrupo($idgrupo, NotificoGrupo);
+
+
+						function NotificoGrupo(datos){
+
+							arregloGrupo = datos;
+
+							if (arregloGrupo.result == true) {
+
+								$(arregloGrupo.datos).each(function(i, v){
+									
+									EnvioNotificacionEvento(v.correo, v.nombre, $nombre, contenido)
+									
+								});
+							}
+						};
+
+					}
+
+
+
+							
 					/*
 					Realizo envio por cada uno de los correos de otros correos
 					*/
 
-					EnvioNotificacionEvento($otroscorreos, $otroscorreos, $nombre, contenido);
-				}
+					if ($otroscorreos.length > 0) {
+						var emails = $otroscorreos.split(","), //Creo un array con los e-mails ingresados y separados por comas
+						valido = true; //Variable que indicará el estado de la validación
+						 
+						for (var i = 0, l = emails.length; i < l; i++){ //Recorro el array
 
+						    if (!isValidEmail(emails[i])){ //Si el e-mail no es válido
+						        valido = false; //El estado de la validación será false
+						        //break; //Salgo del bucle
+						    }else{
+								EnvioNotificacionEvento(emails[i], emails[i], $nombre, contenido);	    	
+						    }
+						}
+					}					
+				}
 
 				$.ajax({
 					type: "POST",
@@ -401,12 +481,63 @@
 
 	    });
 
+		//como la utilizamos demasiadas veces, creamos una función para 
+		//evitar repetición de código
+		function showMessage(message){
+		    $("#mensajes").html("").show();
+		    $("#mensajes").html(message);
+		}
+
+		function dataForm_Archivos(formulario){
+		    var nuevoFormulario = new FormData();   
+		    $(formulario).find(':input').each(function() {
+		        var elemento= this;
+		        //Si recibe tipo archivo 'file'
+		        if(elemento.type === 'file'){
+		           if(elemento.value !== ''){
+		              for(var i=0; i< $('#'+elemento.id).prop("files").length; i++){
+		                  nuevoFormulario.append(elemento.name, $('#'+elemento.id).prop("files")[i]);
+		               }
+		            }              
+		         }
+		     });
+
+		  return nuevoFormulario;
+		}
+
+		function registrarDocumentacion(formulario){
+
+			var datosForm = dataForm_Archivos(formulario);
+console.log('datos del formulario registra Documentacion: ', datosForm);
+			var request = $.ajax({
+			    contentType: false,
+			    processData: false,
+			    data: datosForm,                         
+			    type: 'GET',
+			    url: 'uploader.php',
+			    beforeSend:function(){
+
+			     }
+
+			    });
+
+			    request.done(function(datos) { 
+
+			});
+		 }
+
+	    function isValidEmail(mail)
+		{
+		    return /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(mail);
+		}
+
+
 		function LlenoGrupos(){
 			$.ajax({
 				url: 'actionsCalendar.php',
 				type: 'GET',
 				dataType: 'json',
-				data: "action=getListaGrupos",
+				data: "action=getListaGruposEvento",
 				cache:false
 			})
 			.done(function(response){
@@ -418,7 +549,7 @@
 
 					listaGrupos.find('option').remove();
 					
-
+					listaGrupos.append('<option value="'+0+'">Seleccione Opcion</option>');
 					$(response.datos).each(function(i,v){				
 						listaGrupos.append('<option value="'+v.idGrupo+'">'+v.nombre+'</option>');
 					});
@@ -473,8 +604,8 @@
 
 						//$('#adjunto').val(v.adjunto);
 
-						if (v.idgrupo > 0) {
 
+						if (v.idgrupo > 0) {
 							$('#grupocontactos').val(v.idgrupo);
 						}
 
@@ -533,9 +664,26 @@
 			}
 		}
 
+		function ObtengoDatosGrupo($idGrupo, callback){
+			$.ajax({	
+				//async: false,			
+				type: "GET",
+				dataType: 'json',
+				url: 'actionsCalendar.php',
+				data: "action=SelectContactosNotificacion&idGrupo="+$idgrupo,
+				success: callback
+			})
+			.fail(function(jqXHR, estado){
+				console.log('Ha ocurrido un error al consultar contactos del grupo.');
+			})
+
+		}
+
 		function EnvioNotificacionEvento($para, $nombre, $asunto, $descripcion){
+
+
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				url: 'actionsCalendar.php',
 				data: 'action=SendEmail&para='+$para+'&nombre='+$nombre+'&asunto='+$asunto+'&descripcion='+$descripcion
 			})

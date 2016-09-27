@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Contactos Contingentes</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/datepicker3.css" rel="stylesheet">
+	<link href="css/styles.css" rel="stylesheet">
+
+	<!--Icons-->
+	<script src="js/lumino.glyphs.js"></script>
+
+
+</head>
+
+<body>
+
+	<!--Barra Navegacion-->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><span>Trazabilidad</span>DACE</a>
+				<ul class="user-menu">
+					<li class="dropdown pull-right">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+							
+		</div><!-- /.container-fluid -->
+	</nav>
+
+	<!--Barra Herramientas-->
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+
+		<ul class="nav menu">
+			<li class="parent ">
+				<a href="index.html">
+					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg></span> Tablero 
+				</a>
+				<ul class="children collapse" id="sub-item-1">
+					<li>
+						<a href="indicadores.html">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Indicadores Contingentes
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="parent">
+				<a href="calendar.html">
+					<span data-toggle="collapse" href="#subItemGrupo"><svg class='glyph stroked calendar'><use xlink:href="#stroked-calendar"></use></svg></span> Alertas
+				</a>
+
+				<ul class="children collapse" id="subItemGrupo">
+					<li>
+						<a href="grupos.html" >
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+							Grupos
+						</a>
+					</li>
+					<li>
+						<a href="contactos.html">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+							Contactos
+						</a>
+					</li>
+					<li>
+						<a href="contactos_contingentes.html">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+							Contactos Contingentes
+						</a>
+					</li>
+					<li>
+						<a href="grupocontactos.html">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+							Relacion Contacto - Grupo
+						</a>
+					</li>
+				</ul>
+			</li>
+			
+			<li><a href="reportes.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Reportes </a></li>
+			
+			
+			<li class="parent ">
+				<a href="#">
+					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Proceso 
+				</a>
+				<ul class="children collapse" id="sub-item-1">
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Inscripciones
+						</a>
+					</li>
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Solicitudes
+						</a>
+					</li>
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Aprobaciones
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li role="presentation" class="divider"></li>
+			<li><a href="login.html"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>
+		</ul>
+	</div><!--/.sidebar-->
+
+	
+	<!-- Contenido de dashboard-->
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+				<li class="active">Contingentes</li>
+			</ol>
+		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Contactos de Contingentes</h1>
+			</div>
+		</div><!--/.row-->
+
+		<!-- Formulario de filtros -->
+		<div id="rowFiltros">
+			<div class="row col-md-6 col-lg-12 " >
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Filtros del Proceso
+						<a href="#" id="trigger">[X]</a>
+					</div>
+					<div class="panel-body form-horizontal">
+						<div role="form" id="filtros">
+						
+							<div class="form-group">
+								<label class="control-label col-xs-2">Tratados</label>
+								<div class="col-xs-10">
+									<select id='cboTratados' name='cboTratados' class="form-control" onchange="LlenoContingentes(this.value);">
+										<option>Seleccione una Opcion...</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-2">Contingentes</label>
+								<div class="col-xs-10">
+									<select id='cboContingentes' name='cboContingentes' class="form-control">
+										<option>Seleccione una Opcion...</option>
+									</select>
+								</div>
+							</div>
+
+							
+							<button id="btnConsulta" type="submit" class="btn btn-primary">Generar Contactos</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div id="mensajeF" class="alert bg-success" role="alert">
+					<svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg> Algun mensaje
+					<a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Ficha de resumen-->
+		<div id="contenido">
+			
+	            <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Nuevo Contacto</button><br/><br/>-->
+	            
+	            <div class="panel panel-primary">
+	                <div class="panel-heading">
+	                    <h3 class="panel-title">Listado de  Contactos</h3>
+	                </div>
+	                <div class="panel-body">
+	                    <table id="tablaContactos" class="table table-striped">
+	                        <thead>
+	                        <th>#</th>
+	                        <th>Nombre </th>
+	                        <th>Correo</th>	                        
+	                        </thead>
+	                        <tbody>
+	                           
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </div>
+
+		</div>
+
+
+
+	</div>	<!--/.main-->
+		
+		
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="js/filtros.js" ></script>
+	
+	<script type="text/javascript">
+
+		$('#mensajeF').hide();
+
+		/* Eventos para contraer div de filtros*/
+		$("#trigger").click(function(event){
+			event.preventDefault();
+			$("#filtros").slideToggle();
+		});
+
+		$("filtros").click(function(event){
+			event.preventDefault();
+			$("#filtros").slideUp();
+		});
+
+
+		/* Evento para generacion de contactos */
+		$("#btnConsulta").on("click", function(){
+			
+			$("#contenido").show();
+
+			$idTratado = $('#cboTratados').val();
+			$idContingente = $('#cboContingentes').val();
+			
+			ObtenerContactos($idTratado, $idContingente);
+
+		});
+
+		function ObtenerContactos(idTratado, idContingente){
+			$('#mensajeF').hide();
+
+			$.ajax({
+				url:'actionsCalendar.php',
+				type: 'GET',
+				dataType: 'json',
+				data: "action=getListaContactosContingentes&idTratado="+idTratado+"&idContingente="+idContingente
+			})
+			.done(function(response){
+				var html = '';
+				var no_contactos = 0;
+				var no_agregados = 0;
+				var no_relacion = 0;
+
+				var idGrupo;
+				var idContacto;
+
+				if (response.result == true) {
+
+					/*
+						Verifica si grupo existe
+							Si no existe lo crea
+					*/
+
+
+
+					var comboTratado = document.getElementById('cboTratados');
+					var TextoTratado = comboTratado.options[comboTratado.selectedIndex].text;
+
+					var comboContingente = document.getElementById('cboContingentes');
+					var TextoContingente = comboContingente.options[comboContingente.selectedIndex].text;
+
+				   	var nombreGrupo = TextoContingente+" - " +TextoTratado;
+
+
+					var estadoGrupo;
+
+					verificaGrupo(nombreGrupo).done(function(data){
+
+						if (data.datos.existe > 0) {
+
+							estadoGrupo = true;
+
+						}else{
+
+							estadoGrupo = false;
+
+						}						
+
+					});
+
+
+
+				   	if (estadoGrupo == false) {
+				   		//Si no existe grupo
+
+						CreaGrupo(nombreGrupo).done(function(data){
+
+			        		idGrupo = data.datos;
+			        		
+						});				
+				   	}else{
+
+				   		ObtengoGrupoId(nombreGrupo).done(function(data){
+
+				   			idGrupo = data.datos.idGrupo;
+				   			
+				   		});	
+				   	}
+
+
+				   	var estadoContacto = false;
+
+					$(response.datos).each(function(i, v){
+						
+						/*
+							Verifiva si existe contacto
+								Si no exsite lo crea
+						*/
+
+						verificaContacto(v.email).done(function(data){
+							if (data.datos.existe > 0) {
+								estadoContacto = true;
+							}else{
+								estadoContacto = false;
+							}
+						});
+
+						if (estadoContacto == false) {
+
+							CreaContacto(v.nombre, v.email, 0, v.nombre).done(function(data){
+
+								idContacto= data.datos;								
+								no_agregados = no_agregados +1;
+
+							});
+						}else{
+							ObtengoContactoId(v.email).done(function(data){
+								idContacto = data.datos.idContacto;														
+							});
+						}
+						
+
+						/*
+							Verifica si existe relacion 
+								Si no existe crea realacion
+						*/
+
+						var estadoRelacion = false;
+						
+
+
+						verificaRelacion(idGrupo, idContacto).done(function(data){
+
+
+							if (data.datos.existe > 0) {
+								estadoRelacion = true;
+							}else{
+								estadoRelacion = false;
+							}
+						});
+
+						if (estadoRelacion == false) {
+							CreaRelacion(idGrupo, idContacto);
+							no_relacion = no_relacion+1;
+						}
+						
+						no_contactos = no_contactos+1;
+						//Agrega en tabla contacto 
+						html += '<tr>'
+						html += '<td>'+no_contactos+'</td>'
+						html += '<td>'+v.nombre+'</td>'
+						html += '<td>'+v.email+'</td>'
+						html += '</tr>';
+						
+					})
+
+				}else{
+					html = '<tr><td colspan="6">No se encontraron contactos en el contingente seleccionado.</td></tr>'
+				}
+
+				$("#tablaContactos tbody").html(html);
+				$('#mensajeF').text('Se encontraron '+no_contactos+' contactos, se agregaron '+no_agregados+' contactos, se relacionaron '+no_relacion+' contactos al grupo.');
+				$('#mensajeF').show();
+
+			})
+			.fail(function(jqXRH, estado){
+				console.log("Ha ocurrido un error al consultar contactos de contingente.")
+			})
+
+		};
+
+		function verificaRelacion(idGrupo, idContacto){
+
+			return $.ajax({
+				async: false,
+        		type: "GET",
+        		url: 'actionsCalendar.php',
+        		dataType:'json',
+        		data: "action=verificaRelacion&idGrupo="+idGrupo+"&idContacto="+idContacto
+        	})
+        	
+		}
+
+		function ObtengoGrupoId(nombreGrupo){
+			return $.ajax({
+				async: false,
+        		type: "GET",
+        		url: 'actionsCalendar.php',
+        		dataType:'json',
+        		data: "action=selectGrupoId&nombreGrupo="+nombreGrupo
+        	})
+		}
+
+		function ObtengoContactoId(correo){
+			return $.ajax({
+				async: false,
+				type: "GET",
+				url: 'actionsCalendar.php',
+				dataType: 'json',
+				data: "action=selectContactoId&correo="+correo
+			})
+		}
+
+		function verificaGrupo(nombreGrupo) {
+
+			return $.ajax({
+				async: false,
+        		type: "GET",
+        		url: 'actionsCalendar.php',
+        		dataType:'json',
+        		data: "action=verificaGrupo&nombreGrupo="+nombreGrupo/*,
+        		success: function(data){
+        			console.log(data);
+        		}*/
+        	})
+		}
+
+		function CreaGrupo(nombreGrupo) {
+
+        	return $.ajax({
+        		async: false,
+        		type: "POST",
+        		url: 'actionsCalendar.php',
+        		dataType: 'json',
+        		data: "action=InsertGrupo&nombreGrupo="+nombreGrupo
+        		
+        	})
+		}
+
+		function verificaContacto(correo){
+
+
+			return $.ajax({
+				async: false,
+        		type: "GET",
+        		url: 'actionsCalendar.php',
+        		dataType:'json',
+        		data: "action=verificaContacto&correo="+correo/*,
+        		success: function(data){
+        			console.log(data);
+        		}*/
+        	})
+		}
+
+		function CreaContacto(nombreContacto, correo, telefono, organizacion){
+					        	
+	    	return $.ajax({
+	    		async: false,
+	    		type: "POST",
+	    		url: 'actionsCalendar.php',
+	    		dataType: 'json',
+	    		data: "action=InsertContacto&nombreContacto="+nombreContacto+"&correo="+correo+"&telefono="+telefono+"&organizacion="+organizacion
+	    	})
+	    	
+		}
+
+
+
+		function CreaRelacion(idGrupo, idContacto){
+        	
+        	$.ajax({
+        		type: "GET",
+        		url: 'actionsCalendar.php',
+        		dataType: 'json',
+        		data: "action=InsertContactoGrupo&idGrupo="+idGrupo+"&idContacto="+idContacto
+        	})
+        	.done(function(response){
+        		return true;
+        	})
+        	.fail(function(jqXHR, estado){
+        		console.log("Ha ocurrido un error al insertar nueva relacion grupo contacto.");
+        	})	
+		}
+
+		function include(archivo){
+		        var oHead = document.getElementsByTagName('head')[0];
+		        var oScript = document.createElement('script');
+		        oScript.type = 'text/javascript';
+		        oScript.charset = 'utf-8';
+		        oScript.src = archivo;
+		        oHead.appendChild(oScript);        
+		};
+
+	</script>	
+	
+</body>
+
+</html>
