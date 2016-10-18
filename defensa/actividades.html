@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Actividades</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+	<link href="../css/datepicker3.css" rel="stylesheet">
+	<link href="../css/styles.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- fullCalendar 2.2.5-->
+	<link rel="stylesheet" href="../css/fullcalendar/fullcalendar.min.css">
+	<link rel="stylesheet" href="../css/fullcalendar/fullcalendar.print.css" media="print">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="../css/AdminLTE.min.css">
+	<!-- AdminLTE Skins. Choose a skin from the css/skins
+	   folder instead of downloading all of them to reduce the load. -->
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.fileinput/4.3.5/css/fileinput.min.css">
+
+	<!--Icons-->
+  	<script src="../js/lumino.glyphs.js"></script>
+
+</head>
+<body>
+
+	<!--Barra Navegacion-->
+	<!--<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+		  <div class="navbar-header">
+		    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+		      <span class="sr-only">Toggle navigation</span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		      <span class="icon-bar"></span>
+		    </button>
+		    <a class="navbar-brand" href="#"><span>Trazabilidad</span>DACE</a>
+		    <ul class="user-menu">
+		      <li class="dropdown pull-right">
+		        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
+		        <ul class="dropdown-menu" role="menu">
+		          <li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+		          <li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+		          <li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+		        </ul>
+		      </li>
+		    </ul>
+		  </div>
+		          
+		</div>
+	</nav>-->
+
+	<!--Barra Herramientas-->
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+
+		<ul class="nav menu">
+
+			<!-- Menu Alertas -->
+			<li class="parent">
+				<a href="../calendar.html">
+					<span data-toggle="collapse" href="#subItemGrupo"><svg class='glyph stroked calendar'><use xlink:href="#stroked-calendar"></use></svg></span> Alertas
+				</a>
+
+				<ul class="children collapse" id="subItemGrupo">
+					<li>
+						<a href="../grupos.html" >
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+							Grupos
+						</a>
+					</li>
+					<li>
+						<a href="../contactos.html">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+							Contactos
+						</a>
+					</li>
+					<li>
+						<a href="../contactos_contingentes.html">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+							Contactos Contingentes
+						</a>
+					</li>
+					<li>
+						<a href="../grupocontactos.html">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
+							Relacion Contacto - Grupo
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li role="presentation" class="divider"></li>
+
+			<!-- Menu Contingentes -->
+			<li class="parent ">
+				<a href="#">
+					<span data-toggle="collapse" href="#sub-item-contingentesPro"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span>Contingentes
+				</a>
+				<ul class="children collapse" id="sub-item-contingentesPro">
+
+					<li>
+						<a href="../index.html">
+							<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg></span> Tablero 
+						</a>
+						<ul class="children collapse" id="sub-item-1">
+							<li>
+								<a href="../indicadores.html">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Indicadores Contingentes
+								</a>
+							</li>
+						</ul>
+					</li>
+
+
+					<li>
+						<a href="../procesoContingentes.html">
+							<span data-toggle="collapse" href="#sub-item-contingentes"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Proceso Contingentes
+						</a>
+						<ul class="children collapse" id="sub-item-contingentes">
+							<li>
+								<a class="" href="#">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> 1. Inscripción
+								</a>
+							</li>
+							<li>
+								<a class="" href="#">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> 2. Asignación
+								</a>
+							</li>
+							<li>
+								<a class="" href="#">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> 3. Emisión
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<li><a href="../reportes.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Reportes </a></li>
+				</ul>
+			</li>
+			
+			<li role="presentation" class="divider"></li>
+
+			<!-- Menu Unidad Origen -->
+			<li class="parent">
+				<a href="#">
+					<span data-toggle="collapse" href="#SubItemOrigenPro"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span>Unidad Origen
+				</a>
+				<ul class="children collapse" id="SubItemOrigenPro">
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Ingreso de Expediente
+						</a>
+					</li>
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Resolucion Inicial
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li role="presentation" class="divider"></li>
+
+			<!-- Menu Unidad Defensa Comercial -->
+			<li class="parent">
+				<a href="#">
+					<span data-toggle="collapse" href="#SubItemDefensaPro"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span>Defensa Comercial
+				</a>
+				<ul class="children collapse" id="SubItemDefensaPro">
+
+					<li>
+						<a href="../defensa/actividades.html">
+							<span data-toggle="collapse" href="#subItemDefensaActi"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Agregar Actividad
+						</a>
+						<ul class="children collapse" id="subItemDefensaActi">
+							<li>
+								<a class="" href="../defensa/temas.html">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Temas
+								</a>
+							</li>
+							<li>
+								<a class="" href="../defensa/tipoActividad.html">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tipo Actividad
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tablero Indicadores
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li role="presentation" class="divider"></li>
+
+
+			<li class="parent">
+				<a href="../usuarios.html">
+					<span data-toggle="collapse" href="#subItemGrupo"><svg class='glyph stroked male-user'><use xlink:href="#stroked-male-user"></use></svg></span> Usuarios
+				</a>
+
+			</li>
+
+			<!--<li role="presentation" class="divider"></li>
+			<li><a href="login.html"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>-->
+		</ul>
+	</div>
+
+	<!-- Contenido de la pagina -->
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+				<li class="active">Defensa Comercial/Actividades</li>
+			</ol>
+		</div><!--/.row-->
+
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Defensa Comercial/Actividades</h1>
+			</div>
+		</div><!--/.row-->
+
+
+		<!-- Formulario de filtros -->
+		<div id="rowFiltros">
+			<div class="row col-md-6 col-lg-12 " >
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Filtros del Proceso
+						<a href="#" id="trigger">[X]</a>
+					</div>
+					<div class="panel-body form-horizontal">
+						<div role="form" id="filtros">
+						
+							<div class="form-group">
+								<label class="control-label col-xs-2"># Actividad: </label>
+								<div class="col-xs-10">
+									<input type="text" id="noExpediente" name="noExpediente" class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-2">Estado</label>
+								<div class="col-xs-10">
+									<select id="cboEstado" name="cboEstado" class="form-control">
+										<option>Todos</option>
+										<option>Pendiente</option>
+										<option>Entregado</option>
+										<option>Seguimiento</option>
+										<option>Finalizado</option>
+									</select>
+								</div>
+							</div>
+
+							<!-- Rango de fechas -->
+							<div class="form-group">
+									<!-- Fecha de inicio -->
+									<label class="col-lg-2 control-label" > Fecha de Inicio </label>
+									<div class="col-lg-4">
+										<div class='input-group date' id='datetimepicker1'>
+						                    <input id="fechaInicio" type='text' class="form-control" />
+						                    <span class="input-group-addon">
+						                        <span class="glyphicon glyphicon-calendar"></span>
+						                    </span>
+					                	</div>	
+									</div>
+
+									<label class="col-lg-2 control-label" > Fecha de Finalizacion </label>
+									<div class='col-lg-4'>
+					                	<div class='input-group date' id='datetimepicker2'>
+						                    <input id="fechaFinal" type='text' class="form-control" />
+						                    <span class="input-group-addon">
+						                        <span class="glyphicon glyphicon-calendar"></span>
+						                    </span>
+					                	</div>	
+					                </div>
+							</div>
+
+							
+							<button id="btnConsulta" type="submit" class="btn btn-primary">Consultar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	 	<div id="contenido" >
+	            
+	            <!--<input id="btn_usuarios" type="button" class="btn btn-primary" value="Nuevo Grupo"/><br/><br/>-->
+	            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Nueva Actividad</button><br/><br/>
+	            
+	            <div class="panel panel-primary">
+	                <div class="panel-heading">
+	                    <h3 class="panel-title">Listado de  Actividades</h3>
+	                </div>
+	                <div class="panel-body">
+	                    <table id="tablaGrupos" class="table table-striped">
+	                        <thead>
+	                        <th>#</th>
+	                        <th>Fecha Inicio</th>
+	                        <th>Tema</th>
+	                        <th>Tipo Actividad</th>
+	                        <th>Descripcion</th>
+	                        <th>Responsable</th>
+	                        <th>Estado</th>
+	                        <th>Editar</th>
+	                        </thead>
+	                        <tbody>
+	                           
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </div>
+
+	    </div>
+
+	    <!-- Modal -->
+		<div id="myModal" class="modal fade" role="dialog">
+		  <div class="modal-dialog">
+
+		    <!-- Modal content-->
+		    <div class="modal-content">
+		    	<form id="formActividad" class="form-horizontal" role="form">
+			    	<div class="modal-header">
+			        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+			        	<h4 id="modo" class="modal-title">Nuevo</h4>
+			        	<h4 class="modal-title">Actividad</h4>
+			      	</div>
+
+			      	<div class="modal-body">
+
+			      			<div class="form-group">
+			      				<label class="col-lg-2 control-label">Id:</label>
+			      				<div class="col-lg-10">
+			      					<input id="idActividad" name="idGrupo" type="text" class="form-control" disabled="true">
+			      				</div>
+			      			</div>
+			      		
+					      	<div class="form-group">
+								<label class="col-lg-2 control-label" > Fecha de Inicio </label>
+								<div class="col-lg-4">
+									<div class='input-group date' id='datetimeInicio'>
+					                    <input id="fechaInicioPKR" type='text' class="form-control" />
+					                    <span class="input-group-addon">
+					                        <span class="glyphicon glyphicon-calendar"></span>
+					                    </span>
+				                	</div>	
+								</div>			        	
+					        </div>
+			    		
+			    			<div class="form-group">
+			    				<label class="col-lg-2 control-label">Tema: </label>
+			    				<div class="col-lg-10">
+			    					<select id="grupoTemas" name="grupoTemas" class="form-control">
+			    						<option>Seleccione una opcion...</option>
+			    					</select>
+			    				</div>
+			    			</div>
+
+			        		<div class="form-group">
+			    				<label class="col-lg-2 control-label">Tipo Actividad: </label>
+			    				<div class="col-lg-10">
+			    					<select id="grupoTipoActividad" name="grupoTipoActividad" class="form-control">
+			    						<option>Seleccione una opcione...</option>
+			    					</select>
+			    				</div>
+			    			</div>
+
+			        		<div class="form-group">
+			    				<label class="col-lg-2 control-label">Descripcion: </label>
+			    				<div class="col-lg-10">
+			    					<textarea id="descripcion" name="descripcion" type="text" name="" class="form-control" cols="40" rows="5"></textarea>			    					
+			    				</div>
+			    			</div>
+
+			    			<!--<div class="form-group">
+			    				<label class="col-lg-2 control-label">Documento: </label>
+			    				<div class="col-lg-10">
+			    					<input id="doctoFile" name="doctosDefensa[]" type="file" name="" class="file">
+			    				</div>
+			    			</div>-->
+
+							<div class="form-group">
+			    				<label class="col-lg-2 control-label">Estado: </label>
+			    				<div class="col-lg-10">
+			    					<select id="grupoEstado" name="grupoEstado" class="form-control">
+										<option>Pendiente</option>
+										<option>Entregado</option>
+										<option>Seguimiento</option>
+										<option>Finalizado</option>
+			    					</select>
+			    				</div>
+			    			</div>
+
+							<div class="form-group">
+			    				<label class="col-lg-2 control-label">Responsable </label>
+			    				<div class="col-lg-10">
+			    					<select id="grupoUsuarios" name="grupoUsuarios" class="form-control"></select>
+			    				</div>
+			    			</div>
+
+			    			<div class="form-group">
+			    				<label class="col-lg-2 control-label" for="ejemplo_email_1">Otros Correos:</label>
+			    				<div class="col-lg-10">
+			    					<input type="text" name="form-control" id="otrosCorreos" placeholder="Introduce los correos" class="form-control">
+			    				</div>
+			    			</div>
+			      	</div>
+
+			      	<div class="modal-footer">
+			      		
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+			        	<button id="guardar" type="submit" class="btn btn-primary">Guardar</button>
+			      	</div>
+
+		      	</form>
+		    </div>
+
+		  </div>
+		</div>
+
+	</div>
+	<?php
+		$directorio = "archivos/";
+		$archis = glob($directorio . *.*);
+	?>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/moment.min.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<script src="../js/bootstrap-datepicker.js"></script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/bootstrap.fileinput/4.3.5/js/fileinput.min.js"></script>
+
+    <script type="text/javascript">
+
+    	$("#doctoFile").fileinput({
+			uploadUrl: "upload.php",
+			uploadAsync: false,
+			minFileCount: 1,
+			maxFileCount: 20,
+			showUpload: true,
+			showRemove: false,
+			showCaption: false,
+			browseClass: "btn btn-primary btn-lg",
+			fileType: "any"
+		}).on("filebatchselected", function(event, files){
+			$("#doctoFile").fileinput("upload");
+		});
+
+    	$(document).ready(function(){
+    		LlenoTemas();
+    		LlenoTipoActividades();
+    		LlenoUsuarios();
+    	});
+
+		/* Eventos para contraer div de filtros*/
+		$("#trigger").click(function(event){
+			event.preventDefault();
+			$("#filtros").slideToggle();
+		});
+
+		$("filtros").click(function(event){
+			event.preventDefault();
+			$("#filtros").slideUp();
+		});
+
+
+	    $(function () {
+
+	    	$('#datetimepicker1').datepicker();
+			$('#datetimepicker2').datepicker();
+
+			$('#datetimeInicio').datetimepicker();
+
+	        
+	        TableActividades();
+	        
+
+	        $("#formActividad").submit(function (event){
+
+	        	$modo = $('#modo').text();
+
+	        	if ($modo == 'Nuevo') {
+       				        	
+		        	$idTema = $('#grupoTemas').val();
+		        	$idTipoActividad = $('#grupoTipoActividad').val();
+		        	$idUsuario = $('#grupoUsuarios').val();
+
+		        	$fecha_inicio = moment($('#fechaInicioPKR').val()).format('YYYY-MM-DD');
+		        	$descripcion = $('#descripcion').val();		        	
+	        		$estado = $('#grupoEstado option:selected').text();
+	        		$otroscorreos = $('#otrosCorreos').val();
+
+		        	var contenido = '';
+
+		        	contenido += '<p> Se ha creado una nueva actividad en SINFODACE para la Unidad de Defensa Comercial </p> <br>'
+		        	contenido += '<strong>Tema:</strong> '+$('#grupoTemas option:selected').text()+'<br>'
+		        	contenido += '<strong>Estado:</strong> '+$('#grupoEstado option:selected').val()+'<br>'
+		        	contenido += '<strong>Tipo de Actividad:</strong> '+$('#grupoTipoActividad option:selected').text()+'<br>'
+		        	contenido += '<strong>Responsable Principal:</strong> '+$('#grupoUsuarios option:selected').text()+'<br>'
+		        	contenido += '<strong>Otros Correos:</strong> '+$('#otrosCorreos').val()+'<br>'
+		        	contenido += '<strong>Descripcion:</strong> <p>'+$('#descripcion').val()+'</p><br>';
+
+		        	ObtengoCorreo($idUsuario).done(function(response){
+
+
+		        		if (response.result == true) {
+
+
+							$(response.datos).each(function(i,v){
+
+
+								EnvioNotificacionEvento(v.correo, $('#grupoUsuarios option:selected').text(), 'Actividad Creada', contenido);
+
+							})
+						}
+
+		        	});
+
+		        	if ($otroscorreos.length > 0) {
+		        		var emails = $otroscorreos.split(",");
+
+		        		valido = true;
+
+		        		for (var i = 0, l = emails.length; i < l; i++) {
+
+		        			if (!isValidEmail(emails[i])) {
+		        				valido = false;
+		        			}else{
+		        				EnvioNotificacionEvento(emails[i], emails[i], 'Actividad Creada', contenido);
+		        			}
+		        		}
+
+		        	}
+
+		        	$.ajax({
+		        		async: false,
+		        		type: 'GET',
+		        		url: '../defensa/actionsDefensa.php',
+		        		dataType: 'json',
+		        		data: "action=InsertActividad&idTema="+$idTema+"&idTipoActividad="+$idTipoActividad+"&idUsuario="+$idUsuario+"&fecha_inicio="+$fecha_inicio+"&descripcion="+$descripcion+"&estado="+$estado+"&otroscorreos="+$otroscorreos
+		        	})
+		        	.done(function(response){
+		        		return true;
+		        	})
+		        	.fail(function(jqXHR, estado){
+		        		console.log("Ha ocurrido un error al insertar nueva Actividad.", jqXHR, estado);
+		        	})	
+
+
+
+	        	} else {
+	        		$idActividad = $('#idActividad').val();
+		        	$idTema = $('#grupoTemas').val();
+		        	$idTipoActividad = $('#grupoTipoActividad').val();
+		        	$idUsuario = $('#grupoUsuarios').val();
+
+		        	$fecha_inicio = moment($('#fechaInicioPKR').val()).format('YYYY-MM-DD HH:mm:ss');
+		        	$descripcion = $('#descripcion').val();		
+		        	$estado = $('#grupoEstado option:selected').text();
+		        	$otroscorreos = $('#otrosCorreos').val();
+	        	
+		        	var contenido = '';
+
+		        	contenido += '<p> Se ha modificado la  actividad  en SINFODACE para la Unidad de Defensa Comercial </p> <br>'
+		        	contenido += '<strong>Actividad No:</strong> '+$idActividad+'<br>'
+		        	contenido += '<strong>Tema:</strong> '+$('#grupoTemas option:selected').text()+'<br>'
+		        	contenido += '<strong>Estado:</strong> '+$('#grupoEstado option:selected').text()+'<br>'
+		        	contenido += '<strong>Tipo de Actividad:</strong> '+$('#grupoTipoActividad option:selected').text()+'<br>'
+		        	contenido += '<strong>Responsable Principal:</strong> '+$('#grupoUsuarios option:selected').text()+'<br>'
+		        	contenido += '<strong>Otros Correos:</strong> '+$('#otrosCorreos').val()+'<br>'
+		        	contenido += '<strong>Descripcion:</strong> <p>'+$('#descripcion').val()+'</p><br>';
+
+		        	ObtengoCorreo($idUsuario).done(function(response){
+
+
+		        		if (response.result == true) {
+
+
+							$(response.datos).each(function(i,v){
+								var asunto = '';
+								asunto += "Actividad #"+$idActividad+" actualizada";
+
+								EnvioNotificacionEvento(v.correo, $('#grupoUsuarios option:selected').text(), 'Se actualizo actividad', contenido);
+						
+							})
+						}
+
+		        	});
+
+
+		        	if ($otroscorreos.length > 0) {
+		        		var emails = $otroscorreos.split(",");
+		        		valido = true;
+
+		        		for (var i = 0, l = emails.length; i < l; i++) {
+
+		        			if (!isValidEmail(emails[i])) {
+		        				valido = false;
+		        			}else{
+		        				EnvioNotificacionEvento(emails[i], emails[i], 'Se actualizo actividad', contenido);
+		        			}
+		        		}
+
+		        	}
+
+
+	        		$.ajax({
+	        			async: false,
+	        			type: 'GET',
+	        			url: '../defensa/actionsDefensa.php',
+	        			dataType: 'json',
+	        			data: "action=UpdateActividad&idTema="+$idTema+"&idTipoActividad="+$idTipoActividad+"&idUsuario="+$idUsuario+"&fecha_inicio="+$fecha_inicio+"&descripcion="+$descripcion+"&idActividad="+$idActividad+"&estado="+$estado+"&otroscorreos="+$otroscorreos
+	        		})
+	        		.done(function(response){
+	        			$("#modo").text('Nuevo');
+
+	        			return true;
+	        		})
+	        		.fail(function(jqXHR, estado){
+	        			console.log("Ha ocurrido un error al actualizar actividad.")
+	        		})
+
+	        	}
+
+				//if (!isValidEmail(emails[i])){ //Si el e-mail no es válido
+			        //valido = false; //El estado de la validación será false
+			        //break; //Salgo del bucle
+			    //}else{
+
+			    	//var contenido = 'Se ha creado o modificado la actividad'.
+
+					//EnvioNotificacionEvento('djgonzalezeder@gmail.com', $('#grupoUsuarios').text(), 'Actividad#'+idActividad, contenido);
+
+
+			    //}
+
+
+
+
+	        });
+
+	    });
+
+
+	    function TableActividades() {
+	    	$.ajax({
+	    		url:'../defensa/actionsDefensa.php',
+	    		type: 'GET',
+	    		dataType: 'json',
+	    		data: 'action=SelectActividades'
+	    	})
+	    	.done(function(response) {
+	    		var html = '';
+
+	    		if (response.result == true) {
+	    			$(response.datos).each(function(i,v) {
+	    				html += '<tr>'
+	    				html += '<td>'+v.idg_RegistroActividades+'</td>'
+	    				html += '<td>'+v.fecha_inicio+'</td>'
+	    				html += '<td>'+v.nombreTema+'</td>'
+	    				html += '<td>'+v.nombreTipoActividad+'</td>'
+	    				html += '<td>'+v.descripcion+'</td>'
+	    				html += '<td>'+v.nombreUsuario+'</td>'
+	    				html += '<td>'+v.estado+'</td>'
+	    				html += '<td><button class="btn btn-primary" onclick="editar('+ v.idg_RegistroActividades+')">Editar</button></td>';
+	    				html += '</tr>';
+	    			})
+	    		}else{
+	    			html = '<tr><td colspan="6">No se encontraron registros.</td></tr>'
+
+	    		}
+
+	    		$("#tablaGrupos tbody").html(html);
+	    	})
+	    	.fail(function(jqXHR, estado) {
+	    		console.log("Ha ocurrido un error al consultar Actividades.")
+	    	})
+	    }
+
+	    function editar(idActividad) {
+	    	$("#modo").text('Editar');
+
+	    	$.ajax({
+	    		url: '../defensa/actionsDefensa.php',
+	    		type: 'GET',
+	    		dataType: 'json',
+	    		data: 'action=SelectActividad&idActividad='+idActividad
+	    	})
+	    	.done(function(response){
+
+	    		if (response.result == true) {
+	    			$(response.datos).each(function(i, v) {
+	    				$('#grupoTemas').val(v.idg_tema);
+	    				$('#idActividad').val(idActividad);
+
+	    				var fechainicia = moment(v.fecha_inicio).format('MM/DD/YYYY');
+	    				$('#fechaInicioPKR').val(fechainicia);
+
+	    				
+	    				$('#grupoTipoActividad').val(v.idg_actividad);
+	    				$('#descripcion').val(v.descripcion);
+	    				$('#estado').val(v.estado);
+	    				$('#grupoUsuarios').val(v.idUsuarios);
+	    				$('#grupoEstado').val(v.estado);
+	    				$('#otrosCorreos').val(v.otroscorreos);
+	    			})
+	    		}
+
+	    		$("#myModal").modal('show');
+	    	})
+	    	.fail(function(jqXHR, estado) {
+	    		console.log("Ha ocurrido un error al consultar Actividad.")
+	    	})
+	    }
+
+	    function isValidEmail(mail){
+
+		    return /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(mail);   
+		}
+
+		function LlenoTemas(){
+			$.ajax({
+				url: '../defensa/actionsDefensa.php',
+				type: 'GET',
+				dataType: 'json',
+				data: "action=SelectTemas",
+				cache:false
+			})
+			.done(function(response){
+				if (response.result == true) {	
+					//Recorro los datos y lleno el combo
+					
+					var options = "";
+					var listaTemas = $("#grupoTemas");
+
+					listaTemas.find('option').remove();
+					
+					listaTemas.append('<option value="'+0+'">Seleccione Opcion</option>');
+					$(response.datos).each(function(i,v){				
+						listaTemas.append('<option value="'+v.idg_temas+'">'+v.nombre+'</option>');
+					});
+
+				}else{
+					alert(response.mensaje);
+				}
+			})
+			.fail(function(jqXHR, estado){
+				console.log('Ha ocurrido un error al consultar Temas.')
+			})
+		}
+
+		function LlenoTipoActividades(){
+			$.ajax({
+				url: '../defensa/actionsDefensa.php',
+				type: 'GET',
+				dataType: 'json',
+				data: "action=SelectTipoActividades",
+				cache:false
+			})
+			.done(function(response){
+				if (response.result == true) {	
+					//Recorro los datos y lleno el combo
+					
+					var options = "";
+					var listaTipoActividades = $("#grupoTipoActividad");
+
+					listaTipoActividades.find('option').remove();
+					
+					listaTipoActividades.append('<option value="'+0+'">Seleccione Opcion</option>');
+					$(response.datos).each(function(i,v){				
+						listaTipoActividades.append('<option value="'+v.idg_actividad+'">'+v.nombre+'</option>');
+					});
+
+				}else{
+					alert(response.mensaje);
+				}
+			})
+			.fail(function(jqXHR, estado){
+				console.log('Ha ocurrido un error al consultar Tipo de Actividades.')
+			})
+		}	
+
+		function LlenoUsuarios(){
+			$.ajax({
+				url: '../defensa/actionsDefensa.php',
+				type: 'GET',
+				dataType: 'json',
+				data: "action=SelectUsuarios",
+				cache:false
+			})
+			.done(function(response){
+				if (response.result == true) {	
+					//Recorro los datos y lleno el combo
+					
+					var options = "";
+					var listaUsuarios = $("#grupoUsuarios");
+
+					listaUsuarios.find('option').remove();
+					
+					listaUsuarios.append('<option value="'+0+'">Seleccione Opcion</option>');
+					$(response.datos).each(function(i,v){				
+						listaUsuarios.append('<option value="'+v.idusuarios+'">'+v.nombre+'</option>');
+					});
+
+				}else{
+					alert(response.mensaje);
+				}
+			})
+			.fail(function(jqXHR, estado){
+				console.log('Ha ocurrido un error al consultar Usuarios.')
+			})
+		}				    
+ 
+ 		function ObtengoCorreo($idUsuario) {
+ 			return $.ajax({
+ 				type:'GET',
+ 				url: '../defensa/actionsDefensa.php',
+ 				dataType: 'json',
+ 				data: 'action=SelectCorreo&idUsuario='+$idUsuario
+ 			})
+ 		}
+
+ 		function EnvioNotificacionEvento($para, $nombre, $asunto, $descripcion){
+
+
+			$.ajax({
+				async: false,
+				type: "GET",
+				url: '../actionsCalendar.php',
+				dataType: 'json',
+				data: 'action=SendEmail&para='+$para+'&nombre='+$nombre+'&asunto='+$asunto+'&descripcion='+$descripcion
+			})
+			.done(function(response){
+
+			})
+			.fail(function(jqXHR, estado){
+				console.log('Ha ocurrido un error al enviar correo.')
+			})
+
+		}
+
+	</script>
+
+</body>
+</html>

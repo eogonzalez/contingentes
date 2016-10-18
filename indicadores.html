@@ -21,7 +21,7 @@
 <body>
 
 	<!--Barra Navegacion-->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<!--<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
@@ -43,34 +43,21 @@
 				</ul>
 			</div>
 							
-		</div><!-- /.container-fluid -->
-	</nav>
+		</div>
+	</nav>-->
 
 	<!--Barra Herramientas-->
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+
 		<form role="search">
 			<div class="form-group">
 				<input type="text" class="form-control" placeholder="Search">
 			</div>
 		</form>
+
 		<ul class="nav menu">
 
-			
-
-			<li class="parent ">
-				<a href="index.html">
-					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg></span> Tablero 
-				</a>
-				<ul class="children collapse" id="sub-item-1">
-					<li>
-						<a class="" href="indicadores.html">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Indicadores Contingentes
-						</a>
-					</li>
-				</ul>
-			</li>
-
-
+			<!-- Menu Alertas -->
 			<li class="parent">
 				<a href="calendar.html">
 					<span data-toggle="collapse" href="#subItemGrupo"><svg class='glyph stroked calendar'><use xlink:href="#stroked-calendar"></use></svg></span> Alertas
@@ -100,39 +87,120 @@
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>
 							Relacion Contacto - Grupo
 						</a>
-					</li>					
+					</li>
 				</ul>
 			</li>
-			
-			<li><a href="reportes.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Reportes </a></li>
 
-			
+			<li role="presentation" class="divider"></li>
+
+			<!-- Menu Contingentes -->
 			<li class="parent ">
 				<a href="#">
-					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Proceso 
+					<span data-toggle="collapse" href="#sub-item-contingentesPro"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span>Contingentes
 				</a>
-				<ul class="children collapse" id="sub-item-1">
+				<ul class="children collapse" id="sub-item-contingentesPro">
+
+					<li>
+						<a href="index.html">
+							<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg></span> Tablero 
+						</a>
+						<ul class="children collapse" id="sub-item-1">
+							<li>
+								<a href="indicadores.html">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Indicadores Contingentes
+								</a>
+							</li>
+						</ul>
+					</li>
+
+
+					<li>
+						<a href="procesoContingentes.html">
+							<span data-toggle="collapse" href="#sub-item-contingentes"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Proceso Contingentes
+						</a>
+						<ul class="children collapse" id="sub-item-contingentes">
+							<li>
+								<a class="" href="#">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> 1. Inscripción
+								</a>
+							</li>
+							<li>
+								<a class="" href="#">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> 2. Asignación
+								</a>
+							</li>
+							<li>
+								<a class="" href="#">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> 3. Emisión
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<li><a href="reportes.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Reportes </a></li>
+				</ul>
+			</li>
+			
+			<li role="presentation" class="divider"></li>
+
+			<!-- Menu Unidad Origen -->
+			<li class="parent">
+				<a href="#">
+					<span data-toggle="collapse" href="#SubItemOrigenPro"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span>Unidad Origen
+				</a>
+				<ul class="children collapse" id="SubItemOrigenPro">
 					<li>
 						<a class="" href="#">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Inscripciones
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Ingreso de Expediente
 						</a>
 					</li>
 					<li>
 						<a class="" href="#">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Solicitudes
-						</a>
-					</li>
-					<li>
-						<a class="" href="#">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Aprobaciones
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Resolucion Inicial
 						</a>
 					</li>
 				</ul>
 			</li>
+
+			<li role="presentation" class="divider"></li>
+
+			<!-- Menu Unidad Defensa Comercial -->
+			<li class="parent">
+				<a href="#">
+					<span data-toggle="collapse" href="#SubItemDefensaPro"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span>Defensa Comercial
+				</a>
+				<ul class="children collapse" id="SubItemDefensaPro">
+
+					<li>
+						<a href="defensa/actividades.html">
+							<span data-toggle="collapse" href="#subItemDefensaActi"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Agregar Actividad
+						</a>
+						<ul class="children collapse" id="subItemDefensaActi">
+							<li>
+								<a class="" href="defensa/temas.html">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Temas
+								</a>
+							</li>
+							<li>
+								<a class="" href="defensa/tipoActividad.html">
+									<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tipo Actividad
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<li>
+						<a class="" href="#">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tablero Indicadores
+						</a>
+					</li>
+				</ul>
+			</li>
+
 			<li role="presentation" class="divider"></li>
 			<li><a href="login.html"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>
 		</ul>
-	</div><!--/.sidebar-->
+	</div>
 
 	<!-- Contenido de dashboard-->
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			

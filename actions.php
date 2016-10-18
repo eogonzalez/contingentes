@@ -155,6 +155,48 @@ if (isset($_GET) && !empty($_GET)) {
 				}
 			}
 
+			if ($_GET['action'] == 'getInscripciones') {
+				$idPeriodo = (int) $_GET['idPeriodo'];
+				$estado = $_GET['estado'];
+				$noExp = (int) $_GET['noExp'];
+
+				if ($datosRegFuncion = getInscripciones($mysqli, $idPeriodo, $estado, $noExp)) {
+					$response['result'] =true;
+					$response['mensaje'] = 'Datos devueltos';
+					$response['datos'] = $datosRegFuncion;
+				}else{
+					$response['mensaje'] = 'No se pudo realizar consulta de listado de Solicitud de Inscripciones';
+				}
+			}
+
+			if ($_GET['action'] == 'getAsignaciones') {
+				$idPeriodo = (int) $_GET['idPeriodo'];
+				$estado = $_GET['estado'];
+				$noExp = (int) $_GET['noExp'];
+
+				if ($datosRegFuncion = getAsignaciones($mysqli, $idPeriodo, $estado, $noExp)) {
+					$response['result'] =true;
+					$response['mensaje'] = 'Datos devueltos';
+					$response['datos'] = $datosRegFuncion;
+				}else{
+					$response['mensaje'] = 'No se pudo realizar consulta de listado de Solicitud de Asignaciones';
+				}
+			}
+
+			if ($_GET['action'] == 'getEmisiones') {
+				$idPeriodo = (int) $_GET['idPeriodo'];
+				$estado = $_GET['estado'];
+				$noExp = (int) $_GET['noExp'];
+
+				if ($datosRegFuncion = getEmisiones($mysqli, $idPeriodo, $estado, $noExp)) {
+					$response['result'] =true;
+					$response['mensaje'] = 'Datos devueltos';
+					$response['datos'] = $datosRegFuncion;
+				}else{
+					$response['mensaje'] = 'No se pudo realizar consulta de listado de Solicitud de Inscripciones';
+				}
+			}
+
 		}else{
 			$response['mensaje'] = "Variable Action no Declarada";
 		}

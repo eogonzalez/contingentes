@@ -540,6 +540,240 @@
 		return $respuesta;
 	}
 
+	function getInscripciones($dbLink, $idPeriodo, $estado, $noExp){
+		$respuesta = array();
+
+		if ($estado == 'Todos') {
+			if ($noExp == 0) {
+
+				$sql = sprintf("SELECT 
+					solicitudinscripcionid as numeroexpediente, 
+					created_at as fecha_solicitud, 
+					estado, 
+					updated_at as fecha_aprobacion
+				FROM
+					solicitudinscripciones
+				WHERE
+					year(created_at) = %d 
+				ORDER BY numeroexpediente DESC ", $idPeriodo);
+				
+			}else{
+				$sql = sprintf("SELECT 
+						solicitudinscripcionid as numeroexpediente, 
+						created_at as fecha_solicitud, 
+						estado, 
+						updated_at as fecha_aprobacion
+					FROM
+						solicitudinscripciones
+					WHERE
+						year(created_at) = %d
+						and solicitudinscripcionid = %d 
+					ORDER BY numeroexpediente DESC ", $idPeriodo, $noExp);	
+			}
+			
+		}else{
+			if ($noExp == 0) {
+
+				$sql = sprintf("SELECT 
+						solicitudinscripcionid as numeroexpediente, 
+						created_at as fecha_solicitud, 
+						estado, 
+						updated_at as fecha_aprobacion
+					FROM
+						solicitudinscripciones
+					WHERE
+						year(created_at) = %d
+						and estado = '%s' 
+					ORDER BY numeroexpediente DESC ", $idPeriodo, $estado);
+			}else{
+
+				$sql = sprintf("SELECT 
+						solicitudinscripcionid as numeroexpediente, 
+						created_at as fecha_solicitud, 
+						estado, 
+						updated_at as fecha_aprobacion
+					FROM
+						solicitudinscripciones
+					WHERE
+						year(created_at) = %d
+						and estado = '%s'
+						and solicitudinscripcionid = %d 
+					ORDER BY numeroexpediente DESC ", $idPeriodo, $estado, $noExp);	
+			}
+			
+		}
 
 
+		$resultado = $dbLink->query($sql);
+
+		if ($resultado->num_rows != 0) {
+			while ($registro = $resultado->fetch_array()) {
+				$respuesta [] = $registro;
+			}
+		}
+
+		return $respuesta;
+	}
+
+	function getAsignaciones($dbLink, $idPeriodo, $estado, $noExp){
+		$respuesta = array();
+
+		if ($estado == 'Todos') {
+			if ($noExp == 0) {
+
+				$sql = sprintf(" SELECT
+									solicitudasignacionid as numeroexpediente,
+									created_At as fecha_solicitud,
+									estado,
+									updated_at as fecha_aprobacion,
+									observaciones,
+									acta
+								FROM
+									solicitudasignacion
+								WHERE
+									year(created_at) = %d
+								ORDER BY numeroexpediente DESC ", $idPeriodo);
+				
+			}else{
+				$sql = sprintf(" SELECT 
+									solicitudasignacionid as numeroexpediente,
+									created_At as fecha_solicitud,
+									estado,
+									updated_at as fecha_aprobacion,
+									observaciones,
+									acta
+								FROM
+									solicitudasignacion
+								WHERE 
+									year(created_at) = '%d'
+									AND solicitudasignacionid = %d									
+								ORDER BY numeroexpediente DESC;", $idPeriodo, $noExp);	
+			}
+			
+		}else{
+			if ($noExp == 0) {
+
+				$sql = sprintf("SELECT 
+									solicitudasignacionid as numeroexpediente,
+									created_At as fecha_solicitud,
+									estado,
+									updated_at as fecha_aprobacion,
+									observaciones,
+									acta
+								FROM
+									solicitudasignacion
+								WHERE
+									year(created_at) = '%d'
+									AND estado = '%s'
+								ORDER BY numeroexpediente DESC;", $idPeriodo, $estado);
+			}else{
+
+				$sql = sprintf("SELECT 
+									solicitudasignacionid as numeroexpediente,
+									created_At as fecha_solicitud,
+									estado,
+									updated_at as fecha_aprobacion,
+									observaciones,
+									acta
+								FROM
+									solicitudasignacion
+								WHERE
+									year(created_at) = '%d'
+									AND estado = '%s'
+									AND solicitudasignacionid = %d									
+								ORDER BY numeroexpediente DESC;", $idPeriodo, $estado, $noExp);	
+			}
+			
+		}
+
+
+		$resultado = $dbLink->query($sql);
+
+		if ($resultado->num_rows != 0) {
+			while ($registro = $resultado->fetch_array()) {
+				$respuesta [] = $registro;
+			}
+		}
+
+		return $respuesta;
+	}
+
+	function getEmisiones($dbLink, $idPeriodo, $estado, $noExp){
+		$respuesta = array();
+
+		if ($estado == 'Todos') {
+			if ($noExp == 0) {
+
+				$sql = sprintf("SELECT 
+									solicitudemisionid as numeroexpediente,
+									created_at as fecha_solicitud,
+									estado,
+									created_at as fecha_aprobacion,
+									observaciones
+								FROM
+									solicitudesemision
+								WHERE
+									year(created_at) = %d									
+								ORDER BY numeroexpediente DESC", $idPeriodo);
+				
+			}else{
+				$sql = sprintf("SELECT 
+									solicitudemisionid as numeroexpediente,
+									created_at as fecha_solicitud,
+									estado,
+									created_at as fecha_aprobacion,
+									observaciones
+								FROM
+									solicitudesemision
+								WHERE
+									year(created_at) = %d
+									AND solicitudemisionid = %d									
+								ORDER BY numeroexpediente DESC;", $idPeriodo, $noExp);	
+			}
+			
+		}else{
+			if ($noExp == 0) {
+
+				$sql = sprintf("SELECT 
+									solicitudemisionid as numeroexpediente,
+									created_at as fecha_solicitud,
+									estado,
+									created_at as fecha_aprobacion,
+									observaciones
+								FROM
+									solicitudesemision
+								WHERE
+									year(created_at) = $d									
+									AND estado = '%s'
+								ORDER BY numeroexpediente DESC;", $idPeriodo, $estado);
+			}else{
+
+				$sql = sprintf("SELECT 
+									solicitudemisionid as numeroexpediente,
+									created_at as fecha_solicitud,
+									estado,
+									created_at as fecha_aprobacion,
+									observaciones
+								FROM
+									solicitudesemision
+								WHERE
+									year(created_at) = %d
+									AND estado = '%s'
+									AND solicitudemisionid = %d
+								order by numeroexpediente DESC;", $idPeriodo, $estado, $noExp);	
+			}
+			
+		}
+
+
+		$resultado = $dbLink->query($sql);
+
+		if ($resultado->num_rows != 0) {
+			while ($registro = $resultado->fetch_array()) {
+				$respuesta [] = $registro;
+			}
+		}
+
+		return $respuesta;
+	}
 ?>
