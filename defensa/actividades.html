@@ -251,19 +251,37 @@
 							<div class="form-group">
 								<label class="control-label col-xs-2"># Actividad: </label>
 								<div class="col-xs-10">
-									<input type="text" id="noExpediente" name="noExpediente" class="form-control">
+									<input type="text" id="noActividadFiltro" name="noActividadFiltro" class="form-control">
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="control-label col-xs-2">Estado</label>
 								<div class="col-xs-10">
-									<select id="cboEstado" name="cboEstado" class="form-control">
+									<select id="cboEstadoFiltro" name="cboEstado" class="form-control">
 										<option>Todos</option>
 										<option>Pendiente</option>
 										<option>Entregado</option>
 										<option>Seguimiento</option>
 										<option>Finalizado</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-2">Tema</label>
+								<div class="col-xs-10">
+									<select id="cboTemaFiltro" name="cboTemaFiltro" class="form-control">
+										<option>Todos</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-2">Tipo Actividad</label>
+								<div class="col-xs-10">
+									<select id="cboTipoActFiltro" name="cboTipoActFiltro" class="form-control">
+										<option>Todos</option>
 									</select>
 								</div>
 							</div>
@@ -274,7 +292,7 @@
 									<label class="col-lg-2 control-label" > Fecha de Inicio </label>
 									<div class="col-lg-4">
 										<div class='input-group date' id='datetimepicker1'>
-						                    <input id="fechaInicio" type='text' class="form-control" />
+						                    <input id="fechaInicioFiltro" type='text' class="form-control" />
 						                    <span class="input-group-addon">
 						                        <span class="glyphicon glyphicon-calendar"></span>
 						                    </span>
@@ -284,7 +302,7 @@
 									<label class="col-lg-2 control-label" > Fecha de Finalizacion </label>
 									<div class='col-lg-4'>
 					                	<div class='input-group date' id='datetimepicker2'>
-						                    <input id="fechaFinal" type='text' class="form-control" />
+						                    <input id="fechaFinalFiltro" type='text' class="form-control" />
 						                    <span class="input-group-addon">
 						                        <span class="glyphicon glyphicon-calendar"></span>
 						                    </span>
@@ -475,6 +493,9 @@
     		LlenoTemas();
     		LlenoTipoActividades();
     		LlenoUsuarios();
+
+
+
     	});
 
 		/* Eventos para contraer div de filtros*/
@@ -488,6 +509,18 @@
 			$("#filtros").slideUp();
 		});
 
+		$('#btnConsulta').on("click", function(response) {
+			var noActFiltro = $('#noActividadFiltro').val();
+			var estadoFiltro = $("#cboEstadoFiltro option:selected").val();
+			var temaFiltro = $("#cboTemaFiltro option:selected").val();
+			var tipoActFiltro = $("#cboTipoActFiltro option:selected").val();
+			var fechaInicioFiltro = moment($('#fechaInicioFiltro').val()).format('YYYY-MM-DD');
+			var fechaFinFiltro = moment($('#fechaFinalFiltro').val()).format('YYYY-MM-DD');
+
+			TableActividades(noActFiltro, estadoFiltro, temaFiltro, tipoActFiltro, fechaInicioFiltro, fechaFinFiltro);
+
+
+		})
 
 	    $(function () {
 
@@ -497,7 +530,24 @@
 			$('#datetimeInicio').datetimepicker();
 
 	        
+	        /* consulta Inicial
 	        TableActividades();
+	        */
+
+	        var now = new Date();
+
+			var day = ("0" + now.getDate()).slice(-2);
+			var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+			var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+			var hoy = moment(today).format('MM/DD/YYYY');
+
+			$('#fechaInicioFiltro').val(hoy);
+			$('#fechaFinalFiltro').val(hoy);
+
+			TableActividades(0, 'Todos', 'Todos', 'Todos', today, today);
+
 	        
 
 	        $("#formActividad").submit(function (event){
@@ -667,12 +717,12 @@
 	    });
 
 
-	    function TableActividades() {
+	    function TableActividades(noActFiltro, estadoFiltro, temaFiltro, tipoActFiltro, fechaInicioFiltro, fechaFinFiltro) {
 	    	$.ajax({
 	    		url:'../defensa/actionsDefensa.php',
 	    		type: 'GET',
 	    		dataType: 'json',
-	    		data: 'action=SelectActividades'
+	    		data: 'action=SelectActividades&noActividad='+noActFiltro+'&estado='+estadoFiltro+'&tema='+temaFiltro+'&tipoAct='+tipoActFiltro+'&fechaIni='+fechaInicioFiltro+'&fechaFin='+fechaFinFiltro
 	    	})
 	    	.done(function(response) {
 	    		var html = '';
@@ -698,7 +748,7 @@
 	    		$("#tablaGrupos tbody").html(html);
 	    	})
 	    	.fail(function(jqXHR, estado) {
-	    		console.log("Ha ocurrido un error al consultar Actividades.")
+	    		console.log("Ha ocurrido un error al consultar Actividades.", estado)
 	    	})
 	    }
 
@@ -757,12 +807,16 @@
 					
 					var options = "";
 					var listaTemas = $("#grupoTemas");
+					var listaTemasFiltro = $("#cboTemaFiltro");
 
 					listaTemas.find('option').remove();
+					listaTemasFiltro.find('option').remove();
 					
 					listaTemas.append('<option value="'+0+'">Seleccione Opcion</option>');
+					listaTemasFiltro.append('<option value="'+0+'">Seleccione Opcion</option>');
 					$(response.datos).each(function(i,v){				
 						listaTemas.append('<option value="'+v.idg_temas+'">'+v.nombre+'</option>');
+						listaTemasFiltro.append('<option value="'+v.idg_temas+'">'+v.nombre+'</option>');
 					});
 
 				}else{
@@ -770,7 +824,7 @@
 				}
 			})
 			.fail(function(jqXHR, estado){
-				console.log('Ha ocurrido un error al consultar Temas.')
+				console.log('Ha ocurrido un error al consultar Temas.', estado)
 			})
 		}
 
@@ -788,12 +842,16 @@
 					
 					var options = "";
 					var listaTipoActividades = $("#grupoTipoActividad");
+					var listaTipoActividadesFiltro = $("#cboTipoActFiltro");
 
 					listaTipoActividades.find('option').remove();
+					listaTipoActividadesFiltro.find('option').remove();
 					
 					listaTipoActividades.append('<option value="'+0+'">Seleccione Opcion</option>');
+					listaTipoActividadesFiltro.append('<option value="'+0+'">Seleccione Opcion</option>');
 					$(response.datos).each(function(i,v){				
 						listaTipoActividades.append('<option value="'+v.idg_actividad+'">'+v.nombre+'</option>');
+						listaTipoActividadesFiltro.append('<option value="'+v.idg_actividad+'">'+v.nombre+'</option>');
 					});
 
 				}else{

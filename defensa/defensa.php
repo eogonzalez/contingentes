@@ -358,26 +358,120 @@ function UpdateUsuario($dbLink, $idUsuario, $nombre, $correo){
 /*
 	Funcion que selecciona todos los usuarios activos
 */
-function SelectActividades($dbLink){
+function SelectActividades($dbLink, $noActividad, $estado, $tema, $tipoAct, $fechaIni, $fechaFin){
 	$response = array();
 
-	$sql = "SELECT  gr.idg_RegistroActividades, 
-					gr.idg_tema, gt.nombre as nombreTema , 
-					gr.idg_actividad, ga.nombre as nombreTipoActividad,
-					gr.idusuarios, u.nombre as nombreUsuario,
-					gr.fecha_inicio, gr.descripcion, gr.estado
-			FROM 
-				trazabilidad.g_registroactividades gr
-			join 
-				trazabilidad.g_temas gt on
-				gr.idg_tema = gt.idg_temas
-			join
-				trazabilidad.g_actividad ga on
-				gr.idg_actividad = ga.idg_actividad
-			join
-				trazabilidad.usuarios u on
-				gr.idusuarios = u.idusuarios
-			ORDER BY gr.idg_RegistroActividades DESC";
+	//echo "$noActividad";
+	if (strlen($noActividad) > 0 ) {
+		// So Actividad no viene vacia
+
+		if ($noActividad == 0) {
+			//Si la consulta se realiza daesde el load
+			
+			$fechaNew = strtotime($fechaIni);
+
+			$mes = date("m", $fechaNew);
+
+			$sql = sprintf("SELECT  gr.idg_RegistroActividades, 
+							gr.idg_tema, gt.nombre as nombreTema , 
+							gr.idg_actividad, ga.nombre as nombreTipoActividad,
+							gr.idusuarios, u.nombre as nombreUsuario,
+							gr.fecha_inicio, gr.descripcion, gr.estado
+					FROM 
+						trazabilidad.g_registroactividades gr
+					join 
+						trazabilidad.g_temas gt on
+						gr.idg_tema = gt.idg_temas
+					join
+						trazabilidad.g_actividad ga on
+						gr.idg_actividad = ga.idg_actividad
+					join
+						trazabilidad.usuarios u on
+						gr.idusuarios = u.idusuarios
+					WHERE month(fecha_inicio) = '%d'
+					ORDER BY gr.idg_RegistroActividades DESC", $mes);
+
+		}else{
+
+			$sql = " SELECT  gr.idg_RegistroActividades, 
+							gr.idg_tema, gt.nombre as nombreTema , 
+							gr.idg_actividad, ga.nombre as nombreTipoActividad,
+							gr.idusuarios, u.nombre as nombreUsuario,
+							gr.fecha_inicio, gr.descripcion, gr.estado
+					FROM 
+						trazabilidad.g_registroactividades gr
+					join 
+						trazabilidad.g_temas gt on
+						gr.idg_tema = gt.idg_temas
+					join
+						trazabilidad.g_actividad ga on
+						gr.idg_actividad = ga.idg_actividad
+					join
+						trazabilidad.usuarios u on
+						gr.idusuarios = u.idusuarios 
+					WHERE 
+						idg_RegistroActividades=".$noActividad." AND gr.fecha_inicio >= '".$fechaIni."' AND gr.fecha_inicio <= '".$fechaFin."'"
+						 ;
+
+			if ($estado != "Todos") {				
+				$sql .= " AND gr.estado = '".$estado."'";
+			}
+
+			
+			if ($tema != 0) {
+				$sql .= " AND gr.idg_tema = '".$tema."'";	
+			}
+
+			if ($tipoAct != 0) {
+				$sql .= " AND gr.idg_actividad = '".$tipoAct."'";
+			}
+
+			$sql .= " ORDER BY gr.idg_RegistroActividades DESC ";
+		}
+	}else{
+		//Si Actividad viene vacia
+
+			$sql = " SELECT  gr.idg_RegistroActividades, 
+							gr.idg_tema, gt.nombre as nombreTema , 
+							gr.idg_actividad, ga.nombre as nombreTipoActividad,
+							gr.idusuarios, u.nombre as nombreUsuario,
+							gr.fecha_inicio, gr.descripcion, gr.estado
+					FROM 
+						trazabilidad.g_registroactividades gr
+					join 
+						trazabilidad.g_temas gt on
+						gr.idg_tema = gt.idg_temas
+					join
+						trazabilidad.g_actividad ga on
+						gr.idg_actividad = ga.idg_actividad
+					join
+						trazabilidad.usuarios u on
+						gr.idusuarios = u.idusuarios 
+					WHERE
+						gr.fecha_inicio >= '".$fechaIni."' AND gr.fecha_inicio <= '".$fechaFin."'";
+
+			
+
+			if ($estado != "Todos") {
+				
+				$sql .= " AND gr.estado = '".$estado."'";
+			}
+
+
+			if ($tema != 0) {
+
+				$sql .= " AND gr.idg_tema = '".$tema."'";	
+			}
+
+			if ($tipoAct != 0) {
+
+					$sql .= " AND gr.idg_actividad = '".$tipoAct."'";
+
+			}
+
+			$sql .= " ORDER BY gr.idg_RegistroActividades DESC ";
+
+	}
 
 	$result = $dbLink->query($sql);
 

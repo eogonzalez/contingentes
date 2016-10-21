@@ -212,8 +212,15 @@
 				}
 
 				if ($_GET['action'] == 'SelectActividades') {
+					
+					$noActividad = $_GET['noActividad'];
+					$estado = $_GET['estado'];
+					$tema = $_GET['tema'];
+					$tipoAct = $_GET['tipoAct'];
+					$fechaIni = $_GET['fechaIni'];
+					$fechaFin = $_GET['fechaFin'];
 				 	
-					if ($datosRegFuncion = SelectActividades($mysqli2)) {
+					if ($datosRegFuncion = SelectActividades($mysqli2, $noActividad, $estado, $tema, $tipoAct, $fechaIni, $fechaFin)) {
 						$response['result'] = true;
 						$response['mensaje'] = 'Datos devueltos';
 						$response['datos'] = $datosRegFuncion;
