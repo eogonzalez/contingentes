@@ -335,7 +335,7 @@
 	                        <th>Tema</th>
 	                        <th>Tipo Actividad</th>
 	                        <th>Descripcion</th>
-	                        <th>Responsable</th>
+	                        <th>Encargado(s)</th>
 	                        <th>Estado</th>
 	                        <th>Editar</th>
 	                        </thead>
@@ -427,9 +427,9 @@
 			    			</div>
 
 							<div class="form-group">
-			    				<label class="col-lg-2 control-label">Responsable </label>
-			    				<div class="col-lg-10">
-			    					<select id="grupoUsuarios" name="grupoUsuarios" class="form-control"></select>
+			    				<label class="col-lg-2 control-label">Encargado/s: </label>
+			    				<div id="responsablesList" class="col-lg-10">
+			    					<h1>No Existen Responsables Creados</h1>
 			    				</div>
 			    			</div>
 
@@ -558,7 +558,8 @@
        				        	
 		        	$idTema = $('#grupoTemas').val();
 		        	$idTipoActividad = $('#grupoTipoActividad').val();
-		        	$idUsuario = $('#grupoUsuarios').val();
+
+		        	//$idUsuario = $('#grupoUsuarios').val();
 
 		        	$fecha_inicio = moment($('#fechaInicioPKR').val()).format('YYYY-MM-DD');
 		        	$descripcion = $('#descripcion').val();		        	
@@ -575,21 +576,28 @@
 		        	contenido += '<strong>Otros Correos:</strong> '+$('#otrosCorreos').val()+'<br>'
 		        	contenido += '<strong>Descripcion:</strong> <p>'+$('#descripcion').val()+'</p><br>';
 
-		        	ObtengoCorreo($idUsuario).done(function(response){
 
+					var checkboxValues = new Array();
 
-		        		if (response.result == true) {
+		        	//Recorro checkbox de responsables
+		        	$('#responsablesList input').each(function(index,element){
+		        		
+		        		if ($(this).prop('checked')) {
+		        			//Si elemento esta checkeado	
+		        			$idUsuario = $(this).attr('id');
+		        			$correoUsuario = $(this).attr('correo');
 
+		        			//checkboxValues += $idUsuario+",";
+		        			checkboxValues.push($idUsuario);
 
-							$(response.datos).each(function(i,v){
-
-
-								EnvioNotificacionEvento(v.correo, $('#grupoUsuarios option:selected').text(), 'Actividad Creada', contenido);
-
-							})
-						}
-
+							EnvioNotificacionEvento($correoUsuario, $correoUsuario, 'Actividad Creada', contenido);
+		        			
+		        		}
+		        				        	
 		        	});
+
+		        	//checkboxValues = checkboxValues.substring(0,checkboxValues.length-1);
+/*console.log("Muestra valores");		        	*/
 
 		        	if ($otroscorreos.length > 0) {
 		        		var emails = $otroscorreos.split(",");
@@ -612,7 +620,7 @@
 		        		type: 'GET',
 		        		url: '../defensa/actionsDefensa.php',
 		        		dataType: 'json',
-		        		data: "action=InsertActividad&idTema="+$idTema+"&idTipoActividad="+$idTipoActividad+"&idUsuario="+$idUsuario+"&fecha_inicio="+$fecha_inicio+"&descripcion="+$descripcion+"&estado="+$estado+"&otroscorreos="+$otroscorreos
+		        		data: "action=InsertActividad&idTema="+$idTema+"&idTipoActividad="+$idTipoActividad+"&idUsuario="+checkboxValues+"&fecha_inicio="+$fecha_inicio+"&descripcion="+$descripcion+"&estado="+$estado+"&otroscorreos="+$otroscorreos
 		        	})
 		        	.done(function(response){
 		        		return true;
@@ -627,7 +635,6 @@
 	        		$idActividad = $('#idActividad').val();
 		        	$idTema = $('#grupoTemas').val();
 		        	$idTipoActividad = $('#grupoTipoActividad').val();
-		        	$idUsuario = $('#grupoUsuarios').val();
 
 		        	$fecha_inicio = moment($('#fechaInicioPKR').val()).format('YYYY-MM-DD HH:mm:ss');
 		        	$descripcion = $('#descripcion').val();		
@@ -645,21 +652,21 @@
 		        	contenido += '<strong>Otros Correos:</strong> '+$('#otrosCorreos').val()+'<br>'
 		        	contenido += '<strong>Descripcion:</strong> <p>'+$('#descripcion').val()+'</p><br>';
 
-		        	ObtengoCorreo($idUsuario).done(function(response){
+					var checkboxValues = new Array();
 
+		        	//Recorro checkbox de responsables
+		        	$('#responsablesList input').each(function(index,element){
+		        		
+		        		if ($(this).prop('checked')) {
+		        			//Si elemento esta checkeado	
+		        			$idUsuario = $(this).attr('id');
+		        			$correoUsuario = $(this).attr('correo');
+		        			checkboxValues.push($idUsuario);
 
-		        		if (response.result == true) {
-
-
-							$(response.datos).each(function(i,v){
-								var asunto = '';
-								asunto += "Actividad #"+$idActividad+" actualizada";
-
-								EnvioNotificacionEvento(v.correo, $('#grupoUsuarios option:selected').text(), 'Se actualizo actividad', contenido);
-						
-							})
-						}
-
+							EnvioNotificacionEvento($correoUsuario, $correoUsuario, 'Se actualizo actividad', contenido);
+		        			
+		        		}
+		        				        	
 		        	});
 
 
@@ -684,7 +691,7 @@
 	        			type: 'GET',
 	        			url: '../defensa/actionsDefensa.php',
 	        			dataType: 'json',
-	        			data: "action=UpdateActividad&idTema="+$idTema+"&idTipoActividad="+$idTipoActividad+"&idUsuario="+$idUsuario+"&fecha_inicio="+$fecha_inicio+"&descripcion="+$descripcion+"&idActividad="+$idActividad+"&estado="+$estado+"&otroscorreos="+$otroscorreos
+	        			data: "action=UpdateActividad&idTema="+$idTema+"&idTipoActividad="+$idTipoActividad+"&idUsuario="+checkboxValues+"&fecha_inicio="+$fecha_inicio+"&descripcion="+$descripcion+"&idActividad="+$idActividad+"&estado="+$estado+"&otroscorreos="+$otroscorreos
 	        		})
 	        		.done(function(response){
 	        			$("#modo").text('Nuevo');
@@ -694,6 +701,7 @@
 	        		.fail(function(jqXHR, estado){
 	        			console.log("Ha ocurrido un error al actualizar actividad.")
 	        		})
+
 
 	        	}
 
@@ -734,8 +742,31 @@
 	    				html += '<td>'+v.fecha_inicio+'</td>'
 	    				html += '<td>'+v.nombreTema+'</td>'
 	    				html += '<td>'+v.nombreTipoActividad+'</td>'
-	    				html += '<td>'+v.descripcion+'</td>'
-	    				html += '<td>'+v.nombreUsuario+'</td>'
+	    				html += '<td>'+v.descripcion+'</td>';
+
+	    				var checkboxValues = v.idusuarios.split(",");
+	    				var nombreUsuario = "";
+	    				var responsable = "";
+
+		        		for (var i = 0, l = checkboxValues.length; i < l; i++) {
+
+		        			ObtengoCorreo(checkboxValues[i]).done(function (response) {
+
+		        				if (response.result == true) {
+		        					$(response.datos).each(function(i,v){
+
+		        						nombreUsuario = v.nombre;
+
+		        					});
+		        				}
+		        			});
+
+		        			responsable += nombreUsuario+",";
+		        		}
+
+		        		responsable = responsable.substring(0,responsable.length-1);
+
+	    				html += '<td>'+responsable+'</td>'
 	    				html += '<td>'+v.estado+'</td>'
 	    				html += '<td><button class="btn btn-primary" onclick="editar('+ v.idg_RegistroActividades+')">Editar</button></td>';
 	    				html += '</tr>';
@@ -775,7 +806,29 @@
 	    				$('#grupoTipoActividad').val(v.idg_actividad);
 	    				$('#descripcion').val(v.descripcion);
 	    				$('#estado').val(v.estado);
-	    				$('#grupoUsuarios').val(v.idUsuarios);
+
+
+		        		var checkboxValues = v.idUsuarios.split(",");
+					
+						$('#responsablesList input').each(function(index,element) {			       
+				        	//Si elemento esta checkeado	
+				        	$(this).prop("checked", "");
+		        		});
+
+						//Recorro checkbox de responsables
+		        		$('#responsablesList input').each(function(index,element) {
+
+				        	for (var i = 0, l = checkboxValues.length; i < l; i++){
+				        		
+				        		if ($(this).attr('id') == checkboxValues[i]) {
+				        			//Si elemento esta checkeado	
+				        			$(this).prop("checked", "checked");
+				        		}
+				        				        	
+				        	};
+		        		});
+
+
 	    				$('#grupoEstado').val(v.estado);
 	    				$('#otrosCorreos').val(v.otroscorreos);
 	    			})
@@ -873,16 +926,16 @@
 			})
 			.done(function(response){
 				if (response.result == true) {	
-					//Recorro los datos y lleno el combo
+					//Recorro los datos y lleno el div con checkbox
 					
-					var options = "";
-					var listaUsuarios = $("#grupoUsuarios");
+					
+					var otraListaUsuarios = $("#responsablesList");
+					otraListaUsuarios.find('h1').remove();
 
-					listaUsuarios.find('option').remove();
 					
-					listaUsuarios.append('<option value="'+0+'">Seleccione Opcion</option>');
 					$(response.datos).each(function(i,v){				
-						listaUsuarios.append('<option value="'+v.idusuarios+'">'+v.nombre+'</option>');
+					
+						otraListaUsuarios.append('<input id="'+v.idusuarios+'" type="checkbox" correo="'+v.correo+'"/>'+v.nombre+'<br/>');
 					});
 
 				}else{
@@ -896,6 +949,7 @@
  
  		function ObtengoCorreo($idUsuario) {
  			return $.ajax({
+ 				async: false,
  				type:'GET',
  				url: '../defensa/actionsDefensa.php',
  				dataType: 'json',

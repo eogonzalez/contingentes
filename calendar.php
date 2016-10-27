@@ -270,6 +270,8 @@ function SendEmail($para, $nombre, $asunto, $descripcion){
 	//Creacion de instancia de PHPMailer
 	$mail = new PHPMailer;
 
+	
+
 	//Utilizar SMTP
 	$mail->isSMTP();
 
@@ -317,6 +319,9 @@ function SendEmail($para, $nombre, $asunto, $descripcion){
 
 	//Attach an image file
 	//$mail->addAttachment('images/phpmailer_mini.png');
+
+	$mail->CharSet = 'UTF­8';
+	//$mail->Encoding = 'quoted­printable';
 
 	//send the message, check for errors
 	if (!$mail->send()) {

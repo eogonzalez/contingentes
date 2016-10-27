@@ -193,7 +193,7 @@
 				if ($_GET['action'] == 'InsertActividad') {
 					$idTema = (int) $_GET['idTema'];
 					$idTipoActividad = (int) $_GET['idTipoActividad'];
-					$idUsuario = (int) $_GET['idUsuario'];
+					$idUsuario = $_GET['idUsuario'];
 					$fecha_inicio = $_GET['fecha_inicio'];
 					$descripcion = $_GET['descripcion'];
 					$estado = $_GET['estado'];
@@ -247,7 +247,7 @@
 					$idActividad = (int) $_GET['idActividad'];
 					$idTema = (int) $_GET['idTema'];
 					$idTipoActividad = (int) $_GET['idTipoActividad'];
-					$idUsuario = (int) $_GET['idUsuario'];
+					$idUsuario = $_GET['idUsuario'];
 					$fecha_inicio = $_GET['fecha_inicio'];
 					$descripcion = $_GET['descripcion'];
 					$estado = $_GET['estado'];

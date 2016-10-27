@@ -243,7 +243,7 @@ function UpdateTipoActividad($dbLink, $idTipoActividad, $nombre){
 function SelectUsuarios($dbLink){
 	$response = array();
 
-	$sql = "SELECT idusuarios, nombre
+	$sql = "SELECT idusuarios, nombre, correo
 			FROM trazabilidad.usuarios
 			where estado = 'A'";
 
@@ -396,7 +396,7 @@ function SelectActividades($dbLink, $noActividad, $estado, $tema, $tipoAct, $fec
 			$sql = " SELECT  gr.idg_RegistroActividades, 
 							gr.idg_tema, gt.nombre as nombreTema , 
 							gr.idg_actividad, ga.nombre as nombreTipoActividad,
-							gr.idusuarios, u.nombre as nombreUsuario,
+							gr.idusuarios,
 							gr.fecha_inicio, gr.descripcion, gr.estado
 					FROM 
 						trazabilidad.g_registroactividades gr
@@ -406,9 +406,6 @@ function SelectActividades($dbLink, $noActividad, $estado, $tema, $tipoAct, $fec
 					join
 						trazabilidad.g_actividad ga on
 						gr.idg_actividad = ga.idg_actividad
-					join
-						trazabilidad.usuarios u on
-						gr.idusuarios = u.idusuarios 
 					WHERE 
 						idg_RegistroActividades=".$noActividad." AND gr.fecha_inicio >= '".$fechaIni."' AND gr.fecha_inicio <= '".$fechaFin."'"
 						 ;
@@ -434,7 +431,7 @@ function SelectActividades($dbLink, $noActividad, $estado, $tema, $tipoAct, $fec
 			$sql = " SELECT  gr.idg_RegistroActividades, 
 							gr.idg_tema, gt.nombre as nombreTema , 
 							gr.idg_actividad, ga.nombre as nombreTipoActividad,
-							gr.idusuarios, u.nombre as nombreUsuario,
+							gr.idusuarios,
 							gr.fecha_inicio, gr.descripcion, gr.estado
 					FROM 
 						trazabilidad.g_registroactividades gr
@@ -444,9 +441,6 @@ function SelectActividades($dbLink, $noActividad, $estado, $tema, $tipoAct, $fec
 					join
 						trazabilidad.g_actividad ga on
 						gr.idg_actividad = ga.idg_actividad
-					join
-						trazabilidad.usuarios u on
-						gr.idusuarios = u.idusuarios 
 					WHERE
 						gr.fecha_inicio >= '".$fechaIni."' AND gr.fecha_inicio <= '".$fechaFin."'";
 
@@ -501,7 +495,7 @@ function InsertActividad($dbLink, $idTema, $idTipoActividad, $idUsuario, $fecha_
 	$sql = sprintf("INSERT INTO g_registroactividades
 					(idg_tema, idg_actividad, idusuarios, fecha_inicio, fecha_final, descripcion, estado, otroscorreos, fecha_creacion, fecha_actualizacion)
 					VALUES
-					('%d','%d','%d','%s','%s','%s','%s', '%s', '%s', '%s')", $idTema, $idTipoActividad, $idUsuario, $fecha_inicio, $fecha_inicio, $descripcion, $estado, $otroscorreos, $fecha_actual, $fecha_actual);
+					('%d','%d','%s','%s','%s','%s','%s', '%s', '%s', '%s')", $idTema, $idTipoActividad, $idUsuario, $fecha_inicio, $fecha_inicio, $descripcion, $estado, $otroscorreos, $fecha_actual, $fecha_actual);
 
 
 	// Ejecutamos la consulta
@@ -563,7 +557,7 @@ function UpdateActividad($dbLink, $idTema, $idTipoActividad, $idUsuario, $fecha_
 					SET
 						idg_tema = '%d',
 						idg_actividad = '%d',
-						idUsuarios = '%d',
+						idUsuarios = '%s',
 						fecha_inicio = '%s',
 						descripcion = '%s',
 						fecha_actualizacion = '%s',
@@ -589,7 +583,7 @@ function UpdateActividad($dbLink, $idTema, $idTipoActividad, $idUsuario, $fecha_
 function SelectCorreo($dbLink, $idUsuario){
 	$response = array();
 
-	$sql = sprintf(" SELECT correo 
+	$sql = sprintf(" SELECT correo,nombre 
 					from usuarios 
 					where idusuarios = %d ", $idUsuario);
 
