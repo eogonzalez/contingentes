@@ -514,8 +514,14 @@
 			var estadoFiltro = $("#cboEstadoFiltro option:selected").val();
 			var temaFiltro = $("#cboTemaFiltro option:selected").val();
 			var tipoActFiltro = $("#cboTipoActFiltro option:selected").val();
-			var fechaInicioFiltro = moment($('#fechaInicioFiltro').val()).format('YYYY-MM-DD');
-			var fechaFinFiltro = moment($('#fechaFinalFiltro').val()).format('YYYY-MM-DD');
+			var dateTimeIni = new Date($('#fechaInicioFiltro').val());
+			var fechaInicioFiltro = moment(dateTimeIni).format('YYYY-MM-DD');
+
+			//var fechaInicioFiltro = $('#fechaInicioFiltro').val();
+			var dateTimeFin = new Date($('#fechaFinalFiltro').val());
+			var fechaFinFiltro = moment(dateTimeFin).format('YYYY-MM-DD');
+			//var fechaFinFiltro = $('#fechaFinalFiltro').val();
+
 
 			TableActividades(noActFiltro, estadoFiltro, temaFiltro, tipoActFiltro, fechaInicioFiltro, fechaFinFiltro);
 
@@ -524,8 +530,8 @@
 
 	    $(function () {
 
-	    	$('#datetimepicker1').datepicker();
-			$('#datetimepicker2').datepicker();
+	    	$('#datetimepicker1').datepicker({format:'mm/dd/yyyy'});
+			$('#datetimepicker2').datepicker({format:'mm/dd/yyyy'});
 
 			$('#datetimeInicio').datetimepicker();
 
@@ -539,12 +545,15 @@
 			var day = ("0" + now.getDate()).slice(-2);
 			var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
+			var firstDay = moment(now.getFullYear()+"-"+(month)+"-"+(1)).format('MM/DD/YYYY') ;
+
 			var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
 
 			var hoy = moment(today).format('MM/DD/YYYY');
 
-			$('#fechaInicioFiltro').val(hoy);
+			$('#fechaInicioFiltro').val(firstDay);
 			$('#fechaFinalFiltro').val(hoy);
+			$('#datetimeInicio').val(hoy);
 
 			TableActividades(0, 'Todos', 'Todos', 'Todos', today, today);
 

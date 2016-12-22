@@ -358,6 +358,18 @@
 					}
 				}
 
+				if ($_GET['action'] == 'verificaEnviaCorreo') {
+					$idevento = $_GET['idEvento'];
+
+					if ($datosRegFuncion = verificaEnviaCorreo($mysqli2, $idevento)) {
+						$response['result'] = true;
+						$response['mensaje'] = 'Verifica si envia correo de alerta.';
+						$response['datos'] = $datosRegFuncion;
+					}else{
+						$response['mensaje'] = 'No es posible verificar si se envia correo.';
+					}
+				}
+
 			}else{
 				$response['mensaje'] = "Variable Action no Declarada";
 			}
@@ -397,10 +409,11 @@
 					$adjunto = $_POST['adjunto'];
 					$idgrupo = (int) $_POST['idgrupo'];
 					$otroscorreos = $_POST['otroscorreos'];
+					$enviocorreo = $_POST['enviocorreo'];
 					$estado = $_POST['estado'];
 
 					if ($datosRegFuncion = UpdateEventoFormulario($mysqli2, $idevento, $nombre, $todoeldia, $fecha_inicia, 
-						$fecha_finaliza, $color, $lugar, $descripcion, $adjunto, $idgrupo, $otroscorreos, $estado)) {
+						$fecha_finaliza, $color, $lugar, $descripcion, $adjunto, $idgrupo, $otroscorreos, $enviocorreo, $estado)) {
 						$response['result'] = true;
 						$response['mensaje'] = 'Datos Devueltos';
 						$response['datos'] = $datosRegFuncion;

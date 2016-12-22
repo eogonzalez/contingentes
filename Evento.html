@@ -444,6 +444,7 @@
 	        });
 
 
+	        //Metodo que almacena datos del formulario
 			$('#formEvento').submit( function (event){
 
 				event.preventDefault();
@@ -475,73 +476,114 @@
 				$estado = 'E';
 
 
+				$enviocorreo = 'NULL';
 
 				//Si el envio de alerta de creacion de evento esta activo
 				if ($('#checkboxAlerta').is(':checked')) {
-
-					var contenido = '<strong>Lugar:</strong> '+$lugar+'<br>';
-					contenido = contenido+'<strong> Inicia: </strong> '+$fecha_inicia+' <strong> Termina: </strong> '+$fecha_finaliza+'<br>';
-					contenido = contenido+'<strong> Descripcion </strong><br><p> '+$descripcion+'<p>';
-
-					/*
-					Realizo envio por cada uno de los correos del grupo
-					*/
-
-					//Verifico si existe grupo seleccionado
-					if ($idgrupo > 0) {
-
-						var arregloGrupo = new Array();
-
-						ObtengoDatosGrupo($idgrupo, NotificoGrupo);
-
-
-						function NotificoGrupo(datos){
-
-							arregloGrupo = datos;
-
-							if (arregloGrupo.result == true) {
-
-								$(arregloGrupo.datos).each(function(i, v){
-									
-									EnvioNotificacionEvento(v.correo, v.nombre, $nombre, contenido)
-									
-								});
-							}
-						};
-
-					}
-
-
-
-							
-					/*
-					Realizo envio por cada uno de los correos de otros correos
-					*/
-
-					if ($otroscorreos.length > 0) {
-						var emails = $otroscorreos.split(","); //Creo un array con los e-mails ingresados y separados por comas
-						valido = true; //Variable que indicará el estado de la validación
-						 
-						for (var i = 0, l = emails.length; i < l; i++){ //Recorro el array
-
-						    if (!isValidEmail(emails[i])){ //Si el e-mail no es válido
-						        valido = false; //El estado de la validación será false
-						        //break; //Salgo del bucle
-						    }else{
-								EnvioNotificacionEvento(emails[i], emails[i], $nombre, contenido);	    	
-						    }
-						}
-					}					
+					$enviocorreo = 'S';			
 				}
 
-				$.ajax({
-					type: "POST",
-					url: 'actionsCalendar.php',
-					data: "action=UpdateEventoFormulario&idevento="+$idEvento+"&nombre="+$nombre+"&todoeldia="+$todoeldia+"&fecha_inicia="+$fecha_inicia+"&fecha_finaliza="+$fecha_finaliza+"&color="+$color+"&lugar="+$lugar+"&descripcion="+$descripcion+"&adjunto="+$adjunto+"&idgrupo="+$idgrupo+"&otroscorreos="+$otroscorreos+"&estado="+$estado
-				})
-				.done(function(response){
-					window.location.href = "http://localhost:8080/contingentes/Calendar.html";
+				//Llamo a la funcion que almacena los datos
+				UpdateEventoMain($idEvento, $nombre, $todoeldia, $fecha_inicia, 
+					$fecha_finaliza, $color, $lugar, $descripcion, 
+					$adjunto, $idgrupo, $otroscorreos, $enviocorreo, $estado).done(function(response){
 
+					if (response.result == true) {
+
+						var envioAlerta = false;
+						//Consulto si el evento se envia correo
+						verificaAlerta($idEvento).done(function(data) {
+
+							if (data.datos.alerta > 0) {
+								envioAlerta = true;
+							}else{
+								envioAlerta = false;
+							}
+						})
+
+						//Si el evento tiene activadas las notificaciones
+						if (envioAlerta == true) {
+
+							var SiEnvia = false;
+
+							//Construye el contenido del correo
+							var contenido = '<strong>Lugar:</strong> '+$lugar+'<br>';
+							contenido = contenido+'<strong> Inicia: </strong> '+$fecha_inicia+' <strong> Termina: </strong> '+$fecha_finaliza+'<br>';
+							contenido = contenido+'<strong> Descripcion </strong><br><p> '+$descripcion+'<p>';
+
+							
+
+							//Verifico si existe grupo para enviar correos
+							if ($idgrupo > 0) {
+
+								var arregloGrupo = new Array();
+
+								ObtengoDatosGrupo($idgrupo).done(function (datos) {
+
+									arregloGrupo = datos;
+
+									if (arregloGrupo.result == true) {
+
+										$(arregloGrupo.datos).each(function(i, v){
+											
+											EnvioNotificacionEvento(v.correo, v.nombre, $nombre, contenido).done(function (data) {
+												SiEnvia = true;
+											}).fail(function (data) {
+												SiEnvia = false;
+											})
+											
+										});
+									}
+									
+									
+								})
+
+							}
+						
+							/*
+								Realizo envio por cada uno de los correos de otros correos
+							*/
+
+							if ($otroscorreos.length > 0) {
+								var emails = $otroscorreos.split(","); //Creo un array con los e-mails ingresados y separados por comas
+								valido = true; //Variable que indicará el estado de la validación
+								 
+								for (var i = 0, l = emails.length; i < l; i++){ //Recorro el array
+
+								    if (!isValidEmail(emails[i])){ //Si el e-mail no es válido
+								        valido = false; //El estado de la validación será false
+								        //break; //Salgo del bucle
+								    }else{
+						    	
+										EnvioNotificacionEvento(emails[i], emails[i], $nombre, contenido).done(
+											function (data) {
+
+											SiEnvia = true;
+										}).fail(function (data) {
+
+											SiEnvia = false;
+										})	
+								    }
+								}
+							}		
+
+							//Si todos los correos se enviaron regresa al calendario
+							if (SiEnvia == true) {
+								window.location.href = "/contingentes/Calendar.html";	
+							}else{
+								//Si no muestra error
+								console.log('Ha ocurrido un error al enviar correo.')
+							}
+
+
+						}else{
+
+							window.location.href = "/contingentes/Calendar.html";	
+
+						}
+
+					}
+					
 				})
 				.fail(function(jqXHR, estado){
 					console.log('Ha ocurrido un error al consultar datos del evento.');
@@ -550,6 +592,25 @@
 			});
 
 	    });
+
+		function UpdateEventoMain($idEvento, $nombre, $todoeldia, $fecha_inicia, $fecha_finaliza, $color, $lugar, $descripcion, $adjunto, $idgrupo, $otroscorreos, $enviocorreo, $estado) {
+			return 	$.ajax({
+					type: "POST",
+					url: 'actionsCalendar.php',
+					dataType: 'json',
+					data: "action=UpdateEventoFormulario&idevento="+$idEvento+"&nombre="+$nombre+"&todoeldia="+$todoeldia+"&fecha_inicia="+$fecha_inicia+"&fecha_finaliza="+$fecha_finaliza+"&color="+$color+"&lugar="+$lugar+"&descripcion="+$descripcion+"&adjunto="+$adjunto+"&idgrupo="+$idgrupo+"&otroscorreos="+$otroscorreos+"&enviocorreo="+$enviocorreo+"&estado="+$estado
+				})
+		}
+
+		function verificaAlerta($idEvento) {
+			return $.ajax({
+				async: false,
+				type: 'GET',
+				url: 'actionsCalendar.php',
+				dataType: 'json',
+				data: "action=verificaEnviaCorreo&idEvento="+$idEvento
+			})
+		}
 
 		//como la utilizamos demasiadas veces, creamos una función para 
 		//evitar repetición de código
@@ -683,6 +744,12 @@ console.log('datos del formulario registra Documentacion: ', datosForm);
 						$('#otrosCorreos').val(v.otroscorreos);
 
 
+						if (v.enviocorreo == 'S') {
+							$('#checkboxAlerta').prop('checked', true);
+						}else{
+							$('#checkboxAlerta').prop('checked', false);
+						}
+
 						//Estado
 					})
 				}else{
@@ -734,35 +801,27 @@ console.log('datos del formulario registra Documentacion: ', datosForm);
 			}
 		}
 
-		function ObtengoDatosGrupo($idGrupo, callback){
-			$.ajax({	
-				//async: false,			
+		function ObtengoDatosGrupo($idGrupo/*, callback*/){
+			return $.ajax({	
+				async: false,			
 				type: "GET",
 				dataType: 'json',
 				url: 'actionsCalendar.php',
-				data: "action=SelectContactosNotificacion&idGrupo="+$idgrupo,
-				success: callback
+				data: "action=SelectContactosNotificacion&idGrupo="+$idgrupo/*,
+				success: callback*/
 			})
-			.fail(function(jqXHR, estado){
-				console.log('Ha ocurrido un error al consultar contactos del grupo.');
-			})
-
 		}
 
 		function EnvioNotificacionEvento($para, $nombre, $asunto, $descripcion){
 
 
-			$.ajax({
+			return $.ajax({
+				async: false,
 				type: "GET",
 				url: 'actionsCalendar.php',
 				data: 'action=SendEmail&para='+$para+'&nombre='+$nombre+'&asunto='+$asunto+'&descripcion='+$descripcion
 			})
-			.done(function(response){
 
-			})
-			.fail(function(jqXHR, estado){
-				console.log('Ha ocurrido un error al enviar correo.')
-			})
 		}
  
 	</script>

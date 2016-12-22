@@ -136,7 +136,7 @@
 									and se.estado = 'Aprobada'
 								group by mes) t1, 
 								(SELECT 
-									m.cantidad as vActivado
+									sum(m.cantidad) as vActivado
 								FROM 
 									movimientos m
 								JOIN 
@@ -243,53 +243,108 @@
 	*/
 	function getDatosControles($dbLink, $idTratado, $idContingente, $idPeriodo){
 		$respuesta = array();
+		$sql = '';
 
-		$sql = sprintf("SELECT 
-							* , (t2.vAsignado-t1.vEmitido) as vSaldo, round((t1.vEmitido/t3.vActivado)*100, 2) as pUtilizado from
-						(SELECT 
-							sum(se.emitido) as vEmitido, count(se.solicitudemisionid) as cantNuevasAsigaciones, count(distinct se.usuarioid) as cantEmpresas
-						from 
-							solicitudesemision se
-						join periodos p on
-							se.periodoid = p.periodoid
-						join contingentes c on
-							p.contingenteid = c.contingenteid
-						join productos pro on
-							pro.productoid = c.productoid
-						where
-							se.estado = 'Aprobada'
-							and year(se.created_at) = %d
-							and c.tratadoid = %d
-							and c.productoid = %d) t1,
-						-- Total asignado x tratado y contingente en el periodo
-						(SELECT 
-							sum(sa.asignado) as vAsignado, count(sa.solicitudasignacionid) as cantAsignaciones
-						from 
-							solicitudasignacion sa
-						join periodos p on
-							sa.periodoid = p.periodoid
-						join contingentes c on
-							p.contingenteid = c.contingenteid
-						join productos pro on
-							pro.productoid = c.productoid
-						where
-							sa.estado = 'Aprobada'
-							and year(sa.created_at) = %d
-							and c.tratadoid = %d
-							and c.productoid = %d) t2,
-						-- Activado x trata y contingente en el periodo
-						(SELECT 
-							m.cantidad as vActivado
-						from 
-							movimientos m
-						join periodos p on
-							p.periodoid = m.periodoid
-						join contingentes c on
-							c.contingenteid = p.contingenteid
-						where year(p.fechainicio) = %d
-							and m.tipomovimientoid = 1
-							and c.tratadoid = %d
-							and c.productoid = %d) t3;", $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente);
+		if ($idTratado == 1) {
+			
+			$sql = sprintf("SELECT 
+								* , (t2.vAsignado-t1.vEmitido) as vSaldo, round((t1.vEmitido/t3.vActivado)*100, 2) as pUtilizado from
+							(SELECT 
+								sum(se.emitido) as vEmitido, count(se.solicitudemisionid) as cantNuevasAsigaciones, count(distinct se.usuarioid) as cantEmpresas
+							from 
+								solicitudesemision se
+							join periodos p on
+								se.periodoid = p.periodoid
+							join contingentes c on
+								p.contingenteid = c.contingenteid
+							join productos pro on
+								pro.productoid = c.productoid
+							where
+								se.estado = 'Aprobada'
+								and year(se.created_at) = %d
+								and c.tratadoid = %d
+								and c.productoid = %d) t1,
+							-- Total asignado x tratado y contingente en el periodo
+							(SELECT 
+								m.tipomovimientoid, sum(m.cantidad) as vAsignado, count(m.cantidad) as cantAsignaciones
+							from 
+								movimientos m
+							join periodos p on
+								p.periodoid = m.periodoid
+							join contingentes c on
+								c.contingenteid = p.contingenteid
+							where year(p.fechainicio) = %d
+								and m.tipomovimientoid = 3
+								and c.tratadoid = %d
+								and c.productoid = %d
+							group by m.tipomovimientoid) t2,
+							-- Activado x trata y contingente en el periodo
+							(SELECT 
+								sum(m.cantidad) as vActivado
+							from 
+								movimientos m
+							join periodos p on
+								p.periodoid = m.periodoid
+							join contingentes c on
+								c.contingenteid = p.contingenteid
+							where year(p.fechainicio) = %d
+								and m.tipomovimientoid = 1
+								and c.tratadoid = %d
+								and c.productoid = %d) t3;", $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente);
+
+		}
+		else{
+
+			$sql = sprintf("SELECT 
+								* , (t2.vAsignado-t1.vEmitido) as vSaldo, round((t1.vEmitido/t3.vActivado)*100, 2) as pUtilizado from
+							(SELECT 
+								sum(se.emitido) as vEmitido, count(se.solicitudemisionid) as cantNuevasAsigaciones, count(distinct se.usuarioid) as cantEmpresas
+							from 
+								solicitudesemision se
+							join periodos p on
+								se.periodoid = p.periodoid
+							join contingentes c on
+								p.contingenteid = c.contingenteid
+							join productos pro on
+								pro.productoid = c.productoid
+							where
+								se.estado = 'Aprobada'
+								and year(se.created_at) = %d
+								and c.tratadoid = %d
+								and c.productoid = %d) t1,
+							-- Total asignado x tratado y contingente en el periodo
+							(SELECT 
+								sum(sa.asignado) as vAsignado, count(sa.solicitudasignacionid) as cantAsignaciones
+							from 
+								solicitudasignacion sa
+							join periodos p on
+								sa.periodoid = p.periodoid
+							join contingentes c on
+								p.contingenteid = c.contingenteid
+							join productos pro on
+								pro.productoid = c.productoid
+							where
+								sa.estado = 'Aprobada'
+								and year(sa.created_at) = %d
+								and c.tratadoid = %d
+								and c.productoid = %d) t2,
+							-- Activado x trata y contingente en el periodo
+							(SELECT 
+								sum(m.cantidad) as vActivado
+							from 
+								movimientos m
+							join periodos p on
+								p.periodoid = m.periodoid
+							join contingentes c on
+								c.contingenteid = p.contingenteid
+							where year(p.fechainicio) = %d
+								and m.tipomovimientoid = 1
+								and c.tratadoid = %d
+								and c.productoid = %d) t3;", $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente, $idPeriodo, $idTratado, $idContingente);
+
+		}
+
+		
 
 		$result = $dbLink->query($sql);
 

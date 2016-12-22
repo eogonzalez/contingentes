@@ -200,7 +200,7 @@ function SelectEvento($dbLink, $idevento){
 	$response = array();
 
 	$sql = sprintf('SELECT nombre, color, fecha_inicia, fecha_finaliza, todoeldia, lugar,
-					descripcion, adjunto, idgrupo, otroscorreos, estado
+					descripcion, adjunto, idgrupo, otroscorreos, enviocorreo, estado
 					FROM EVENTOS
 					where 
 					idevento = %d', $idevento);
@@ -220,7 +220,7 @@ function SelectEvento($dbLink, $idevento){
 	Funcion que actualiza la informacion del evento del formulario
 */
 
-function UpdateEventoFormulario($dbLink, $idevento, $nombre, $todoeldia, $fecha_inicia, $fecha_finaliza, $color, $lugar, $descripcion, $adjunto, $idgrupo, $otroscorreos, $estado){
+function UpdateEventoFormulario($dbLink, $idevento, $nombre, $todoeldia, $fecha_inicia, $fecha_finaliza, $color, $lugar, $descripcion, $adjunto, $idgrupo, $otroscorreos, $enviocorreo, $estado){
 
 	$response = array();
 	$dia = (string) date("d");
@@ -242,9 +242,10 @@ function UpdateEventoFormulario($dbLink, $idevento, $nombre, $todoeldia, $fecha_
 						adjunto = '%s',
 						idgrupo = '%s',
 						otroscorreos = '%s',
+						enviocorreo = '%s',
 						estado = '%s',
 						fecha_actualizacion = '%s'
-					WHERE idevento = %d ", $nombre, $todoeldia, $fecha_inicia, $fecha_finaliza, $color, $lugar, $descripcion, $adjunto, $idgrupo, $otroscorreos, $estado, $fecha_actual, $idevento);
+					WHERE idevento = %d ", $nombre, $todoeldia, $fecha_inicia, $fecha_finaliza, $color, $lugar, $descripcion, $adjunto, $idgrupo, $otroscorreos, $enviocorreo, $estado, $fecha_actual, $idevento);
 
 	$result = $dbLink->query($sql);
 
@@ -957,4 +958,21 @@ function selectContactoId($dbLink, $correo){
 	}
 }
 
+function verificaEnviaCorreo($dbLink, $idevento){
+	$sql = sprintf("SELECT
+	 					COALESCE(COUNT(1), 0) AS alerta
+					FROM
+						EVENTOS
+					WHERE 
+						idevento = %d
+						and enviocorreo = 'S' ", $idevento);		
+
+	$result = $dbLink->query($sql);
+
+	if ($result->num_rows != 0 ) {
+		while ($registro = $result->fetch_array()) {
+			return $registro;
+		}
+	}
+}
 ?>
